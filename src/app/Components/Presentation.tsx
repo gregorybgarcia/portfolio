@@ -1,17 +1,32 @@
 "use client";
 import ReactTyped from "react-typed";
-import { motion } from "framer-motion";
+import { motion, useInView, useAnimation } from "framer-motion";
+import { useRef, useEffect } from "react";
 
 export default function Presentation() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false });
+  const mainControls = useAnimation()
+
+  useEffect(() => {
+    console.log(isInView);
+    if(isInView) {
+      mainControls.start("visible")
+    } else {
+      mainControls.start("hidden")
+    }
+  }, [isInView]);
   return (
-    <div className="z-10 flex items-center h-screen w-full">
+    <div ref={ref} className="z-10 flex items-center h-screen w-full">
       <motion.div
-      className="mx-auto my-0"
-        animate={{
-          scale: [0, 1],
-          opacity: [0, 1],
+        className="mx-auto my-0"
+        variants={{
+          hidden: { opacity: 0, y: 75 },
+          visible: { opacity: 1, y: 0 },
         }}
-        transition={{ duration: 3 }}
+        initial={"hidden"}
+        animate={mainControls}
+        transition={{ duration: 0.5, delay: 0.25 }}
       >
         <img
           className="rounded-full h-48 mx-auto my-0"
@@ -20,7 +35,7 @@ export default function Presentation() {
         />
 
         <p className="text-6xl font-bold border-t-2 border-b-2 p-4 m-4 text-center">
-          Hey, I'm Gregory.
+          Gregory Garcia
         </p>
         <h2>
           <ReactTyped
@@ -30,17 +45,18 @@ export default function Presentation() {
               "Front-End Specialist since 2018.",
             ]}
             typeSpeed={100}
-            startDelay={3000}
+            startDelay={1000}
           />
         </h2>
       </motion.div>
       <div className="absolute bottom-12 w-full text-center">
-        <button 
-            className="bg-transparent hover:bg-gray-800 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-            onClick={() => {
-                const element = document.getElementById('about')
-                element.scrollIntoView({ behavior: 'smooth' })
-            }}>
+        <button
+          className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded"
+          onClick={() => {
+            const element = document.getElementById("about");
+            element.scrollIntoView({ behavior: "smooth" });
+          }}
+        >
           About me
         </button>
       </div>

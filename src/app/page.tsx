@@ -4,6 +4,7 @@ import Presentation from './Components/Presentation'
 import Footer from './Components/Footer'
 import ParticlesBackground from './Components/ParticlesBackground'
 import About from './Components/About'
+import Timeline from './Components/Timeline'
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Presentation/>
       <ParticlesBackground/>
       <About/>
+      <Timeline/>
       {/* <Footer/> */}
     </main>
   )
