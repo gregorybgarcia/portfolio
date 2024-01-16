@@ -18,12 +18,12 @@ export default function Projects() {
   }, [isInView]);
 
   return (
-    <div className="bg-violet-900 z-10 flex-col h-screen w-full" id="about">
-      <div className="h-2/4 bg-gray-800 flex items-center">
-        <div className="w-3/6 mx-auto my-0 text-center">
-          <h2 className="text-6xl font-bold mb-6">My Recent Work</h2>
+    <div className="bg-violet-900 z-10 flex-col w-full sm:h-screen" id="projects">
+      <div className="bg-gray-800 flex items-center p-6 sm:h-2/4 sm:pb-44">
+        <div className="mx-auto my-0 text-center">
+          <h2 className="text-4xl font-bold mb-6 sm:text-6xl">My Recent Work</h2>
 
-          <p className="text-4xl mb-24">
+          <p className="text-2xl sm:text-4xl">
             Here are a few past design projects I've worked on.
           </p>
         </div>
@@ -37,9 +37,9 @@ export default function Projects() {
         initial={"hidden"}
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="h-2/4 bg-gray-100 w-3/6 mx-auto my-0 -mt-44 rounded text-center text-gray-800 p-6 block flex text-center"
+        className="bg-gray-100 mx-auto my-0 rounded text-center text-gray-800 p-6 grid grid-cols-1 text-center sm:w-4/6 sm:grid-cols-3 sm:-mt-44"
       >
-        <div className="w-2/6 p-4">
+        <div className="p-4">
           <img
             className="rounded mx-auto my-0"
             width="160"
@@ -55,7 +55,7 @@ export default function Projects() {
             incentive laws.
           </p>
         </div>
-        <div className="w-2/6 border-4 border-t-0 border-b-0 border-gray-300 p-4">
+        <div className="p-4">
           <img
             className="rounded mx-auto my-0"
             width="160"
@@ -71,7 +71,7 @@ export default function Projects() {
             integrated solutions.
           </p>
         </div>
-        <div className="w-2/6 p-4">
+        <div className="p-4">
           <img
             className="rounded mx-auto my-0"
             width="160"
@@ -88,7 +88,7 @@ export default function Projects() {
           </p>
         </div>
       </motion.div>
-      <p className="font-bold text-6xl mt-16 text-center">Let's work together!</p>
+      <p className="font-bold text-6xl p-6 text-center sm:mt-6">Let's work together!</p>
     </div>
   );
 }

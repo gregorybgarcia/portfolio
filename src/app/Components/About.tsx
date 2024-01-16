@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { RocketLaunchIcon } from "@heroicons/react/24/outline";
 import { useAnimation, useInView, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
@@ -85,17 +85,14 @@ export default function About() {
   }, [isInView]);
 
   return (
-    <div
-      className="bg-gray-800 z-10 flex-col h-screen w-full"
-      id="about"
-    >
-      <div className="h-2/4 bg-violet-900 flex items-center">
-        <div className="w-3/6 mx-auto my-0 text-center">
-          <h2 className="text-4xl font-bold mb-4">
+    <div className="bg-gray-800 z-10 flex-col w-full sm:h-screen" id="about">
+      <div className="h-2/4 bg-violet-900 flex items-center sm:pb-32">
+        <div className="mx-auto my-0 text-center p-6 sm:w-4/6">
+          <h2 className="text-4xl font-bold mb-4 sm:mb-16 sm:text-6xl">
             Hi, I’m Greg. Nice to meet you.
           </h2>
 
-          <p className="text-2xl">
+          <p className="text-1xl sm:text-2xl">
             I am a skilled programmer specialized in web development, working
             proficiently with ReactJS, NextJS, NodeJS and other JavaScript
             technologies. focused on creating a efficient and maintainable code,
@@ -106,15 +103,15 @@ export default function About() {
         </div>
       </div>
       <motion.div
-      ref={ref}
+        ref={ref}
         variants={{
           hidden: { opacity: 0, y: 75 },
           visible: { opacity: 1, y: 0 },
         }}
         initial={"hidden"}
         animate={mainControls}
-        transition={{ duration: 0.5, delay: 0.10 }}
-        className="h-2/4 bg-gray-100 w-3/6 mx-auto my-0 -mt-16 rounded flex-col text-center text-gray-800 p-6 block"
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded flex-col text-center text-gray-800 p-6 sm:w-3/6 sm:h-3/5 sm:-mt-32"
       >
         <RocketLaunchIcon
           className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"
@@ -126,9 +123,13 @@ export default function About() {
         <p className="text-2xl text-violet-900 mb-4">
           Here are a few technologies I’ve been working with recently:
         </p>
-        <div className="flex flex-wrap mt-8">
+        <div className="grid grid-cols-4 mt-8 sm:grid-cols-6">
           {technologies.map((tech) => (
-            <div key={tech.name} title="HTML" className="m-4 mb-10 flex-col">
+            <div
+              key={tech.name}
+              title={tech.name}
+              className="m-4 mb-10 flex-col w"
+            >
               <img
                 className="mx-auto my-0"
                 alt={tech.name}
@@ -143,7 +144,6 @@ export default function About() {
           ))}
         </div>
       </motion.div>
-      
     </div>
   );
 }
