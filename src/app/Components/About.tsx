@@ -83,7 +83,7 @@ export default function About() {
     } else {
       mainControls.start("hidden");
     }
-  }, [isInView]);
+  }, [isInView, mainControls]);
 
   return (
     <div className="bg-gray-900 z-10 flex-col w-full xl:h-screen" id="about">

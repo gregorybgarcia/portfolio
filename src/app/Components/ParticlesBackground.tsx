@@ -2,10 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import particleConfig from "../particles-config";
-import {
-  type Container,
-  type ISourceOptions,
-} from "@tsparticles/engine";
+import { type Container } from "@tsparticles/engine";
 import { motion } from "framer-motion";
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
@@ -34,7 +31,7 @@ const ParticlesBackground = () => {
     console.log(container);
   };
 
-  const options: ISourceOptions = useMemo(() => particleConfig, []);
+  const options: any = useMemo(() => particleConfig, []);
 
   if (init) {
     return (

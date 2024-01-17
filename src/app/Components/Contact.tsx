@@ -21,7 +21,7 @@ export default function Contact() {
     } else {
       mainControls.start("hidden");
     }
-  }, [isInView]);
+  }, [isInView, mainControls]);
 
   return (
     <div className="z-10 flex w-full items-center xl:h-screen" id="contact">
@@ -44,9 +44,9 @@ export default function Contact() {
             Get in Touch - Connect with Me
           </p>
           <p className="text-2xl mb-12 text-center">
-            My inbox is always open, so feel free to get in touch with me,
-            whether it's about business, opportunities, or if you have any
-            questions. I will do my best to promptly respond to your message!
+            {
+              "My inbox is always open, so feel free to get in touch with me, whether it's about business, opportunities, or if you have any questions. I will do my best to promptly respond to your message!"
+            }
           </p>
           <p className="flex text-2xl">
             <PhoneIcon className="h-8 w-8 mr-2" aria-hidden="true" />

@@ -11,13 +11,13 @@ const navigation = [
   { name: "Contact", href: "#", current: false },
 ];
 
-const scrollTo = (page) => {
+const scrollTo = (page: string) => {
   console.log(page);
   const element = document.getElementById(page);
-  element.scrollIntoView({ behavior: "smooth" });
+  element?.scrollIntoView({ behavior: "smooth" });
 };
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -44,7 +44,7 @@ export default function Header() {
                 {/* <div className="flex flex-shrink-0 items-center font-bold">
                   GREGORY GARCIA
                 </div> */}
-                <Image src="/images/logo.webp" alt="" height={36} width={36}/>
+                <Image src="/images/logo.webp" alt="" height={36} width={36} />
                 <div className="hidden xl:ml-6 xl:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (

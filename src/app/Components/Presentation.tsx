@@ -18,7 +18,7 @@ export default function Presentation() {
     } else {
       mainControls.start("hidden");
     }
-  }, [isInView]);
+  }, [isInView, mainControls]);
   return (
     <div
       ref={ref}
@@ -87,7 +87,7 @@ export default function Presentation() {
           className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded"
           onClick={() => {
             const element = document.getElementById("about");
-            element.scrollIntoView({ behavior: "smooth" });
+            element?.scrollIntoView({ behavior: "smooth" });
           }}
         >
           About me

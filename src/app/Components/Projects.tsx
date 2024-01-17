@@ -40,7 +40,7 @@ export default function Projects() {
     } else {
       mainControls.start("hidden");
     }
-  }, [isInView]);
+  }, [isInView, mainControls]);
 
   return (
     <div
@@ -54,7 +54,7 @@ export default function Projects() {
           </h2>
 
           <p className="text-2xl xl:text-4xl">
-            Here are a few past design projects I've worked on.
+            {"Here are a few past design projects I've worked on."}
           </p>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function Projects() {
         ))}
       </motion.div>
       <p className="font-bold text-6xl p-6 text-center xl:mt-6">
-        Let's work together!
+        {"Let's work together!"}
       </p>
     </div>
   );
