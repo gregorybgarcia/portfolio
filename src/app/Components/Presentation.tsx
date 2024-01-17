@@ -21,11 +21,11 @@ export default function Presentation() {
   return (
     <div
       ref={ref}
-      className="z-10 flex items-center h-screen w-full text-center"
+      className="z-10 flex flex-col items-center h-screen w-full text-center"
       id="home"
     >
       <motion.div
-        className="mx-auto my-0"
+        className="mx-0 my-auto"
         variants={{
           hidden: { opacity: 0, y: 75 },
           visible: { opacity: 1, y: 0 },
@@ -81,7 +81,7 @@ export default function Presentation() {
           </button>
         </div>
       </motion.div>
-      <div className="absolute bottom-12 w-full text-center">
+      <div className="text-center mb-8">
         <button
           className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded"
           onClick={() => {
