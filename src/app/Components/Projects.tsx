@@ -43,16 +43,16 @@ export default function Projects() {
 
   return (
     <div
-      className="bg-violet-900 z-10 flex-col w-full xl:h-screen"
+      className="bg-violet-900 z-10 flex-col w-full 2xl:h-screen"
       id="projects"
     >
-      <div className="bg-gray-900 flex items-center p-6 xl:h-2/4 xl:pb-44">
+      <div className="bg-gray-900 flex items-center p-6 2xl:h-2/4 2xl:pb-44">
         <div className="mx-auto my-0 text-center">
-          <h2 className="text-4xl font-bold mb-6 xl:text-6xl">
+          <h2 className="text-4xl font-bold mb-6 2xl:text-6xl">
             My Recent Work
           </h2>
 
-          <p className="text-2xl xl:text-4xl">
+          <p className="text-2xl 2xl:text-4xl">
             {"Here are a few past design projects I've worked on."}
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function Projects() {
         initial={"hidden"}
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-gray-100 mx-auto my-0 rounded-xl text-center text-gray-900 p-6 grid grid-cols-1 text-center xl:w-4/6 xl:grid-cols-3 xl:-mt-44"
+        className="bg-gray-100 mx-auto my-0 rounded-xl text-center text-gray-900 p-6 grid grid-cols-1 text-center 2xl:w-4/6 2xl:grid-cols-3 2xl:-mt-44"
       >
         {companies.map((company) => (
           <div
@@ -86,7 +86,7 @@ export default function Projects() {
           </div>
         ))}
       </motion.div>
-      <p className="font-bold text-6xl p-6 text-center xl:mt-6">
+      <p className="font-bold text-6xl p-6 text-center 2xl:mt-6">
         {"Let's work together!"}
       </p>
     </div>

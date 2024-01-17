@@ -85,14 +85,14 @@ export default function About() {
   }, [isInView, mainControls]);
 
   return (
-    <div className="bg-gray-900 z-10 flex-col w-full xl:h-screen" id="about">
-      <div className="h-2/4 bg-violet-900 flex items-center xl:pb-32">
-        <div className="mx-auto my-0 text-center p-6 xl:w-4/6">
-          <h2 className="text-4xl font-bold mb-4 xl:mb-16 xl:text-6xl">
+    <div className="bg-gray-900 z-10 flex-col w-full 2xl:h-screen" id="about">
+      <div className="h-2/4 bg-violet-900 flex items-center 2xl:pb-32">
+        <div className="mx-auto my-0 text-center p-6 2xl:w-4/6">
+          <h2 className="text-4xl font-bold mb-4 2xl:mb-16 2xl:text-6xl">
             Hi, I’m Greg. Nice to meet you.
           </h2>
 
-          <p className="text-1xl xl:text-2xl">
+          <p className="text-1xl 2xl:text-2xl">
             I am a skilled programmer specialized in web development, working
             proficiently with ReactJS, NextJS, NodeJS and other JavaScript
             technologies. Focused on creating a efficient and maintainable code,
@@ -111,7 +111,7 @@ export default function About() {
         initial={"hidden"}
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-900 p-6 xl:w-3/6 xl:h-3/6 xl:-mt-32"
+        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-900 p-6 2xl:w-3/6 2xl:h-3/6 2xl:-mt-32"
       >
         <RocketLaunchIcon
           className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"
@@ -123,7 +123,7 @@ export default function About() {
         <p className="text-2xl text-violet-900 mb-4">
           Here are a few technologies I’ve been working with recently:
         </p>
-        <div className="grid grid-cols-4 mt-8 xl:grid-cols-8">
+        <div className="grid grid-cols-4 mt-8 2xl:grid-cols-8">
           {technologies.map((tech) => (
             <div
               key={tech.name}

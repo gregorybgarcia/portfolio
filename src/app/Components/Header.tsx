@@ -25,9 +25,9 @@ export default function Header() {
     <Disclosure as="nav" className="bg-gray-900 w-full z-20 absolute top-0">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 xl:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-2 2xl:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center xl:hidden">
+              <div className="absolute inset-y-0 left-0 flex items-center 2xl:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
@@ -39,12 +39,12 @@ export default function Header() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center xl:items-stretch xl:justify-start">
+              <div className="flex flex-1 items-center justify-center 2xl:items-stretch 2xl:justify-start">
                 {/* <div className="flex flex-shrink-0 items-center font-bold">
                   GREGORY GARCIA
                 </div> */}
                 <Image src="/images/logo.webp" alt="" height={36} width={36} />
-                <div className="hidden xl:ml-6 xl:block">
+                <div className="hidden 2xl:ml-6 2xl:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <a
@@ -65,7 +65,7 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 xl:static xl:inset-auto xl:ml-6 xl:pr-0">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 2xl:static 2xl:inset-auto 2xl:ml-6 2xl:pr-0">
                 <button
                   className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 rounded"
                   onClick={() =>
@@ -80,7 +80,7 @@ export default function Header() {
             </div>
           </div>
 
-          <Disclosure.Panel className="xl:hidden">
+          <Disclosure.Panel className="2xl:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <Disclosure.Button
