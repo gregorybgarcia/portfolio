@@ -26,7 +26,7 @@ export default function TimelineElement({ item }) {
         icon={item.icon}
         iconStyle={{
           background: theme === "light" ? "white" : "#1F2937",
-          boxShadow: "0 0 0 4px #1F2937",
+          boxShadow: "0 0 0 4px #F3F4F6",
           fontSize: "1.5rem",
         }}
         visible={inView}

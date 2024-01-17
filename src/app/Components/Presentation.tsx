@@ -4,6 +4,7 @@ import { motion, useInView, useAnimation } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin, faSquareGithub } from "@fortawesome/free-brands-svg-icons";
+import Image from "next/image";
 
 export default function Presentation() {
   const ref = useRef(null);
@@ -35,19 +36,21 @@ export default function Presentation() {
         transition={{ duration: 0.5, delay: 0.25 }}
       >
         <div className="p-2 bg-violet-900 rounded-full w-52 mx-auto my-0">
-          <img
+          <Image
             className="rounded-full h-48"
-            src="https://media.licdn.com/dms/image/D4D03AQF6Fgl80wagzA/profile-displayphoto-shrink_800_800/0/1702057556257?e=2147483647&v=beta&t=OWYpZFYzUluLLmqIQ-vSwJe22SqQ6ZTgwdb4HivoyiU"
-            alt=""
+            width={192}
+            height={192}
+            src="/images/profile.jpeg"
+            alt="Gregory Barros"
           />
         </div>
 
-        <p className="text-4xl font-bold border-b-2 p-4 m-4 text-center sm:text-5xl">
+        <p className="text-4xl font-bold border-b-2 p-4 m-4 text-center xl:text-5xl">
           GREGORY GARCIA
         </p>
         <h2>
           <ReactTyped
-            className="text-2xl sm:text-3xl p-2"
+            className="text-2xl xl:text-3xl p-2"
             strings={[
               "I enjoy building and designing for the web.",
               "Front-End Specialist.",

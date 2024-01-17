@@ -1,73 +1,74 @@
 "use client";
 import { RocketLaunchIcon } from "@heroicons/react/24/outline";
 import { useAnimation, useInView, motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 export default function About() {
   const technologies = [
     {
       name: "HTML",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+      src: "/images/html5.svg",
     },
     {
       name: "CSS",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+      src: "/images/css3.svg",
     },
     {
       name: "Sass",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg",
+      src: "/images/sass.svg",
     },
     {
       name: "JavaScrip",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+      src: "/images/javascript.svg",
     },
     {
       name: "TypeScript",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+      src: "/images/typescript.svg",
     },
     {
       name: "React",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+      src: "/images/react.svg",
     },
     {
       name: "NextJS",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original-wordmark.svg",
+      src: "/images/nextjs.svg",
     },
     {
       name: "TailwindCSS",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+      src: "/images/tailwind.svg",
     },
     {
       name: "Material UI",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg",
+      src: "/images/materialui.svg",
     },
     {
       name: "Bootstrap",
-      src: "https://brandlogos.net/wp-content/uploads/2021/09/bootstrap-logo.png",
+      src: "/images/bootstrap.png",
     },
     {
       name: "NodeJS",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+      src: "/images/nodejs.svg",
     },
     {
       name: "Figma",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+      src: "/images/figma.svg",
     },
     {
       name: "Redux",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
+      src: "/images/redux.svg",
     },
     {
       name: "Jest",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg",
+      src: "/images/jest.svg",
     },
     {
       name: "Storybook",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/storybook/storybook-original.svg",
+      src: "/images/storybook.svg",
     },
     {
       name: "Git",
-      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+      src: "/images/git.svg",
     },
   ];
 
@@ -85,14 +86,14 @@ export default function About() {
   }, [isInView]);
 
   return (
-    <div className="bg-gray-800 z-10 flex-col w-full sm:h-screen" id="about">
-      <div className="h-2/4 bg-violet-900 flex items-center sm:pb-32">
-        <div className="mx-auto my-0 text-center p-6 sm:w-4/6">
-          <h2 className="text-4xl font-bold mb-4 sm:mb-16 sm:text-6xl">
+    <div className="bg-gray-900 z-10 flex-col w-full xl:h-screen" id="about">
+      <div className="h-2/4 bg-violet-900 flex items-center xl:pb-32">
+        <div className="mx-auto my-0 text-center p-6 xl:w-4/6">
+          <h2 className="text-4xl font-bold mb-4 xl:mb-16 xl:text-6xl">
             Hi, I’m Greg. Nice to meet you.
           </h2>
 
-          <p className="text-1xl sm:text-2xl">
+          <p className="text-1xl xl:text-2xl">
             I am a skilled programmer specialized in web development, working
             proficiently with ReactJS, NextJS, NodeJS and other JavaScript
             technologies. Focused on creating a efficient and maintainable code,
@@ -111,7 +112,7 @@ export default function About() {
         initial={"hidden"}
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-800 p-6 sm:w-3/6 sm:h-3/5 sm:-mt-32"
+        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-900 p-6 xl:w-3/6 xl:h-3/6 xl:-mt-32"
       >
         <RocketLaunchIcon
           className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"
@@ -123,14 +124,14 @@ export default function About() {
         <p className="text-2xl text-violet-900 mb-4">
           Here are a few technologies I’ve been working with recently:
         </p>
-        <div className="grid grid-cols-4 mt-8 sm:grid-cols-6">
+        <div className="grid grid-cols-4 mt-8 xl:grid-cols-8">
           {technologies.map((tech) => (
             <div
               key={tech.name}
               title={tech.name}
               className="m-4 mb-10 flex-col w"
             >
-              <img
+              <Image
                 className="mx-auto my-0"
                 alt={tech.name}
                 width="50"

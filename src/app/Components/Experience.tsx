@@ -3,11 +3,12 @@
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import TimelineElement from "./TimelineElement";
 import { RocketLaunchIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 const experiencesData = [
   {
     date: "Jan 2022 - Dec 2023",
-    icon: <RocketLaunchIcon />,
+    icon: <Image  className="rounded-full" src="/images/dexian.png" width={100} height={100} alt="Dexian"/>,
     title: "Senior Front-End Developer",
     location: "Dexian",
     description:
@@ -15,7 +16,7 @@ const experiencesData = [
   },
   {
     date: "Mar 2021 - Dec 2021",
-    icon: <RocketLaunchIcon />,
+    icon: <Image  className="rounded-full" src="/images/qyon.jpg" width={100} height={100} alt="QYON"/>,
     title: "Front-End Developer",
     location: "QYON Sistemas Inteligentes",
     description:
@@ -23,7 +24,7 @@ const experiencesData = [
   },
   {
     date: "Aug 2020 - Mar 2021",
-    icon: <RocketLaunchIcon />,
+    icon: <Image  className="rounded-full" src="/images/incentiv.png" width={100} height={100} alt="Incentiv.me"/>,
     title: "Full Stack Developer",
     location: "Incentiv",
     description:
@@ -31,7 +32,7 @@ const experiencesData = [
   },
   {
     date: "May 2019 - May 2020",
-    icon: <RocketLaunchIcon />,
+    icon: <Image  className="rounded-full" src="/images/essystem.jpg" width={100} height={100} alt="Essystem"/>,
     title: "Junior Full Stack Developer",
     location: "ESSystem",
     description:

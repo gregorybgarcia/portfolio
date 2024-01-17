@@ -24,7 +24,7 @@ export default function Contact() {
   }, [isInView]);
 
   return (
-    <div className="z-10 flex w-full items-center sm:h-screen" id="contact">
+    <div className="z-10 flex w-full items-center xl:h-screen" id="contact">
       <motion.div
         ref={ref}
         variants={{
@@ -35,7 +35,7 @@ export default function Contact() {
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <div className="rounded-xl mx-auto my-0 bg-gray-800 text-gray-100 p-6 sm:w-2/4 sm:h-3/4 sm:p-12">
+        <div className="rounded-xl mx-auto my-0 bg-gray-900 text-gray-100 p-6 xl:w-2/4 xl:h-3/4 xl:p-12">
           <ChatBubbleLeftRightIcon
             className="h-24 w-24 mx-auto my-0 bg-violet-900 rounded-full p-4 "
             aria-hidden="true"
