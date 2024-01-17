@@ -35,7 +35,7 @@ export default function Contact() {
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <div className="rounded mx-auto my-0 bg-gray-800 text-gray-100 p-6 sm:w-2/4 sm:h-3/4 sm:p-12">
+        <div className="rounded-xl mx-auto my-0 bg-gray-800 text-gray-100 p-6 sm:w-2/4 sm:h-3/4 sm:p-12">
           <ChatBubbleLeftRightIcon
             className="h-24 w-24 mx-auto my-0 bg-violet-900 rounded-full p-4 "
             aria-hidden="true"
@@ -57,15 +57,31 @@ export default function Contact() {
             gregory.barros@hotmail.com
           </p>
           <div className="mt-4">
-        <button>
-          <FontAwesomeIcon className="mr-2" icon={faLinkedin} fontSize={40} onClick={() => window.open("https://www.linkedin.com/in/gregory-barros-garcia-4160b2157")}/>
-        </button>
-        <button>
-          <FontAwesomeIcon icon={faSquareGithub} fontSize={40} onClick={() => window.open("https://github.com/gregorybarros")}/>
-        </button>
-        </div>
+            <button>
+              <FontAwesomeIcon
+                className="mr-2"
+                icon={faLinkedin}
+                fontSize={40}
+                onClick={() =>
+                  window.open(
+                    "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
+                  )
+                }
+              />
+            </button>
+            <button>
+              <FontAwesomeIcon
+                icon={faSquareGithub}
+                fontSize={40}
+                onClick={() => window.open("https://github.com/gregorybarros")}
+              />
+            </button>
+          </div>
           <div className="flex mt-16">
-            <a className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded text-2xl mx-auto my-0" href="mailto:gregory.barros@hotmail.com">
+            <a
+              className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded text-2xl mx-auto my-0"
+              href="mailto:gregory.barros@hotmail.com"
+            >
               Say Hello!
             </a>
           </div>

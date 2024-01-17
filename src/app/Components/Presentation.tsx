@@ -22,6 +22,7 @@ export default function Presentation() {
     <div
       ref={ref}
       className="z-10 flex items-center h-screen w-full text-center"
+      id="home"
     >
       <motion.div
         className="mx-auto my-0"
@@ -34,26 +35,26 @@ export default function Presentation() {
         transition={{ duration: 0.5, delay: 0.25 }}
       >
         <div className="p-2 bg-violet-900 rounded-full w-52 mx-auto my-0">
-          
-        <img
-          className="rounded-full h-48"
-          src="https://media.licdn.com/dms/image/D4D03AQF6Fgl80wagzA/profile-displayphoto-shrink_800_800/0/1702057556257?e=2147483647&v=beta&t=OWYpZFYzUluLLmqIQ-vSwJe22SqQ6ZTgwdb4HivoyiU"
-          alt=""
-        />
+          <img
+            className="rounded-full h-48"
+            src="https://media.licdn.com/dms/image/D4D03AQF6Fgl80wagzA/profile-displayphoto-shrink_800_800/0/1702057556257?e=2147483647&v=beta&t=OWYpZFYzUluLLmqIQ-vSwJe22SqQ6ZTgwdb4HivoyiU"
+            alt=""
+          />
         </div>
 
         <p className="text-4xl font-bold border-b-2 p-4 m-4 text-center sm:text-5xl">
-          Gregory Garcia
+          GREGORY GARCIA
         </p>
         <h2>
           <ReactTyped
             className="text-2xl sm:text-3xl p-2"
             strings={[
               "I enjoy building and designing for the web.",
-              "Front-End Specialist since 2018.",
+              "Front-End Specialist.",
             ]}
             typeSpeed={100}
             startDelay={1000}
+            backDelay={2000}
           />
         </h2>
         <div className="mt-4">

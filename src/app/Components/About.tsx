@@ -95,10 +95,10 @@ export default function About() {
           <p className="text-1xl sm:text-2xl">
             I am a skilled programmer specialized in web development, working
             proficiently with ReactJS, NextJS, NodeJS and other JavaScript
-            technologies. focused on creating a efficient and maintainable code,
-            ensuring the delivery of high-quality software products. building
-            dynamic, responsive, feature-rich, high-performance front-end
-            applications and robust and scalable backend solutions.
+            technologies. Focused on creating a efficient and maintainable code,
+            ensuring the delivery of high-quality software products. Building
+            dynamic, responsive, feature-rich, high-performance robust and
+            scalable front-end applications.
           </p>
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function About() {
         initial={"hidden"}
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded flex-col text-center text-gray-800 p-6 sm:w-3/6 sm:h-3/5 sm:-mt-32"
+        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-800 p-6 sm:w-3/6 sm:h-3/5 sm:-mt-32"
       >
         <RocketLaunchIcon
           className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"

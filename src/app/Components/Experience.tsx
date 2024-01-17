@@ -18,21 +18,24 @@ const experiencesData = [
     icon: <RocketLaunchIcon />,
     title: "Front-End Developer",
     location: "QYON Sistemas Inteligentes",
-    description: "Planning and production of new company applications with a focus on accounting software, where I led the squad. Collaborated with the team, primarily using React with Redux, ContextAPI, Web Socket, PDF generation, chat functionality, internationalization, responsive layout design, and integration with external services, among others...",
+    description:
+      "Planning and production of new company applications with a focus on accounting software, where I led the squad. Collaborated with the team, primarily using React with Redux, ContextAPI, Web Socket, PDF generation, chat functionality, internationalization, responsive layout design, and integration with external services, among others...",
   },
   {
     date: "Aug 2020 - Mar 2021",
     icon: <RocketLaunchIcon />,
     title: "Full Stack Developer",
     location: "Incentiv",
-    description: "Responsible for planning, production, and maintenance of company applications. Developed using Ruby on Rails, Mithriljs, React, Node, Angular, Laravel, and PostgreSQL. Handled infrastructure demands, data security, payment gateways, integration with external services, compliance with LGPD (General Data Protection Law), and domain management.",
+    description:
+      "Responsible for planning, production, and maintenance of company applications. Developed using Ruby on Rails, Mithriljs, React, Node, Angular, Laravel, and PostgreSQL. Handled infrastructure demands, data security, payment gateways, integration with external services, compliance with LGPD (General Data Protection Law), and domain management.",
   },
   {
     date: "May 2019 - May 2020",
     icon: <RocketLaunchIcon />,
     title: "Junior Full Stack Developer",
     location: "ESSystem",
-    description: "Infrastructure Leader and JS Developer. Provided in-person assistance and technical support for the system, as well as participated in application development.",
+    description:
+      "Infrastructure Leader and JS Developer. Provided in-person assistance and technical support for the system, as well as participated in application development.",
   },
 ];
 
@@ -40,7 +43,7 @@ export default function Experience() {
   return (
     <section
       className="my-20 flex w-full scroll-mt-28 flex-col items-center justify-center gap-10"
-      id="#experience"
+      id="experience"
     >
       <VerticalTimeline lineColor="#F3F4F6">
         {experiencesData.map((item, index) => {

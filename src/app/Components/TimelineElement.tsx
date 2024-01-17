@@ -6,36 +6,29 @@ import React from "react";
 export default function TimelineElement({ item }) {
   const { ref, inView } = useInView();
 
-  const theme = 'dark'
+  const theme = "dark";
 
   return (
     <div ref={ref} className="vertical-timeline-element">
       <VerticalTimelineElement
-
         contentStyle={{
-          background:
-              theme === 'light'
-                  ? '#F3F4F6'
-                  : '#4C1D95',
-          boxShadow: 'none',
-          border: '1px solid rgba(0, 0, 0, 0.05)',
-          textAlign: 'left',
-          padding: '1.3rem 2rem',
-      }}
+          background: theme === "light" ? "#F3F4F6" : "#4C1D95",
+          boxShadow: "none",
+          border: "1px solid rgba(0, 0, 0, 0.05)",
+          textAlign: "left",
+          padding: "1.3rem 2rem",
+        }}
         contentArrowStyle={{
           borderRight:
-              theme === 'light'
-                  ? '0.4rem solid #9ca3af'
-                  : '0.4rem solid #F3F4F6',
-      }}
+            theme === "light" ? "0.4rem solid #9ca3af" : "0.4rem solid #F3F4F6",
+        }}
         date={item.date}
         icon={item.icon}
         iconStyle={{
-          background:
-              theme === 'light' ? 'white' : '#1F2937',
-              boxShadow: '0 0 0 4px #1F2937',
-          fontSize: '1.5rem',
-      }}
+          background: theme === "light" ? "white" : "#1F2937",
+          boxShadow: "0 0 0 4px #1F2937",
+          fontSize: "1.5rem",
+        }}
         visible={inView}
       >
         <h4 className="!font-bold text-2xl">{item.title}</h4>
