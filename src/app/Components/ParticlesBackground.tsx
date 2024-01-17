@@ -2,8 +2,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import particleConfig from "../particles-config";
-import { type Container } from "@tsparticles/engine";
-import { motion } from "framer-motion";
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
@@ -27,28 +25,10 @@ const ParticlesBackground = () => {
     });
   }, []);
 
-  const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log(container);
-  };
-
   const options: any = useMemo(() => particleConfig, []);
 
   if (init) {
-    return (
-      <motion.div
-        animate={{
-          // scale: [0.1, 1],
-          opacity: [0, 1],
-        }}
-        transition={{ duration: 3 }}
-      >
-        <Particles
-          id="tsparticles"
-          particlesLoaded={particlesLoaded}
-          options={options}
-        />
-      </motion.div>
-    );
+    return <Particles id="tsparticles" options={options} />;
   }
 
   return <></>;

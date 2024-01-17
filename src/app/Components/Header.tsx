@@ -12,7 +12,6 @@ const navigation = [
 ];
 
 const scrollTo = (page: string) => {
-  console.log(page);
   const element = document.getElementById(page);
   element?.scrollIntoView({ behavior: "smooth" });
 };

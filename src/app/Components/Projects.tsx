@@ -34,7 +34,6 @@ export default function Projects() {
   ];
 
   useEffect(() => {
-    console.log(isInView);
     if (isInView) {
       mainControls.start("visible");
     } else {
