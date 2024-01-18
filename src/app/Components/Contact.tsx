@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAnimation, useInView, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
+import Footer from "./Footer";
 
 export default function Contact() {
   const ref = useRef(null);
@@ -23,35 +24,38 @@ export default function Contact() {
   }, [isInView, mainControls]);
 
   return (
-    <div className="z-10 flex w-full items-center 2xl:h-screen" id="contact">
+    <div className="z-10 flex flex-col w-full items-center h-screen" id="contact">
+            <p className="font-bold text-3xl p-8 text-center 2xl:text-6xl 2xl:p-16">
+        {"Let's work together!"}
+      </p>
       <motion.div
         ref={ref}
         variants={{
-          hidden: { opacity: 0, scale: 0 },
-          visible: { opacity: 1, scale: 1 },
+          hidden: { opacity: 0, y: 75 },
+          visible: { opacity: 1, y: 0 },
         }}
         initial={"hidden"}
         animate={mainControls}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
       >
-        <div className="rounded-xl mx-auto my-0 bg-gray-900 text-gray-100 p-6 2xl:w-2/4 2xl:h-3/4 2xl:p-12">
+        <div className="rounded-xl mx-auto my-0 bg-gray-900 text-gray-100 p-8 2xl:w-2/4 2xl:p-12">
           <ChatBubbleLeftRightIcon
             className="h-24 w-24 mx-auto my-0 bg-violet-900 rounded-full p-4 "
             aria-hidden="true"
           />
-          <p className="text-4xl text-center font-bold mb-12 mt-16">
+          <p className="text-2xl text-center font-bold mb-8 mt-8">
             Get in Touch - Connect with Me
           </p>
-          <p className="text-2xl mb-12 text-center">
+          <p className="text-1xl mb-12 text-center">
             {
               "My inbox is always open, so feel free to get in touch with me, whether it's about business, opportunities, or if you have any questions. I will do my best to promptly respond to your message!"
             }
           </p>
-          <p className="flex text-2xl">
+          <p className="flex text-1xl">
             <PhoneIcon className="h-8 w-8 mr-2" aria-hidden="true" />
             +353 83 432 9851
           </p>
-          <p className="flex text-2xl">
+          <p className="flex text-1xl">
             <AtSymbolIcon className="h-8 w-8 mr-2" aria-hidden="true" />
             gregory.barros@hotmail.com
           </p>
@@ -76,9 +80,9 @@ export default function Contact() {
               />
             </button>
           </div>
-          <div className="flex mt-16">
+          <div className="flex mt-8">
             <a
-              className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded text-2xl mx-auto my-0"
+              className="bg-violet-900 hover:bg-violet-700 text-grey-100 font-semibold hover:text-white py-2 px-4 border border-violet-900 hover:border-transparent rounded text-1xl mx-auto my-0"
               href="mailto:gregory.barros@hotmail.com"
             >
               Say Hello!
@@ -86,6 +90,7 @@ export default function Contact() {
           </div>
         </div>
       </motion.div>
+                <Footer/>
     </div>
   );
 }

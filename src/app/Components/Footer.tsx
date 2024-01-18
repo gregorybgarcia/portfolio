@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-gray-100 z-20">
-      <div className="w-full grid grid-cols-2 p-2 text-gray-900 text-1xl items-center justify-between mx-auto my-0 2xl:w-4/5">
+    <div className="w-full bg-gray-100 z-20 mt-auto">
+      <div className="w-full grid grid-cols-2 p-2 text-gray-900 text-xs items-center justify-between mx-auto my-0 2xl:w-4/5">
         <div className="flex items-center">
           <Image
             src="/images/logo.webp"

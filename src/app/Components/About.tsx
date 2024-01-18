@@ -87,8 +87,8 @@ export default function About() {
   return (
     <div className="bg-gray-900 z-10 flex-col w-full 2xl:h-screen" id="about">
       <div className="h-2/4 bg-violet-900 flex items-center 2xl:pb-32">
-        <div className="mx-auto my-0 text-center p-6 2xl:w-4/6">
-          <h2 className="text-4xl font-bold mb-4 2xl:mb-16 2xl:text-6xl">
+        <div className="mx-auto my-0 text-center p-8 2xl:w-4/6">
+          <h2 className="text-3xl font-bold mb-4 2xl:mb-16 2xl:text-6xl">
             Hi, I’m Greg. Nice to meet you.
           </h2>
 
@@ -117,10 +117,10 @@ export default function About() {
           className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"
           aria-hidden="true"
         />
-        <h2 className="text-4xl font-bold mb-2 text-violet-900">
+        <h2 className="text-3xl font-bold mb-2 text-violet-900">
           Front-End Developer
         </h2>
-        <p className="text-2xl text-violet-900 mb-4">
+        <p className="text-1xl text-violet-900 mb-4">
           Here are a few technologies I’ve been working with recently:
         </p>
         <div className="grid grid-cols-4 mt-8 2xl:grid-cols-8">
