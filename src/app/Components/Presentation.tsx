@@ -21,7 +21,7 @@ export default function Presentation() {
   return (
     <div
       ref={ref}
-      className="z-10 flex flex-col items-center h-screen w-full text-center"
+      className="z-10 flex flex-col items-center min-h-screen w-full text-center"
       id="home"
     >
       <motion.div

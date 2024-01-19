@@ -43,16 +43,16 @@ export default function Projects() {
 
   return (
     <div
-      className="bg-violet-900 z-10 flex-col w-full lg:h-screen 2xl:h-screen"
+      className="bg-violet-900 z-10 flex-col w-full lg:h-screen"
       id="projects"
     >
       <div className="bg-gray-900 flex items-center p-8 lg:h-2/4 lg:pb-44 2xl:h-2/4 2xl:pb-44">
         <div className="mx-auto my-0 text-center">
-          <h2 className="text-3xl font-bold mb-6 2xl:text-6xl">
+          <h2 className="text-3xl font-bold mb-6">
             My Recent Work
           </h2>
 
-          <p className="text-1xl lg:text-2xl 2xl:text-4xl">
+          <p className="text-1xl lg:text-2xl">
             {"Here are a few past design projects I've worked on."}
           </p>
         </div>

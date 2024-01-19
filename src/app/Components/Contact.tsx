@@ -24,8 +24,8 @@ export default function Contact() {
   }, [isInView, mainControls]);
 
   return (
-    <div className="z-10 flex flex-col w-full items-center h-screen" id="contact">
-            <p className="font-bold text-3xl p-8 text-center lg:text-4xl lg:p-12 2xl:text-6xl 2xl:p-16">
+    <div className="z-10 flex flex-col w-full items-center min-h-screen" id="contact">
+            <p className="font-bold text-3xl p-8 text-center lg:p-12 2xl:p-16">
         {"Let's work together!"}
       </p>
       <motion.div
@@ -38,24 +38,24 @@ export default function Contact() {
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.25 }}
       >
-        <div className="rounded-xl mx-auto my-0 bg-gray-900 text-gray-100 p-8 sm:w-4/5 lg:w-3/5 2xl:w-2/4 2xl:p-12">
+        <div className="rounded-xl mx-auto my-0 bg-gray-900 text-gray-100 p-8 sm:w-4/5 lg:w-3/5 xl:text-2xl 2xl:w-2/4 2xl:p-12">
           <ChatBubbleLeftRightIcon
             className="h-20 w-20 mx-auto my-0 bg-violet-900 rounded-full p-4 xl:h-24 xl:w-24"
             aria-hidden="true"
           />
-          <p className="text-2xl text-center font-bold mb-8 mt-8">
+          <p className="text-2xl text-center font-bold mb-8 mt-8 xl:text-3xl">
             Get in Touch - Connect with Me
           </p>
-          <p className="text-1xl mb-8 text-center">
+          <p className="mb-8 text-center">
             {
               "My inbox is always open, so feel free to get in touch with me, whether it's about business, opportunities, or if you have any questions. I will do my best to promptly respond to your message!"
             }
           </p>
-          <p className="flex text-1xl">
+          <p className="flex">
             <PhoneIcon className="h-8 w-8 mr-2" aria-hidden="true" />
             +353 83 432 9851
           </p>
-          <p className="flex text-1xl">
+          <p className="flex">
             <AtSymbolIcon className="h-8 w-8 mr-2" aria-hidden="true" />
             gregory.barros@hotmail.com
           </p>

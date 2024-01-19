@@ -85,14 +85,14 @@ export default function About() {
   }, [isInView, mainControls]);
 
   return (
-    <div className="bg-gray-900 z-10 flex-col w-full lg:h-screen 2xl:h-screen" id="about">
+    <div className="bg-gray-900 z-10 flex-col w-full lg:h-screen" id="about">
       <div className="h-2/4 bg-violet-900 flex items-center lg:pb-32 2xl:pb-32">
-        <div className="mx-auto my-0 text-center p-8 lg:2xl:w-4/6 2xl:w-4/6">
-          <h2 className="text-3xl font-bold mb-4 lg:mb-8 lg:text-4xl 2xl:mb-16 2xl:text-6xl">
+        <div className="mx-auto max-w-7xl my-0 text-center p-8 lg:w-4/5 2xl:w-5/6">
+          <h2 className="text-3xl font-bold mb-4 lg:mb-8">
             Hi, I’m Greg. Nice to meet you.
           </h2>
 
-          <p className="text-1xl 2xl:text-2xl">
+          <p className="text-1xl xl:text-2xl">
             I am a skilled programmer specialized in web development, working
             proficiently with ReactJS, NextJS, NodeJS and other JavaScript
             technologies. Focused on creating a efficient and maintainable code,
@@ -111,7 +111,7 @@ export default function About() {
         initial={"hidden"}
         animate={mainControls}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="h-full bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-900 p-6 md:w-5/6 lg:h-4/6 lg:-mt-32 2xl:w-3/6 2xl:h-3/6 2xl:-mt-32"
+        className="h-auto bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-900 p-6 md:w-5/6 md:-mt-2 lg:-mt-32 xl:w-3/6 2xl:-mt-32"
       >
         <RocketLaunchIcon
           className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"
@@ -120,7 +120,7 @@ export default function About() {
         <h2 className="text-3xl font-bold mb-2 text-violet-900">
           Front-End Developer
         </h2>
-        <p className="text-1xl text-violet-900 mb-4">
+        <p className="text-1xl text-violet-900 mb-4 xl:text-2xl">
           Here are a few technologies I’ve been working with recently:
         </p>
         <div className="grid grid-cols-4 mt-8 lg:grid-cols-8 2xl:grid-cols-8">
