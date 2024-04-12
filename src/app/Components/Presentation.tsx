@@ -44,12 +44,12 @@ export default function Presentation() {
           />
         </div>
 
-        <p className="text-4xl font-black border-b-2 p-4 m-4 text-center 2xl:text-5xl">
+        <p className="text-4xl font-black border-b-2 p-4 m-4 text-center 2xl:text-5xl text-grey-100">
           GREGORY GARCIA
         </p>
         <h2>
           <ReactTyped
-            className="text-2xl 2xl:text-3xl p-2"
+            className="text-2xl 2xl:text-3xl p-2 text-grey-100"
             strings={[
               "I enjoy building and designing for the web.",
               "Front-End Specialist.",
