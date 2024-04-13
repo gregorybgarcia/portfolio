@@ -44,7 +44,7 @@ export default function Presentation() {
           />
         </div>
 
-        <p className="text-4xl font-black border-b-2 p-4 m-4 text-center 2xl:text-5xl text-grey-100">
+        <p className="text-4xl font-black border-b-2 p-4 m-4 text-center 2xl:text-5xl">
           GREGORY GARCIA
         </p>
         <h2>
