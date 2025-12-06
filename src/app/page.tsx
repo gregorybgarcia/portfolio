@@ -20,8 +20,9 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Gregory Garcia",
+    "alternateName": "Gregory Barros Garcia",
     "jobTitle": "Senior Front-End Developer",
-    "description": `Senior Front-End Developer with ${yearsOfExperience}+ years of experience specializing in React, Next.js, and TypeScript`,
+    "description": `Experienced Front-End Developer with ${yearsOfExperience}+ years of professional experience building modern web applications using React, Next.js, TypeScript, and JavaScript. Specialized in creating responsive, accessible, and performant user interfaces for healthcare, fintech, and enterprise applications.`,
     "url": "https://www.gregorygarcia.dev",
     "email": "gregory.barros@hotmail.com",
     "telephone": "+353834329851",
@@ -33,32 +34,83 @@ export default function Home() {
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Dublin",
+      "addressRegion": "Leinster",
       "addressCountry": "IE"
     },
     "knowsAbout": [
-      "React",
+      "Front-End Development",
+      "Web Development",
+      "Full Stack Development",
+      "React.js",
       "Next.js",
       "TypeScript",
       "JavaScript",
-      "HTML",
-      "CSS",
+      "HTML5",
+      "CSS3",
       "Tailwind CSS",
+      "Responsive Web Design",
       "Node.js",
       "Redux",
+      "State Management",
       "Material UI",
       "Bootstrap",
       "Sass",
+      "SCSS",
       "Jest",
+      "Unit Testing",
       "Storybook",
+      "Component Libraries",
       "Git",
+      "Version Control",
       "Figma",
-      "Web Development",
-      "Front-End Development",
-      "Full Stack Development"
+      "UI/UX Design",
+      "Agile Development",
+      "Scrum",
+      "RESTful APIs",
+      "GraphQL",
+      "Performance Optimization",
+      "Accessibility (a11y)",
+      "Cross-browser Compatibility",
+      "Mobile-first Design",
+      "Single Page Applications",
+      "Progressive Web Apps"
     ],
+    "hasOccupation": {
+      "@type": "Occupation",
+      "name": "Front-End Developer",
+      "occupationalCategory": "15-1254.00",
+      "skills": "React, Next.js, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, Redux, Material UI, Node.js",
+      "experienceRequirements": `${yearsOfExperience} years`
+    },
     "worksFor": {
       "@type": "Organization",
-      "name": "myPatientSpace"
+      "name": "myPatientSpace",
+      "description": "Healthcare Technology Company"
+    },
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "Professional Web Development"
+      }
+    ],
+    "award": [
+      "11+ Professional Certificates",
+      "20+ Technologies Mastered",
+      "50+ Projects Contributed"
+    ],
+    "seeks": {
+      "@type": "JobPosting",
+      "title": "Front-End Developer, React Developer, Web Developer, Full Stack Developer",
+      "description": "Seeking opportunities as a Front-End Developer, React Developer, or Full Stack Developer",
+      "employmentType": ["FULL_TIME", "CONTRACT"],
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Dublin",
+          "addressCountry": "IE"
+        }
+      }
     }
   };
 

@@ -44,7 +44,7 @@ src/app/
 - Responsive titles: `text-xl md:text-2xl`
 
 ### Skills
-- Conditional background: only NextJS logo has `bg-white/10`
+- Conditional background: only NextJS logo has `bg-white`
 - 20 technologies including AI tools (ChatGPT, Claude Code, Gemini, Copilot)
 - Hover tooltip with category
 
@@ -124,6 +124,38 @@ className={`base-classes ${condition ? 'extra-class' : ''}`}
 - Define TypeScript interfaces for props
 - Hardcoded content (no CMS)
 - Extract reusable components
+
+## SEO Optimization
+
+Portfolio is optimized for recruiter searches with:
+
+### Meta Tags & Keywords
+- **Title:** "Hire Gregory Garcia | Senior Front-End Developer & React Expert - Dublin"
+- **Keywords:** All common recruiter search terms:
+  - Job titles: "frontend developer", "react developer", "web developer", "full stack developer"
+  - Technologies: React, Next.js, TypeScript, JavaScript, etc.
+  - Location-based: "developer Dublin", "frontend developer Ireland"
+  - Experience: "senior developer", "experienced developer"
+
+### Structured Data (JSON-LD)
+- Person schema with complete profile
+- Occupation schema with SOC code (15-1254.00)
+- Job-seeking intent with preferred roles
+- 35+ skills listed for search indexing
+- Location, contact, and social profiles
+
+### SEO Files
+- **robots.txt:** Allows all crawlers, references sitemap
+- **sitemap.ts:** Auto-generated XML sitemap with all sections
+- **Canonical URL:** Set to https://www.gregorygarcia.dev
+- **Open Graph & Twitter Cards:** Optimized for social sharing
+
+### Search Engine Features
+- Google Knowledge Graph eligible
+- Rich results with Person schema
+- Location-aware (Dublin, Ireland)
+- Skills and occupation indexing
+- "Available for hire" signal
 
 ## Scripts
 
