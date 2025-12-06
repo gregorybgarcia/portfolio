@@ -6,7 +6,7 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 export default function Projects() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false });
+  const isInView = useInView(ref, { once: true });
   const mainControls = useAnimation();
 
   const projects = [
@@ -47,26 +47,24 @@ export default function Projects() {
   useEffect(() => {
     if (isInView) {
       mainControls.start("visible");
-    } else {
-      mainControls.start("hidden");
     }
   }, [isInView, mainControls]);
 
   return (
     <section
-      className="relative w-full min-h-screen flex flex-col items-center justify-center py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
+      className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="projects"
     >
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0 },
           }}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={mainControls}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <span className="px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
@@ -82,11 +80,10 @@ export default function Projects() {
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.name}
-              ref={ref}
               variants={{
                 hidden: { opacity: 0, y: 50 },
                 visible: { opacity: 1, y: 0 },

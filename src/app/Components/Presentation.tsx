@@ -14,7 +14,7 @@ export default function Presentation() {
 
   return (
     <section
-      className="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 py-20 pt-24 z-10"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 py-12 md:py-20 pt-20 md:pt-24 z-10"
       id="home"
     >
       <div className="max-w-7xl w-full px-4 z-10">
@@ -56,7 +56,7 @@ export default function Presentation() {
               </span>
             </div>
             <h2
-              className="text-xl md:text-2xl lg:text-3xl font-medium text-gray-300 h-20 md:h-24 flex items-center justify-center"
+              className="text-xl md:text-2xl lg:text-3xl font-medium text-gray-300 min-h-[5rem] md:min-h-[6rem] flex items-center justify-center"
               suppressHydrationWarning
             >
               <ReactTyped

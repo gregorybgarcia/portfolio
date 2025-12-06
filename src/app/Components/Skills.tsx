@@ -78,14 +78,12 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
 
 export default function Skills() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false });
+  const isInView = useInView(ref, { once: true });
   const mainControls = useAnimation();
 
   useEffect(() => {
     if (isInView) {
       mainControls.start("visible");
-    } else {
-      mainControls.start("hidden");
     }
   }, [isInView, mainControls]);
 
@@ -114,14 +112,14 @@ export default function Skills() {
 
   return (
     <section
-      className="relative w-full min-h-screen flex flex-col items-center justify-center py-20 bg-gradient-to-b from-black/80 via-black/80 to-black/80 z-10"
+      className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-black/80 to-black/80 z-10"
       id="skills"
     >
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div
           ref={ref}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0 },

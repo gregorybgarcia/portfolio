@@ -80,14 +80,12 @@ function StatItem({ icon, value, label, suffix = "", prefix = "" }: StatItemProp
 
 export default function Stats() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false });
+  const isInView = useInView(ref, { once: true });
   const mainControls = useAnimation();
 
   useEffect(() => {
     if (isInView) {
       mainControls.start("visible");
-    } else {
-      mainControls.start("hidden");
     }
   }, [isInView, mainControls]);
 
@@ -120,14 +118,14 @@ export default function Stats() {
 
   return (
     <section
-      className="relative w-full min-h-screen flex flex-col items-center justify-center py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
+      className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="stats"
     >
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div
           ref={ref}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0 },
@@ -166,7 +164,7 @@ export default function Stats() {
           initial="hidden"
           animate={mainControls}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 text-center"
+          className="mt-8 md:mt-16 text-center"
         >
           <p className="text-lg text-gray-300 mb-6">Let&apos;s connect and collaborate!</p>
           <div className="flex justify-center gap-6">

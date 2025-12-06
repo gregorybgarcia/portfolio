@@ -14,7 +14,7 @@ import {
 
 export default function CurrentWork() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false });
+  const isInView = useInView(ref, { once: true });
   const mainControls = useAnimation();
 
   // Format current date range (April 2024 - Present)
@@ -24,8 +24,6 @@ export default function CurrentWork() {
   useEffect(() => {
     if (isInView) {
       mainControls.start("visible");
-    } else {
-      mainControls.start("hidden");
     }
   }, [isInView, mainControls]);
 
@@ -65,7 +63,7 @@ export default function CurrentWork() {
   return (
     <section
       ref={ref}
-      className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 py-20 bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 z-10"
+      className="relative w-full md:min-h-screen flex flex-col items-center justify-center px-4 py-12 md:py-20 bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 z-10"
       id="current-work"
     >
       <motion.div
@@ -95,7 +93,7 @@ export default function CurrentWork() {
         </motion.div>
 
         {/* Company Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <motion.div
             className="flex justify-center mb-6"
             variants={{
@@ -144,7 +142,7 @@ export default function CurrentWork() {
           </motion.p>
 
           <motion.p
-            className="text-gray-400 text-lg mb-8"
+            className="text-gray-400 text-lg mb-6 md:mb-8"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
@@ -175,7 +173,7 @@ export default function CurrentWork() {
 
         {/* Highlights Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 md:mt-16"
           variants={{
             hidden: { opacity: 0 },
             visible: { opacity: 1 },
@@ -211,7 +209,7 @@ export default function CurrentWork() {
 
         {/* Call to Action */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-8 md:mt-16"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: { opacity: 1, y: 0 },
