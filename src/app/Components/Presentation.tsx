@@ -97,7 +97,7 @@ export default function Presentation() {
               />
             </motion.button>
             <motion.button
-              onClick={() => window.open("https://github.com/gregorybarros")}
+              onClick={() => window.open("https://github.com/gregorybgarcia")}
               className="p-4 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300"
               whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}

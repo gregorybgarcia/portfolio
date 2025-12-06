@@ -139,4 +139,4 @@ npm start        # Production server
 - **Email:** gregory.barros@hotmail.com
 - **Phone:** +353 83 432 9851
 - **LinkedIn:** [Gregory Garcia](https://www.linkedin.com/in/gregory-barros-garcia-4160b2157)
-- **GitHub:** [gregorybarros](https://github.com/gregorybarros)
+- **GitHub:** [gregorybgarcia](https://github.com/gregorybgarcia)

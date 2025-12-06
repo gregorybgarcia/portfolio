@@ -183,7 +183,7 @@ export default function Stats() {
               />
             </motion.a>
             <motion.a
-              href="https://github.com/gregorybarros"
+              href="https://github.com/gregorybgarcia"
               target="_blank"
               rel="noopener noreferrer"
               className="p-4 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300 group"
