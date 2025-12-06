@@ -29,7 +29,7 @@ const ParticlesBackground = () => {
 
   if (init) {
     return (
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="fixed inset-0 pointer-events-none bg-black" style={{ zIndex: -1 }}>
         <Particles id="tsparticles" options={options} />
       </div>
     );
