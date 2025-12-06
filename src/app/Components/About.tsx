@@ -71,7 +71,7 @@ export default function About() {
               </span>
             </h3>
             <p className="text-lg text-gray-300 text-center mb-10 max-w-3xl mx-auto">
-              Throughout my career, I've had the privilege of building applications across diverse industries,
+              Throughout my career, I&apos;ve had the privilege of building applications across diverse industries,
               each presenting unique challenges and opportunities for innovation.
             </p>
 

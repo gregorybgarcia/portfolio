@@ -168,7 +168,7 @@ export default function Stats() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-16 text-center"
         >
-          <p className="text-lg text-gray-300 mb-6">Let's connect and collaborate!</p>
+          <p className="text-lg text-gray-300 mb-6">Let&apos;s connect and collaborate!</p>
           <div className="flex justify-center gap-6">
             <motion.a
               href="https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
