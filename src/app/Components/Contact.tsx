@@ -45,11 +45,11 @@ export default function Contact() {
             GET IN TOUCH
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6">
-            Let's Work Together!
+            Let&apos;s Work Together!
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             My inbox is always open. Whether you have a question, opportunity, or just want to say hi,
-            I'll do my best to get back to you promptly!
+            I&apos;ll do my best to get back to you promptly!
           </p>
         </motion.div>
 

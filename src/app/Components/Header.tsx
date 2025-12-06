@@ -8,6 +8,7 @@ const navigation = [
   { name: "About", href: "#", current: false },
   { name: "Current Work", href: "#", current: false },
   { name: "Projects", href: "#", current: false },
+  { name: "Skills", href: "#", current: false },
   { name: "Experience", href: "#", current: false },
   { name: "Contact", href: "#", current: false },
   { name: "My resume", href: "https://docs.google.com/document/d/13rLcqKHyb-6Nfvwa9FEwfcQJxwiM6AUeV7qwM1mHv-s/edit", current: false },

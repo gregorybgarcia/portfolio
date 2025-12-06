@@ -76,7 +76,7 @@ export default function Projects() {
             Recent Projects
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            A selection of companies and projects I've contributed to, showcasing
+            A selection of companies and projects I&apos;ve contributed to, showcasing
             diverse technical challenges and solutions.
           </p>
         </motion.div>

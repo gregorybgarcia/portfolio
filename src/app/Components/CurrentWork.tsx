@@ -17,6 +17,10 @@ export default function CurrentWork() {
   const isInView = useInView(ref, { once: false });
   const mainControls = useAnimation();
 
+  // Format current date range (April 2024 - Present)
+  const startDate = "April 2024";
+  const currentDateRange = `${startDate} - Present`;
+
   useEffect(() => {
     if (isInView) {
       mainControls.start("visible");
@@ -149,7 +153,7 @@ export default function CurrentWork() {
             animate={mainControls}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
-            Dublin, Ireland • April 2024 - Present • Hybrid
+            Dublin, Ireland • {currentDateRange} • Hybrid
           </motion.p>
 
           <motion.p
