@@ -1,7 +1,9 @@
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { useInView } from "react-intersection-observer";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
 
 type Iitem = {
   item: {
@@ -18,6 +20,7 @@ export default function TimelineElement({ item }: Iitem) {
     threshold: 0.2,
     triggerOnce: false,
   });
+  const [isExpanded, setIsExpanded] = useState(false);
   const TimelineItem = VerticalTimelineElement as any;
 
   return (
@@ -48,9 +51,51 @@ export default function TimelineElement({ item }: Iitem) {
       >
         <h3 className="!font-black !text-3xl !text-white !mb-2">{item.title}</h3>
         <h4 className="!mt-0 !font-bold !text-xl !text-violet-200 !mb-4">{item.location}</h4>
-        <p className="!mt-0 !font-normal !text-base !text-gray-100 !leading-relaxed">
-          {item.description}
-        </p>
+        <motion.div
+          initial={false}
+          animate={{
+            height: isExpanded ? "auto" : "3rem",
+          }}
+          transition={{
+            duration: 0.3,
+            ease: "easeInOut",
+          }}
+          className="overflow-hidden"
+        >
+          <p className="!mt-0 !font-normal !text-base !text-gray-100 !leading-relaxed">
+            {item.description}
+          </p>
+        </motion.div>
+        <motion.button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="mt-3 flex items-center gap-2 text-violet-300 hover:text-violet-200 font-semibold text-sm transition-colors duration-200"
+          whileHover={{ x: 3 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {isExpanded ? (
+            <>
+              <span>See less</span>
+              <motion.div
+                initial={false}
+                animate={{ rotate: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronUpIcon className="w-4 h-4" />
+              </motion.div>
+            </>
+          ) : (
+            <>
+              <span>See more</span>
+              <motion.div
+                initial={false}
+                animate={{ rotate: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronDownIcon className="w-4 h-4" />
+              </motion.div>
+            </>
+          )}
+        </motion.button>
       </TimelineItem>
     </div>
   );
