@@ -110,34 +110,26 @@ export default function Presentation() {
             </motion.button>
           </motion.div>
 
-          {/* CTA Button */}
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            onClick={() => scrollTo("about")}
-            className="px-10 py-4 bg-violet-900 hover:bg-violet-700 text-white text-lg font-bold rounded-xl transition-all duration-300 shadow-lg shadow-violet-900/50 hover:shadow-violet-700/50"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Explore My Work
-          </motion.button>
-
-          {/* Scroll Indicator */}
+          {/* Scroll Indicator with CTA */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            transition={{ duration: 1, delay: 0.6 }}
+            className="mt-10 md:mt-0 md:absolute md:bottom-8 md:left-1/2 md:transform md:-translate-x-1/2"
           >
-            <motion.div
+            <motion.button
+              onClick={() => scrollTo("about")}
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="flex flex-col items-center gap-2"
+              className="flex flex-col items-center gap-3 cursor-pointer group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <span className="text-gray-400 text-sm font-medium">Scroll Down</span>
-              <ChevronDownIcon className="w-6 h-6 text-violet-400" />
-            </motion.div>
+              <span className="text-gray-300 text-base font-semibold group-hover:text-violet-400 transition-colors">
+                Explore My Work
+              </span>
+              <ChevronDownIcon className="w-7 h-7 text-violet-400 group-hover:text-violet-300 transition-colors" />
+            </motion.button>
           </motion.div>
         </div>
       </div>
