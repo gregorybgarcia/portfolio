@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Header from "./Components/Header";
 import Presentation from "./Components/Presentation";
-import Footer from "./Components/Footer";
 import ParticlesBackground from "./Components/ParticlesBackground";
 import About from "./Components/About";
 import Experience from "./Components/Experience";
@@ -18,7 +16,6 @@ export default function Home() {
       <Experience />
       <Projects />
       <Contact />
-      {/* <Footer /> */}
     </main>
   );
 }

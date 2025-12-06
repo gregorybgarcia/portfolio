@@ -1,5 +1,5 @@
 "use client";
-import ReactTyped from "react-typed";
+import { ReactTyped } from "react-typed";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,7 +47,7 @@ export default function Presentation() {
         <p className="text-4xl font-black border-b-2 p-4 m-4 text-center 2xl:text-5xl">
           GREGORY GARCIA
         </p>
-        <h2>
+        <h2 suppressHydrationWarning>
           <ReactTyped
             className="text-2xl 2xl:text-3xl p-2 text-grey-100"
             strings={[

@@ -4,6 +4,7 @@ import { VerticalTimeline } from "react-vertical-timeline-component";
 import TimelineElement from "./TimelineElement";
 import { RocketLaunchIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import React from "react";
 
 const experiencesData = [
   {
@@ -73,16 +74,17 @@ const experiencesData = [
 ];
 
 export default function Experience() {
+  const Timeline = VerticalTimeline as any;
   return (
     <section
       className="my-20 flex w-full scroll-mt-28 flex-col items-center justify-center gap-10"
       id="experience"
     >
-      <VerticalTimeline lineColor="#F3F4F6">
+      <Timeline lineColor="#F3F4F6">
         {experiencesData.map((item, index) => {
           return <TimelineElement key={index} item={item} />;
         })}
-      </VerticalTimeline>
+      </Timeline>
     </section>
   );
 }

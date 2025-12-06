@@ -15,10 +15,11 @@ type Iitem = {
 
 export default function TimelineElement({ item }: Iitem) {
   const { ref, inView } = useInView();
+  const TimelineItem = VerticalTimelineElement as any;
 
   return (
     <div ref={ref} className="vertical-timeline-element">
-      <VerticalTimelineElement
+      <TimelineItem
         contentStyle={{
           background: "#4C1D95",
           boxShadow: "none",
@@ -43,7 +44,7 @@ export default function TimelineElement({ item }: Iitem) {
         <p className="!mt-1 !font-normal text-zinc-700 dark:text-white/75">
           {item.description}
         </p>
-      </VerticalTimelineElement>
+      </TimelineItem>
     </div>
   );
 }
