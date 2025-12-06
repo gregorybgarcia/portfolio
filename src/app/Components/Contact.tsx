@@ -63,31 +63,31 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-8 md:p-12 backdrop-blur-sm shadow-2xl">
+          <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 md:p-12 backdrop-blur-sm shadow-2xl">
             {/* Icon */}
-            <div className="flex justify-center mb-8">
-              <div className="p-6 bg-violet-900/30 rounded-full border-4 border-violet-700">
-                <ChatBubbleLeftRightIcon className="h-16 w-16 text-violet-400" />
+            <div className="flex justify-center mb-6 md:mb-8">
+              <div className="p-4 md:p-6 bg-violet-900/30 rounded-full border-2 md:border-4 border-violet-700">
+                <ChatBubbleLeftRightIcon className="h-12 w-12 md:h-16 md:w-16 text-violet-400" />
               </div>
             </div>
 
-            <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center mb-6 md:mb-8 px-2">
               Get in Touch - Connect with Me
             </h3>
 
             {/* Contact Information */}
-            <div className="space-y-6 mb-10">
+            <div className="space-y-4 md:space-y-6 mb-8 md:mb-10">
               <motion.a
                 href="tel:+353834329851"
-                className="flex items-center gap-4 p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-gray-700/50 transition-all duration-300 group"
+                className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-gray-700/50 transition-all duration-300 group"
                 whileHover={{ scale: 1.02, x: 5 }}
               >
-                <div className="p-3 bg-violet-900/30 rounded-lg">
-                  <PhoneIcon className="h-6 w-6 text-violet-400" />
+                <div className="p-2 md:p-3 bg-violet-900/30 rounded-lg flex-shrink-0">
+                  <PhoneIcon className="h-5 w-5 md:h-6 md:w-6 text-violet-400" />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-400 font-medium">Phone</p>
-                  <p className="text-lg text-white font-semibold group-hover:text-violet-400 transition-colors">
+                <div className="min-w-0">
+                  <p className="text-xs md:text-sm text-gray-400 font-medium">Phone</p>
+                  <p className="text-base md:text-lg text-white font-semibold group-hover:text-violet-400 transition-colors truncate">
                     +353 83 432 9851
                   </p>
                 </div>
@@ -95,15 +95,15 @@ export default function Contact() {
 
               <motion.a
                 href="mailto:gregory.barros@hotmail.com"
-                className="flex items-center gap-4 p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-gray-700/50 transition-all duration-300 group"
+                className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-gray-700/50 transition-all duration-300 group"
                 whileHover={{ scale: 1.02, x: 5 }}
               >
-                <div className="p-3 bg-violet-900/30 rounded-lg">
-                  <EnvelopeIcon className="h-6 w-6 text-violet-400" />
+                <div className="p-2 md:p-3 bg-violet-900/30 rounded-lg flex-shrink-0">
+                  <EnvelopeIcon className="h-5 w-5 md:h-6 md:w-6 text-violet-400" />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-400 font-medium">Email</p>
-                  <p className="text-lg text-white font-semibold group-hover:text-violet-400 transition-colors">
+                <div className="min-w-0">
+                  <p className="text-xs md:text-sm text-gray-400 font-medium">Email</p>
+                  <p className="text-base md:text-lg text-white font-semibold group-hover:text-violet-400 transition-colors truncate">
                     gregory.barros@hotmail.com
                   </p>
                 </div>
@@ -111,33 +111,33 @@ export default function Contact() {
             </div>
 
             {/* Social Links */}
-            <div className="flex justify-center gap-4 mb-10">
+            <div className="flex justify-center gap-3 md:gap-4 mb-8 md:mb-10">
               <motion.button
                 onClick={() =>
                   window.open(
                     "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
                   )
                 }
-                className="p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300"
+                className="p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300"
                 whileHover={{ scale: 1.1, y: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <FontAwesomeIcon
                   icon={faLinkedin}
                   className="text-violet-400 hover:text-violet-300"
-                  fontSize={32}
+                  fontSize={28}
                 />
               </motion.button>
               <motion.button
                 onClick={() => window.open("https://github.com/gregorybarros")}
-                className="p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300"
+                className="p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300"
                 whileHover={{ scale: 1.1, y: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <FontAwesomeIcon
                   icon={faSquareGithub}
                   className="text-violet-400 hover:text-violet-300"
-                  fontSize={32}
+                  fontSize={28}
                 />
               </motion.button>
             </div>
@@ -146,12 +146,12 @@ export default function Contact() {
             <div className="flex justify-center">
               <motion.a
                 href="mailto:gregory.barros@hotmail.com"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-violet-900 hover:bg-violet-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-violet-900/50 hover:shadow-violet-700/50"
+                className="inline-flex items-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-violet-900 hover:bg-violet-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-violet-900/50 hover:shadow-violet-700/50 text-base md:text-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="text-lg">Say Hello!</span>
-                <PaperAirplaneIcon className="w-5 h-5" />
+                <span>Say Hello!</span>
+                <PaperAirplaneIcon className="w-4 h-4 md:w-5 md:h-5" />
               </motion.a>
             </div>
           </div>

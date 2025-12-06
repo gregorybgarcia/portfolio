@@ -49,8 +49,8 @@ export default function TimelineElement({ item }: Iitem) {
         }}
         visible={inView}
       >
-        <h3 className="!font-black !text-3xl !text-white !mb-2">{item.title}</h3>
-        <h4 className="!mt-0 !font-bold !text-xl !text-violet-200 !mb-4">{item.location}</h4>
+        <h3 className="!font-black !text-xl md:!text-2xl !text-white !mb-2">{item.title}</h3>
+        <h4 className="!mt-0 !font-bold !text-base md:!text-lg !text-violet-200 !mb-4">{item.location}</h4>
         <motion.div
           initial={false}
           animate={{
