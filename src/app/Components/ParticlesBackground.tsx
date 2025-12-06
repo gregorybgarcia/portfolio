@@ -28,7 +28,11 @@ const ParticlesBackground = () => {
   const options: any = useMemo(() => particleConfig, []);
 
   if (init) {
-    return <Particles id="tsparticles" options={options} />;
+    return (
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <Particles id="tsparticles" options={options} />
+      </div>
+    );
   }
 
   return <></>;

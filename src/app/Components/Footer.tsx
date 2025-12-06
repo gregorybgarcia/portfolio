@@ -2,39 +2,53 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className="w-full bg-gray-100 z-20 mt-auto">
-      <div className="w-full grid grid-cols-2 p-2 text-gray-900 text-xs items-center justify-between mx-auto my-0 lg:px-8 2xl:w-4/5">
-        <div className="flex items-center">
-          <Image
-            src="/images/logo.webp"
-            alt="Gregory Barros"
-            height={20}
-            width={20}
-            className="max-h-10 max-w-10"
-          />
-          <div className="flex-col ml-2 border-l-2 pl-2 border-gray-300">
-            <p>Designed by </p>
-            <strong className="text-violet-900">GREGORY GARCIA</strong>.
+    <footer className="w-full mt-20 border-t border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Left Side - Designer Info */}
+          <div className="flex items-center gap-4">
+            <Image
+              src="/images/logo.webp"
+              alt="Gregory Garcia"
+              height={40}
+              width={40}
+              className="rounded-lg"
+            />
+            <div className="flex flex-col border-l-2 border-violet-700 pl-4">
+              <p className="text-gray-400 text-sm">Designed by</p>
+              <strong className="text-violet-400 text-lg font-bold">GREGORY GARCIA</strong>
+            </div>
+          </div>
+
+          {/* Right Side - Tech Stack */}
+          <div className="flex items-center gap-3 text-gray-400 text-sm">
+            <span>Built with:</span>
+            <div className="flex items-center gap-3 bg-gray-800/50 px-4 py-2 rounded-lg border border-gray-700">
+              <Image
+                alt="Next.js"
+                width={30}
+                height={30}
+                src="/images/nextjs.svg"
+                className="opacity-80 hover:opacity-100 transition-opacity invert"
+              />
+              <Image
+                alt="Tailwind CSS"
+                width={24}
+                height={24}
+                src="/images/tailwind.svg"
+                className="opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
           </div>
         </div>
-        <p className="flex items-center text-center ml-auto">
-          Made with:
-          <Image
-            className="bg-gray-100 mr-4 ml-4"
-            alt={"NextJS"}
-            width="40"
-            height="40"
-            src="/images/next.svg"
-          />
-          <Image
-            className="bg-gray-100"
-            alt={"Tailwind"}
-            width="20"
-            height="20"
-            src="/images/tailwind.svg"
-          />
-        </p>
+
+        {/* Copyright */}
+        <div className="text-center mt-8 pt-6 border-t border-gray-800">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} Gregory Garcia. All rights reserved.
+          </p>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 }

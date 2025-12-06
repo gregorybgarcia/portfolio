@@ -19,7 +19,7 @@ export default function About() {
       src: "/images/sass.svg",
     },
     {
-      name: "JavaScrip",
+      name: "JavaScript",
       src: "/images/javascript.svg",
     },
     {
@@ -85,65 +85,98 @@ export default function About() {
   }, [isInView, mainControls]);
 
   return (
-    <div className="bg-gray-900 z-10 flex-col w-full lg:h-screen" id="about">
-      <div className="h-2/4 bg-violet-900 flex items-center lg:pb-32 2xl:pb-32">
-        <div className="mx-auto max-w-7xl my-0 text-center p-8 lg:w-4/5 2xl:w-5/6">
-          <h2 className="text-3xl font-bold mb-4 lg:mb-8">
-            Hi, I’m Greg. Nice to meet you.
+    <section
+      className="relative w-full min-h-screen flex flex-col items-center justify-center py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
+      id="about"
+    >
+      <div className="max-w-7xl w-full px-4">
+        {/* Header Section */}
+        <motion.div
+          className="text-center mb-16"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <span className="px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
+            ABOUT ME
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6">
+            Hi, I'm Greg. Nice to meet you.
           </h2>
-
-          <p className="text-1xl xl:text-2xl">
+          <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
             I am a skilled programmer specialized in web development, working
             proficiently with ReactJS, NextJS, NodeJS and other JavaScript
-            technologies. Focused on creating a efficient and maintainable code,
+            technologies. Focused on creating efficient and maintainable code,
             ensuring the delivery of high-quality software products. Building
             dynamic, responsive, feature-rich, high-performance robust and
             scalable front-end applications.
           </p>
-        </div>
-      </div>
-      <motion.div
-        ref={ref}
-        variants={{
-          hidden: { opacity: 0, y: 75 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        initial={"hidden"}
-        animate={mainControls}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="h-auto bg-gray-100 w-6/6 mx-auto my-0 rounded-xl flex-col text-center text-gray-900 p-6 md:w-5/6 md:-mt-2 lg:-mt-32 xl:w-3/6 2xl:-mt-32"
-      >
-        <RocketLaunchIcon
-          className="h-16 w-16 mx-auto my-0 mb-2 text-violet-900 font-bold"
-          aria-hidden="true"
-        />
-        <h2 className="text-3xl font-bold mb-2 text-violet-900">
-          Front-End Developer
-        </h2>
-        <p className="text-1xl text-violet-900 mb-4 xl:text-2xl">
-          Here are a few technologies I’ve been working with recently:
-        </p>
-        <div className="grid grid-cols-4 mt-8 lg:grid-cols-8 2xl:grid-cols-8">
-          {technologies.map((tech) => (
-            <div
-              key={tech.name}
-              title={tech.name}
-              className="m-4 mb-10 flex-col w"
-            >
-              <Image
-                className="mx-auto my-0"
-                alt={tech.name}
-                width="50"
-                height="50"
-                src={tech.src}
+        </motion.div>
+
+        {/* Tech Stack Card */}
+        <motion.div
+          ref={ref}
+          variants={{
+            hidden: { opacity: 0, y: 50 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          animate={mainControls}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="bg-gray-800/50 border border-gray-700 rounded-2xl p-8 md:p-12 backdrop-blur-sm shadow-2xl"
+        >
+          <div className="flex flex-col items-center mb-10">
+            <div className="p-4 bg-violet-900/30 rounded-full mb-4">
+              <RocketLaunchIcon
+                className="h-12 w-12 text-violet-400"
+                aria-hidden="true"
               />
-              <p className="text-xs text-fun-gray font-bold mt-3">
-                {tech.name}
-              </p>
             </div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Front-End Developer
+            </h3>
+            <p className="text-lg md:text-xl text-violet-400 font-medium">
+              Technologies I work with regularly
+            </p>
+          </div>
+
+          {/* Technologies Grid */}
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 md:gap-8">
+            {technologies.map((tech, index) => (
+              <motion.div
+                key={tech.name}
+                title={tech.name}
+                className="flex flex-col items-center group cursor-pointer"
+                variants={{
+                  hidden: { opacity: 0, scale: 0.8 },
+                  visible: { opacity: 1, scale: 1 },
+                }}
+                initial="hidden"
+                animate={mainControls}
+                transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                whileHover={{ scale: 1.1, y: -5 }}
+              >
+                <div className="relative p-4 bg-gray-700/30 rounded-xl border border-gray-600 group-hover:border-violet-500 group-hover:bg-gray-700/50 transition-all duration-300 w-full aspect-square flex items-center justify-center">
+                  <Image
+                    alt={tech.name}
+                    width={50}
+                    height={50}
+                    src={tech.src}
+                    className="w-12 h-12 object-contain"
+                  />
+                </div>
+                <p className="text-xs md:text-sm text-gray-300 font-semibold mt-3 text-center group-hover:text-violet-400 transition-colors">
+                  {tech.name}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
