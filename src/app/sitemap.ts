@@ -5,38 +5,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: 'https://www.gregorygarcia.dev',
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 1,
     },
-    {
-      url: 'https://www.gregorygarcia.dev/#about',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.gregorygarcia.dev/#experience',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.gregorygarcia.dev/#projects',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.gregorygarcia.dev/#skills',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://www.gregorygarcia.dev/#contact',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.5,
-    },
+    // Note: This is a single-page application (SPA)
+    // Hash fragments (#about, #experience, etc.) are not indexed by search engines
+    // Only the main URL is included in the sitemap
   ]
 }

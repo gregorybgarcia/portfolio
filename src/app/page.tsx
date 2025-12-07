@@ -16,17 +16,24 @@ import { getTotalYearsOfExperience } from "./utils/dateUtils";
 export default function Home() {
   const yearsOfExperience = getTotalYearsOfExperience();
 
-  const jsonLd = {
+  const jsonLdPerson = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://www.gregorygarcia.dev/#person",
     "name": "Gregory Garcia",
-    "alternateName": "Gregory Barros Garcia",
+    "alternateName": ["Gregory Barros Garcia", "Greg Garcia"],
+    "givenName": "Gregory",
+    "familyName": "Garcia",
     "jobTitle": "Senior Front-End Developer",
-    "description": `Experienced Front-End Developer with ${yearsOfExperience}+ years of professional experience building modern web applications using React, Next.js, TypeScript, and JavaScript. Specialized in creating responsive, accessible, and performant user interfaces for healthcare, fintech, and enterprise applications.`,
+    "description": `Senior Front-End Developer with ${yearsOfExperience}+ years of professional experience building modern web applications using React, Next.js, TypeScript, and JavaScript. Specialized in creating responsive, accessible, and performant user interfaces for healthcare, fintech, and enterprise applications. Currently leading front-end development at myPatientSpace in Dublin, Ireland.`,
     "url": "https://www.gregorygarcia.dev",
-    "email": "gregory.barros@hotmail.com",
+    "email": "mailto:gregory.barros@hotmail.com",
     "telephone": "+353834329851",
-    "image": "https://www.gregorygarcia.dev/images/profile.jpeg",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://www.gregorygarcia.dev/images/profile.jpeg",
+      "caption": "Gregory Garcia - Senior Front-End Developer"
+    },
     "sameAs": [
       "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157",
       "https://github.com/gregorybgarcia"
@@ -35,7 +42,11 @@ export default function Home() {
       "@type": "PostalAddress",
       "addressLocality": "Dublin",
       "addressRegion": "Leinster",
-      "addressCountry": "IE"
+      "addressCountry": "Ireland"
+    },
+    "workLocation": {
+      "@type": "Place",
+      "name": "Dublin, Ireland"
     },
     "knowsAbout": [
       "Front-End Development",
@@ -55,29 +66,26 @@ export default function Home() {
       "Material UI",
       "Bootstrap",
       "Sass",
-      "SCSS",
       "Jest",
       "Unit Testing",
       "Storybook",
-      "Component Libraries",
       "Git",
-      "Version Control",
       "Figma",
       "UI/UX Design",
       "Agile Development",
-      "Scrum",
       "RESTful APIs",
       "GraphQL",
       "Performance Optimization",
-      "Accessibility (a11y)",
-      "Cross-browser Compatibility",
+      "Accessibility",
       "Mobile-first Design",
       "Single Page Applications",
-      "Progressive Web Apps"
+      "Progressive Web Apps",
+      "Healthcare Software",
+      "Fintech Applications"
     ],
     "hasOccupation": {
       "@type": "Occupation",
-      "name": "Front-End Developer",
+      "name": "Senior Front-End Developer",
       "occupationalCategory": "15-1254.00",
       "skills": "React, Next.js, TypeScript, JavaScript, HTML, CSS, Tailwind CSS, Redux, Material UI, Node.js",
       "experienceRequirements": `${yearsOfExperience} years`
@@ -87,38 +95,109 @@ export default function Home() {
       "name": "myPatientSpace",
       "description": "Healthcare Technology Company"
     },
-    "alumniOf": [
+    "knowsLanguage": [
       {
-        "@type": "EducationalOrganization",
-        "name": "Professional Web Development"
+        "@type": "Language",
+        "name": "English",
+        "alternateName": "en"
+      },
+      {
+        "@type": "Language",
+        "name": "Portuguese",
+        "alternateName": "pt"
+      },
+      {
+        "@type": "Language",
+        "name": "Spanish",
+        "alternateName": "es"
       }
     ],
     "award": [
       "11+ Professional Certificates",
       "20+ Technologies Mastered",
       "50+ Projects Contributed"
-    ],
-    "seeks": {
-      "@type": "JobPosting",
-      "title": "Front-End Developer, React Developer, Web Developer, Full Stack Developer",
-      "description": "Seeking opportunities as a Front-End Developer, React Developer, or Full Stack Developer",
-      "employmentType": ["FULL_TIME", "CONTRACT"],
-      "jobLocation": {
-        "@type": "Place",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Dublin",
-          "addressCountry": "IE"
+    ]
+  };
+
+  const jsonLdWebsite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Gregory Garcia - Senior Front-End Developer Portfolio",
+    "alternateName": "Gregory Garcia Portfolio",
+    "url": "https://www.gregorygarcia.dev",
+    "description": "Professional portfolio of Gregory Garcia, a Senior Front-End Developer specializing in React, Next.js, and TypeScript. Available for hire in Dublin, Ireland.",
+    "author": {
+      "@id": "https://www.gregorygarcia.dev/#person"
+    },
+    "inLanguage": "en"
+  };
+
+  const jsonLdProfilePage = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@id": "https://www.gregorygarcia.dev/#person"
+    },
+    "dateCreated": "2024-01-01",
+    "dateModified": new Date().toISOString().split('T')[0]
+  };
+
+  const jsonLdFAQ = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What technologies does Gregory Garcia specialize in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Gregory Garcia is a Senior Front-End Developer with ${yearsOfExperience}+ years of experience specializing in React, Next.js, TypeScript, and JavaScript. He also has expertise in Tailwind CSS, Redux, Node.js, and modern web development practices.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Gregory Garcia available for hire in Dublin, Ireland?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Gregory Garcia is currently based in Dublin, Ireland and is open to new opportunities in front-end development. He is available for full-time, contract, and remote positions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What industries has Gregory Garcia worked in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gregory Garcia has extensive experience in healthcare technology (myPatientSpace), fintech and payment solutions (Dexian/Getnet), accounting software (QYON), and social platforms (Incentiv)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I contact Gregory Garcia for job opportunities?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can reach Gregory Garcia via email at gregory.barros@hotmail.com or phone at +353 83 432 9851. You can also connect on LinkedIn or view his work on GitHub."
         }
       }
-    }
+    ]
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfilePage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFAQ) }}
       />
       <PageLoader />
       <ScrollProgress />

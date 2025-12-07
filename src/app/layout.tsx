@@ -8,15 +8,18 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700", "900"] });
 const yearsOfExperience = getTotalYearsOfExperience();
 
 export const metadata: Metadata = {
-  title: "Hire Gregory Garcia | Senior Front-End Developer & React Expert - Dublin",
-  description: `Experienced Front-End Developer with ${yearsOfExperience}+ years building modern web applications. Expert in React, Next.js, TypeScript, and JavaScript. Available for hire in Dublin, Ireland. Proven track record in healthcare, fintech, and enterprise software development.`,
+  title: "Hire Gregory Garcia | Senior Front-End Developer & React Expert - Dublin, Ireland",
+  description: `Senior Front-End Developer with ${yearsOfExperience}+ years building enterprise web applications. Expert in React, Next.js, TypeScript. Available for hire in Dublin, Ireland. Specializing in healthcare, fintech, and enterprise software. Open to remote and on-site opportunities.`,
   keywords: [
-    // Job titles recruiters search for
+    // Job titles (include variations)
     "front-end developer",
     "frontend developer",
     "front end developer",
+    "front-end engineer",
+    "frontend engineer",
     "web developer",
     "react developer",
+    "react engineer",
     "nextjs developer",
     "next.js developer",
     "javascript developer",
@@ -24,15 +27,20 @@ export const metadata: Metadata = {
     "full stack developer",
     "senior frontend developer",
     "senior react developer",
+    "lead frontend developer",
     "ui developer",
+    "ui engineer",
     "software engineer",
     "software developer",
 
     // Technologies
     "React",
+    "React.js",
     "Next.js",
+    "NextJS",
     "TypeScript",
     "JavaScript",
+    "ES6",
     "HTML5",
     "CSS3",
     "Tailwind CSS",
@@ -41,33 +49,60 @@ export const metadata: Metadata = {
     "Material UI",
     "responsive design",
     "web development",
+    "single page applications",
+    "progressive web apps",
 
-    // Location-based
+    // Location-based (Ireland focus)
     "developer Dublin",
+    "developer Ireland",
     "frontend developer Ireland",
+    "frontend developer Dublin",
     "react developer Dublin",
+    "react developer Ireland",
     "web developer Ireland",
+    "web developer Dublin",
     "hire developer Dublin",
+    "hire developer Ireland",
+    "software engineer Dublin",
+    "software engineer Ireland",
 
-    // Experience indicators
+    // Availability signals
+    "available for hire",
+    "looking for opportunities",
+    "open to work",
+    "contract developer",
+    "freelance developer",
+    "remote developer",
+    "hybrid developer",
+
+    // Experience and credentials
     `${yearsOfExperience} years experience`,
     "senior developer",
     "experienced developer",
     "professional developer",
+    "lead developer",
+    "healthcare developer",
+    "fintech developer",
 
-    // Name
+    // Industry expertise
+    "healthcare software developer",
+    "fintech developer",
+    "enterprise developer",
+
+    // Name variations
     "Gregory Garcia",
     "Gregory Barros Garcia",
+    "Greg Garcia",
   ],
   authors: [{ name: "Gregory Garcia" }],
   creator: "Gregory Garcia",
   publisher: "Gregory Garcia",
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    type: "profile",
+    locale: "en_IE",
     url: "https://www.gregorygarcia.dev/",
     title: "Hire Gregory Garcia | Senior Front-End Developer - React & Next.js Expert",
-    description: `Experienced Front-End Developer with ${yearsOfExperience}+ years. React, Next.js, TypeScript expert. Available for hire in Dublin, Ireland.`,
+    description: `Senior Front-End Developer with ${yearsOfExperience}+ years of experience. React, Next.js, TypeScript expert. Available for hire in Dublin, Ireland. Open to remote opportunities.`,
     siteName: "Gregory Garcia - Front-End Developer Portfolio",
     images: [
       {
@@ -110,6 +145,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#7C3AED" />
+      </head>
       <body className={roboto.className} suppressHydrationWarning>
         {children}
       </body>

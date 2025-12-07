@@ -1,0 +1,20 @@
+{
+  "name": "Gregory Garcia - Senior Front-End Developer",
+  "short_name": "Gregory Garcia",
+  "description": "Professional portfolio of Gregory Garcia, a Senior Front-End Developer in Dublin, Ireland specializing in React, Next.js, and TypeScript",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#7C3AED",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["portfolio", "developer", "technology"],
+  "lang": "en",
+  "dir": "ltr"
+}
