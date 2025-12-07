@@ -28,7 +28,7 @@ export default function Projects() {
       name: "myPatientSpace",
       icon: "/images/mypatientspace.png",
       description:
-        "Leading front-end development for a cutting-edge healthcare platform serving hospitals and clinics worldwide with HIPAA-compliant solutions.",
+        "A leading Irish digital health company powering connected patient solutions for global health systems, providers and bio-pharma & med-tech companies.",
       url: "https://www.mypatientspace.com",
       tags: ["Front-End Lead", "React", "Healthcare"],
     },
