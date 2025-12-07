@@ -93,6 +93,38 @@ export default function Contact() {
             GET IN TOUCH
           </motion.span>
 
+          {/* Icon with pulse animation */}
+          <motion.div
+            className="flex justify-center mt-6"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{
+              type: "spring" as const,
+              stiffness: 200,
+              damping: 15,
+              delay: 0.2,
+            }}
+          >
+            <motion.div
+              className="relative p-4 md:p-6 bg-violet-900/30 rounded-full border-2 md:border-4 border-violet-700"
+              animate={{
+                boxShadow: [
+                  "0 0 0 0 rgba(139, 92, 246, 0)",
+                  "0 0 0 20px rgba(139, 92, 246, 0.1)",
+                  "0 0 0 0 rgba(139, 92, 246, 0)",
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <motion.div
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChatBubbleLeftRightIcon className="h-12 w-12 md:h-16 md:w-16 text-violet-400" />
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
           {/* Title with reveal */}
           <motion.h2
             className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden"
@@ -155,38 +187,6 @@ export default function Contact() {
               }}
               transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
             />
-
-            {/* Icon with pulse animation */}
-            <motion.div
-              className="flex justify-center mb-6 md:mb-8"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{
-                type: "spring" as const,
-                stiffness: 200,
-                damping: 15,
-                delay: 0.4,
-              }}
-            >
-              <motion.div
-                className="relative p-4 md:p-6 bg-violet-900/30 rounded-full border-2 md:border-4 border-violet-700"
-                animate={{
-                  boxShadow: [
-                    "0 0 0 0 rgba(139, 92, 246, 0)",
-                    "0 0 0 20px rgba(139, 92, 246, 0.1)",
-                    "0 0 0 0 rgba(139, 92, 246, 0)",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <ChatBubbleLeftRightIcon className="h-12 w-12 md:h-16 md:w-16 text-violet-400" />
-                </motion.div>
-              </motion.div>
-            </motion.div>
 
             <motion.h3
               className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center mb-6 md:mb-8 px-2"
@@ -284,9 +284,9 @@ export default function Contact() {
               </motion.a>
             </motion.div>
 
-            {/* Social Links with spin-in animation */}
+            {/* Social Links and CTA Button in same row */}
             <motion.div
-              className="flex justify-center gap-3 md:gap-4 mb-8 md:mb-10"
+              className="flex justify-center items-center gap-3 md:gap-4"
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
@@ -344,16 +344,9 @@ export default function Contact() {
                   fontSize={28}
                 />
               </motion.button>
-            </motion.div>
 
-            {/* CTA Button with enhanced animation */}
-            <motion.div
-              className="flex justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.8, duration: 0.5 }}
-            >
               <motion.a
+                variants={socialVariants}
                 href="mailto:gregory.barros@hotmail.com"
                 className="relative inline-flex items-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-violet-900 hover:bg-violet-800 text-white font-bold rounded-xl shadow-lg shadow-violet-900/50 text-base md:text-lg overflow-hidden transition-colors duration-300"
                 whileHover={{ scale: 1.02 }}

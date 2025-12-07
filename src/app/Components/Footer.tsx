@@ -29,24 +29,24 @@ export default function Footer() {
           {/* Right Side - Tech Stack */}
           <div className="flex flex-col items-center md:items-end gap-3">
             <span className="text-gray-400 text-sm font-medium">Built with modern technologies</span>
-            <div className="flex items-center gap-4 bg-gray-800/30 px-6 py-3 rounded-xl border border-gray-700/50 hover:border-violet-500/50 transition-all duration-300 group">
+            <div className="flex items-center gap-4 bg-gray-700/50 px-6 py-3 rounded-xl border border-gray-500 hover:border-violet-500/50 transition-all duration-300 group">
               <div className="relative">
                 <Image
                   alt="Next.js"
                   width={32}
                   height={32}
                   src="/images/nextjs.svg"
-                  className="invert opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                  className="invert opacity-90 group-hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
-              <div className="w-px h-6 bg-gray-700"></div>
+              <div className="w-px h-6 bg-gray-500"></div>
               <div className="relative">
                 <Image
                   alt="Tailwind CSS"
                   width={28}
                   height={28}
                   src="/images/tailwind.svg"
-                  className="opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                  className="opacity-90 group-hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
             </div>
