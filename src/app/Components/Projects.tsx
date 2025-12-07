@@ -145,11 +145,10 @@ export default function Projects() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col h-full bg-gray-800/50 border border-gray-700 rounded-2xl overflow-hidden cursor-pointer hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300"
+                className="flex flex-col h-full bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden cursor-pointer hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300"
               >
                 {/* Image Container */}
-                <div className="relative h-64 bg-gray-700/30 flex items-center justify-center p-8">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/80"></div>
+                <div className="relative h-64 flex items-center justify-center p-8">
 
                   {/* Project logo */}
                   <div className="relative">

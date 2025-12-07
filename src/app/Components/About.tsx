@@ -260,12 +260,11 @@ export default function About() {
                           }}
                           whileHover={{ scale: 1.15, rotate: 5 }}
                         >
-                          <div className="absolute inset-0 bg-white/10 rounded-lg group-hover:bg-white/15 transition-all duration-300"></div>
                           <Image
                             src={logo.src}
                             alt={logo.alt}
                             fill
-                            className="object-contain p-2 rounded-lg"
+                            className="object-contain p-2 rounded-full"
                           />
                         </motion.div>
                       ))}
