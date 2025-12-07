@@ -41,7 +41,7 @@ const particleConfig = {
         }
       },
       push: {
-        quantity: 8
+        quantity: 4
       },
       repulse: {
         distance: 150,
@@ -79,7 +79,11 @@ const particleConfig = {
       density: {
         enable: true
       },
-      value: 200
+      value: 200,
+      limit: {
+        mode: "delete",
+        value: 300
+      }
     },
     opacity: {
       value: { min: 0.3, max: 1 },

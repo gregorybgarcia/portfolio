@@ -12,6 +12,7 @@ type Iitem = {
     description: string;
     title: string;
     location: string;
+    url?: string;
   }
 };
 
@@ -40,12 +41,26 @@ export default function TimelineElement({ item }: Iitem) {
         }}
         date={item.date}
         dateClassName="!text-violet-300 !font-bold !text-lg"
-        icon={item.icon}
+        icon={
+          item.url ? (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-full flex items-center justify-center hover:scale-110 transition-transform duration-300"
+            >
+              {item.icon}
+            </a>
+          ) : (
+            item.icon
+          )
+        }
         iconStyle={{
           background: "linear-gradient(135deg, #1F2937 0%, #111827 100%)",
           boxShadow: "0 0 0 4px #7C3AED, 0 0 20px rgba(124, 58, 237, 0.4)",
           fontSize: "1.5rem",
           border: "2px solid #4C1D95",
+          cursor: item.url ? "pointer" : "default",
         }}
         visible={inView}
       >
