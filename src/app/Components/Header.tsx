@@ -83,13 +83,14 @@ const mobileItemVariants = {
 export default function Header() {
   const [headerOpen, setHeaderOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     // Trigger initial animation
     const timer = setTimeout(() => setIsLoaded(true), 100);
+
+    let lastScroll = 0;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -102,13 +103,13 @@ export default function Header() {
         setIsVisible(true);
       }
       // Hide header when scrolling down, show when scrolling up
-      else if (currentScrollY > lastScrollY) {
+      else if (currentScrollY > lastScroll && currentScrollY > 100) {
         setIsVisible(false);
-      } else {
+      } else if (currentScrollY < lastScroll) {
         setIsVisible(true);
       }
 
-      setLastScrollY(currentScrollY);
+      lastScroll = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -117,7 +118,7 @@ export default function Header() {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [lastScrollY]);
+  }, []);
 
 
   return (
@@ -133,7 +134,7 @@ export default function Header() {
       <Disclosure>
         {({ open }) => (
           <>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 pb-1">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 pb-2">
             <div className="relative flex items-center justify-between">
               <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
