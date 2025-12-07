@@ -67,7 +67,7 @@ function StatItem({ icon, value, label, suffix = "", prefix = "" }: StatItemProp
       initial="hidden"
       animate={mainControls}
       transition={{ duration: 0.6 }}
-      className="flex flex-col items-center text-center p-6 bg-gray-800/30 border border-gray-700 rounded-2xl hover:border-violet-500 hover:bg-gray-800/50 transition-all duration-300 group"
+      className="flex flex-col items-center text-center p-6 bg-gray-800/50 border border-gray-700 rounded-2xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
     >
       <div className="p-4 bg-violet-900/30 rounded-full mb-4 group-hover:bg-violet-900/50 transition-all duration-300">
         {icon}
@@ -172,7 +172,7 @@ export default function Stats() {
               href="https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300 group"
+              className="p-4 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300 group backdrop-blur-sm"
               whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -186,7 +186,7 @@ export default function Stats() {
               href="https://github.com/gregorybgarcia"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300 group"
+              className="p-4 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-violet-900/30 transition-all duration-300 group backdrop-blur-sm"
               whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}
             >

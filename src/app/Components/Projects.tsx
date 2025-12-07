@@ -39,7 +39,7 @@ export default function Projects() {
       icon: "/images/qyon.jpg",
       description:
         "Developed AI-powered business management solutions integrating artificial intelligence across all enterprise processes and sectors.",
-      url: "https://www.qyon.com/en",
+      url: "https://qyon.com/",
       tags: ["Front-End", "React", "AI/ML"],
     },
   ];

@@ -185,7 +185,7 @@ export default function CurrentWork() {
           {highlights.map((highlight, index) => (
             <motion.div
               key={index}
-              className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-violet-700 hover:bg-gray-800/80 transition-all duration-300 group"
+              className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },

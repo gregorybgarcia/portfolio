@@ -83,7 +83,7 @@ export default function About() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, delay: 0.3 }}
-                className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-xl hover:border-violet-500 hover:shadow-lg hover:shadow-violet-900/30 transition-all duration-300 group"
+                className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               >
                 <div className="flex flex-col items-center mb-4">
                   <div className="h-16 flex items-center justify-center gap-3 mb-4">
@@ -115,7 +115,7 @@ export default function About() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, delay: 0.4 }}
-                className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-xl hover:border-violet-500 hover:shadow-lg hover:shadow-violet-900/30 transition-all duration-300 group"
+                className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               >
                 <div className="flex flex-col items-center mb-4">
                   <div className="h-16 flex items-center justify-center gap-3 mb-4">
@@ -156,7 +156,7 @@ export default function About() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, delay: 0.5 }}
-                className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-xl hover:border-violet-500 hover:shadow-lg hover:shadow-violet-900/30 transition-all duration-300 group"
+                className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               >
                 <div className="flex flex-col items-center mb-4">
                   <div className="h-16 flex items-center justify-center gap-3 mb-4">
@@ -188,7 +188,7 @@ export default function About() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, delay: 0.6 }}
-                className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-xl hover:border-violet-500 hover:shadow-lg hover:shadow-violet-900/30 transition-all duration-300 group"
+                className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               >
                 <div className="flex flex-col items-center mb-4">
                   <div className="h-16 flex items-center justify-center gap-3 mb-4">
@@ -220,7 +220,7 @@ export default function About() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, delay: 0.7 }}
-                className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-xl hover:border-violet-500 hover:shadow-lg hover:shadow-violet-900/30 transition-all duration-300 group"
+                className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               >
                 <div className="flex flex-col items-center mb-4">
                   <div className="h-16 flex items-center justify-center gap-3 mb-4">
@@ -261,7 +261,7 @@ export default function About() {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, delay: 0.8 }}
-                className="p-6 bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700 rounded-xl hover:border-violet-500 hover:shadow-lg hover:shadow-violet-900/30 transition-all duration-300 group"
+                className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm"
               >
                 <div className="flex flex-col items-center mb-4">
                   <div className="h-16 flex items-center justify-center gap-3 mb-4">
