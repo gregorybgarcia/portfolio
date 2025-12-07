@@ -414,10 +414,8 @@ export default function Contact() {
                 />
               </motion.button>
 
-              <motion.a
+              <motion.div
                 variants={socialVariants}
-                href="mailto:gregory.barros@hotmail.com"
-                className="relative h-[52px] md:h-[60px] flex items-center gap-2 px-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 animate={{
                   rotate: [0, -5, 5, -5, 5, -3, 3, 0],
                 }}
@@ -429,23 +427,28 @@ export default function Contact() {
                     ease: "easeInOut",
                   },
                 }}
-                whileHover={{
-                  scale: 1.1,
-                  y: -5,
-                  borderColor: "rgb(139, 92, 246)",
-                  boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
-                }}
-                whileTap={{ scale: 0.95 }}
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.5 }}
-                />
-                <span className="relative z-10 text-violet-400 group-hover:text-violet-300 font-bold text-sm md:text-base whitespace-nowrap transition-colors">Say Hello!</span>
-                <span className="relative z-10 text-[22px] md:text-[26px] leading-none">👋</span>
-              </motion.a>
+                <motion.a
+                  href="mailto:gregory.barros@hotmail.com"
+                  className="relative h-[52px] md:h-[60px] flex items-center gap-2 px-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
+                  whileHover={{
+                    scale: 1.1,
+                    y: -5,
+                    borderColor: "rgb(139, 92, 246)",
+                    boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <span className="relative z-10 text-violet-400 group-hover:text-violet-300 font-bold text-sm md:text-base whitespace-nowrap transition-colors">Say Hello!</span>
+                  <span className="relative z-10 text-[22px] md:text-[26px] leading-none">👋</span>
+                </motion.a>
+              </motion.div>
             </motion.div>
           </motion.div>
         </motion.div>
