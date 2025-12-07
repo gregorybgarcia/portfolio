@@ -257,7 +257,7 @@ export default function Presentation() {
               />
               <FontAwesomeIcon
                 icon={faLinkedin}
-                className="relative z-10 text-violet-400 group-hover:text-violet-300 transition-colors"
+                className="relative z-10 text-white group-hover:text-[#0A66C2] transition-colors"
                 fontSize={40}
               />
             </motion.button>
@@ -282,7 +282,7 @@ export default function Presentation() {
               />
               <FontAwesomeIcon
                 icon={faSquareGithub}
-                className="relative z-10 text-violet-400 group-hover:text-violet-300 transition-colors"
+                className="relative z-10 text-white group-hover:text-gray-300 transition-colors"
                 fontSize={40}
               />
             </motion.button>

@@ -342,7 +342,7 @@ export default function Contact() {
                     "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
                   )
                 }
-                className="relative p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
+                className="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] flex items-center justify-center bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 whileHover={{
                   scale: 1.1,
                   y: -5,
@@ -359,7 +359,7 @@ export default function Contact() {
                 />
                 <FontAwesomeIcon
                   icon={faLinkedin}
-                  className="relative z-10 text-violet-400 group-hover:text-violet-300 transition-colors"
+                  className="relative z-10 text-white group-hover:text-[#0A66C2] transition-colors"
                   fontSize={28}
                 />
               </motion.button>
@@ -367,7 +367,7 @@ export default function Contact() {
               <motion.button
                 variants={socialVariants}
                 onClick={() => window.open("https://github.com/gregorybgarcia")}
-                className="relative p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
+                className="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] flex items-center justify-center bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 whileHover={{
                   scale: 1.1,
                   y: -5,
@@ -384,7 +384,7 @@ export default function Contact() {
                 />
                 <FontAwesomeIcon
                   icon={faSquareGithub}
-                  className="relative z-10 text-violet-400 group-hover:text-violet-300 transition-colors"
+                  className="relative z-10 text-white group-hover:text-gray-300 transition-colors"
                   fontSize={28}
                 />
               </motion.button>
@@ -392,7 +392,7 @@ export default function Contact() {
               <motion.button
                 variants={socialVariants}
                 onClick={() => window.open("https://wa.me/353834329851")}
-                className="relative p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
+                className="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] flex items-center justify-center bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 whileHover={{
                   scale: 1.1,
                   y: -5,
@@ -415,11 +415,10 @@ export default function Contact() {
               </motion.button>
 
               <motion.a
+                variants={socialVariants}
                 href="mailto:gregory.barros@hotmail.com"
-                className="relative inline-flex items-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-violet-900 hover:bg-violet-800 text-white font-bold rounded-xl shadow-lg shadow-violet-900/50 text-base md:text-lg overflow-hidden transition-colors duration-300"
-                initial={{ opacity: 1, rotate: 0 }}
+                className="relative h-[52px] md:h-[60px] flex items-center gap-2 px-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 animate={{
-                  opacity: 1,
                   rotate: [0, -5, 5, -5, 5, -3, 3, 0],
                 }}
                 transition={{
@@ -430,11 +429,22 @@ export default function Contact() {
                     ease: "easeInOut",
                   },
                 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{
+                  scale: 1.1,
+                  y: -5,
+                  borderColor: "rgb(139, 92, 246)",
+                  boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
+                }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="relative z-10">Say Hello!</span>
-                <span className="relative z-10 text-lg md:text-xl">👋</span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.5 }}
+                />
+                <span className="relative z-10 text-violet-400 group-hover:text-violet-300 font-bold text-sm md:text-base whitespace-nowrap transition-colors">Say Hello!</span>
+                <span className="relative z-10 text-[22px] md:text-[26px] leading-none">👋</span>
               </motion.a>
             </motion.div>
           </motion.div>
