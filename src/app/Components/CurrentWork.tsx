@@ -149,7 +149,7 @@ export default function CurrentWork() {
           >
             <motion.div
               className="relative w-40 h-40"
-              whileHover={{ scale: 1.05, rotate: 5 }}
+              whileHover={{ scale: 1.08 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               {/* Animated glow rings */}

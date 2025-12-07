@@ -123,30 +123,26 @@ export default function Presentation() {
               }}
             />
 
-            {/* Profile image with entrance animation */}
+            {/* Profile image with entrance and hover zoom animation */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{
                 duration: 0.8,
                 type: "spring",
                 stiffness: 100,
                 damping: 15,
               }}
+              whileHover={{ scale: 1.08 }}
             >
-              <motion.div
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <Image
-                  className="relative rounded-full border-4 border-violet-500 shadow-2xl shadow-violet-900/50"
-                  src="/images/profile.jpeg"
-                  alt="Gregory Garcia"
-                  height={240}
-                  width={240}
-                  priority
-                />
-              </motion.div>
+              <Image
+                className="relative rounded-full border-4 border-violet-500 shadow-2xl shadow-violet-900/50"
+                src="/images/profile.jpeg"
+                alt="Gregory Garcia"
+                height={240}
+                width={240}
+                priority
+              />
             </motion.div>
           </motion.div>
 

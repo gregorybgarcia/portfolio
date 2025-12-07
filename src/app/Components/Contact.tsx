@@ -1,14 +1,15 @@
 "use client";
-import { faLinkedin, faSquareGithub } from "@fortawesome/free-brands-svg-icons";
+import { faLinkedin, faSquareGithub, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   PhoneIcon,
   EnvelopeIcon,
   ChatBubbleLeftRightIcon,
-  PaperAirplaneIcon,
+  ClipboardDocumentIcon,
+  CheckIcon,
 } from "@heroicons/react/24/outline";
 import { useAnimation, useInView, motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Footer from "./Footer";
 
 // Container variants for staggered animations
@@ -56,6 +57,19 @@ export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const mainControls = useAnimation();
+  const [copiedPhone, setCopiedPhone] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const copyToClipboard = (text: string, type: "phone" | "email") => {
+    navigator.clipboard.writeText(text);
+    if (type === "phone") {
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
+    } else {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    }
+  };
 
   useEffect(() => {
     if (isInView) {
@@ -127,7 +141,7 @@ export default function Contact() {
 
           {/* Title with reveal */}
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden"
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden pb-2"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -217,30 +231,46 @@ export default function Contact() {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              <motion.a
-                href="tel:+353834329851"
+              <motion.div
                 className="relative flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 variants={itemVariants}
                 whileHover={{
-                  scale: 1.02,
-                  x: 5,
                   borderColor: "rgb(139, 92, 246)",
                 }}
-                whileTap={{ scale: 0.98 }}
               >
-                <motion.div
-                  className="p-2 md:p-3 bg-violet-900/30 rounded-lg flex-shrink-0"
-                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
+                <a
+                  href="tel:+353834329851"
+                  className="flex items-center gap-3 md:gap-4 flex-1 min-w-0"
                 >
-                  <PhoneIcon className="h-5 w-5 md:h-6 md:w-6 text-violet-400" />
-                </motion.div>
-                <div className="min-w-0">
-                  <p className="text-xs md:text-sm text-gray-400 font-medium">Phone</p>
-                  <p className="text-base md:text-lg text-white font-semibold group-hover:text-violet-400 transition-colors truncate">
-                    +353 83 432 9851
-                  </p>
-                </div>
+                  <motion.div
+                    className="p-2 md:p-3 bg-violet-900/30 rounded-lg flex-shrink-0"
+                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <PhoneIcon className="h-5 w-5 md:h-6 md:w-6 text-violet-400" />
+                  </motion.div>
+                  <div className="min-w-0">
+                    <p className="text-xs md:text-sm text-gray-400 font-medium flex items-center gap-2">
+                      Phone <FontAwesomeIcon icon={faWhatsapp} className="text-green-500" />
+                    </p>
+                    <p className="text-base md:text-lg text-white font-semibold group-hover:text-violet-400 transition-colors truncate">
+                      +353 83 432 9851
+                    </p>
+                  </div>
+                </a>
+                <motion.button
+                  onClick={() => copyToClipboard("+353834329851", "phone")}
+                  className="p-2 rounded-lg bg-gray-600/50 hover:bg-violet-900/50 transition-colors flex-shrink-0 z-10"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Copy phone number"
+                >
+                  {copiedPhone ? (
+                    <CheckIcon className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <ClipboardDocumentIcon className="h-5 w-5 text-gray-400 hover:text-violet-400" />
+                  )}
+                </motion.button>
                 {/* Shimmer effect */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/10 to-transparent pointer-events-none"
@@ -248,32 +278,46 @@ export default function Contact() {
                   whileHover={{ x: "100%" }}
                   transition={{ duration: 0.5 }}
                 />
-              </motion.a>
+              </motion.div>
 
-              <motion.a
-                href="mailto:gregory.barros@hotmail.com"
+              <motion.div
                 className="relative flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 variants={itemVariants}
                 whileHover={{
-                  scale: 1.02,
-                  x: 5,
                   borderColor: "rgb(139, 92, 246)",
                 }}
-                whileTap={{ scale: 0.98 }}
               >
-                <motion.div
-                  className="p-2 md:p-3 bg-violet-900/30 rounded-lg flex-shrink-0"
-                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
+                <a
+                  href="mailto:gregory.barros@hotmail.com"
+                  className="flex items-center gap-3 md:gap-4 flex-1 min-w-0"
                 >
-                  <EnvelopeIcon className="h-5 w-5 md:h-6 md:w-6 text-violet-400" />
-                </motion.div>
-                <div className="min-w-0">
-                  <p className="text-xs md:text-sm text-gray-400 font-medium">Email</p>
-                  <p className="text-base md:text-lg text-white font-semibold group-hover:text-violet-400 transition-colors truncate">
-                    gregory.barros@hotmail.com
-                  </p>
-                </div>
+                  <motion.div
+                    className="p-2 md:p-3 bg-violet-900/30 rounded-lg flex-shrink-0"
+                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <EnvelopeIcon className="h-5 w-5 md:h-6 md:w-6 text-violet-400" />
+                  </motion.div>
+                  <div className="min-w-0">
+                    <p className="text-xs md:text-sm text-gray-400 font-medium">Email</p>
+                    <p className="text-base md:text-lg text-white font-semibold group-hover:text-violet-400 transition-colors truncate">
+                      gregory.barros@hotmail.com
+                    </p>
+                  </div>
+                </a>
+                <motion.button
+                  onClick={() => copyToClipboard("gregory.barros@hotmail.com", "email")}
+                  className="p-2 rounded-lg bg-gray-600/50 hover:bg-violet-900/50 transition-colors flex-shrink-0 z-10"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Copy email address"
+                >
+                  {copiedEmail ? (
+                    <CheckIcon className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <ClipboardDocumentIcon className="h-5 w-5 text-gray-400 hover:text-violet-400" />
+                  )}
+                </motion.button>
                 {/* Shimmer effect */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/10 to-transparent pointer-events-none"
@@ -281,7 +325,7 @@ export default function Contact() {
                   whileHover={{ x: "100%" }}
                   transition={{ duration: 0.5 }}
                 />
-              </motion.a>
+              </motion.div>
             </motion.div>
 
             {/* Social Links and CTA Button in same row */}
@@ -345,21 +389,52 @@ export default function Contact() {
                 />
               </motion.button>
 
-              <motion.a
+              <motion.button
                 variants={socialVariants}
+                onClick={() => window.open("https://wa.me/353834329851")}
+                className="relative p-3 md:p-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
+                whileHover={{
+                  scale: 1.1,
+                  y: -5,
+                  borderColor: "rgb(34, 197, 94)",
+                  boxShadow: "0 10px 30px rgba(34, 197, 94, 0.3)",
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.5 }}
+                />
+                <FontAwesomeIcon
+                  icon={faWhatsapp}
+                  className="relative z-10 text-green-500 group-hover:text-green-400 transition-colors"
+                  fontSize={28}
+                />
+              </motion.button>
+
+              <motion.a
                 href="mailto:gregory.barros@hotmail.com"
                 className="relative inline-flex items-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-violet-900 hover:bg-violet-800 text-white font-bold rounded-xl shadow-lg shadow-violet-900/50 text-base md:text-lg overflow-hidden transition-colors duration-300"
-                whileHover={{ scale: 1.02 }}
+                initial={{ opacity: 1, rotate: 0 }}
+                animate={{
+                  opacity: 1,
+                  rotate: [0, -5, 5, -5, 5, -3, 3, 0],
+                }}
+                transition={{
+                  rotate: {
+                    duration: 0.5,
+                    repeat: Infinity,
+                    repeatDelay: 4,
+                    ease: "easeInOut",
+                  },
+                }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <span className="relative z-10">Say Hello!</span>
-                <motion.div
-                  className="relative z-10"
-                  animate={{ x: [0, 3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <PaperAirplaneIcon className="w-4 h-4 md:w-5 md:h-5" />
-                </motion.div>
+                <span className="relative z-10 text-lg md:text-xl">👋</span>
               </motion.a>
             </motion.div>
           </motion.div>
