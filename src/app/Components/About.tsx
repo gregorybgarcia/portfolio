@@ -134,24 +134,19 @@ export default function About() {
 
           {/* Title with gradient reveal */}
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black mt-6 mb-6 overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-black mt-6 mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{
+              type: "spring" as const,
+              stiffness: 100,
+              damping: 12,
+              delay: 0.3,
+            }}
           >
-            <motion.span
-              className="inline-block bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent"
-              initial={{ y: 60, opacity: 0 }}
-              animate={isInView ? { y: 0, opacity: 1 } : {}}
-              transition={{
-                type: "spring" as const,
-                stiffness: 100,
-                damping: 12,
-                delay: 0.3,
-              }}
-            >
+            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
               Hi, I&apos;m Greg. Nice to meet you.
-            </motion.span>
+            </span>
           </motion.h2>
 
           {/* Animated paragraphs */}
