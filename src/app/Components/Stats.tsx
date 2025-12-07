@@ -235,7 +235,7 @@ export default function Stats() {
               />
               <FontAwesomeIcon
                 icon={faLinkedin}
-                className="relative z-10 text-white group-hover:text-[#0A66C2] transition-colors"
+                className="relative z-10 text-white transition-colors"
                 fontSize={40}
               />
             </motion.button>
