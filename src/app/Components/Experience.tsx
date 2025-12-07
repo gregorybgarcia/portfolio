@@ -224,6 +224,7 @@ export default function Experience() {
               whileHover={{ x: "100%" }}
               transition={{ duration: 0.6 }}
             />
+            <span className="relative z-10">View Full Resume</span>
             <svg
               className="relative z-10 w-5 h-5"
               fill="none"
@@ -235,10 +236,9 @@ export default function Experience() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
               />
             </svg>
-            <span className="relative z-10">View Full Resume</span>
           </motion.a>
         </motion.div>
       </div>
