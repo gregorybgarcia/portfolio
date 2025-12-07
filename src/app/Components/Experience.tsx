@@ -104,7 +104,7 @@ export default function Experience() {
 
   return (
     <section
-      className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-black/80 to-black/80 z-10"
+      className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="experience"
     >
       <div className="max-w-7xl w-full px-4">
