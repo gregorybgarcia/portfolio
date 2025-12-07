@@ -4,9 +4,23 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
+// Card variants with smooth entrance
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: index * 0.1,
+      ease: "easeOut" as const,
+    },
+  }),
+};
+
 export default function Projects() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const mainControls = useAnimation();
 
   const projects = [
@@ -59,67 +73,105 @@ export default function Projects() {
         {/* Header Section */}
         <motion.div
           className="text-center mb-8 md:mb-16"
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
           initial="hidden"
           animate={mainControls}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <span className="px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
+          {/* Floating badge */}
+          <motion.span
+            className="inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
+            initial={{ opacity: 0, scale: 0.8, y: -20 }}
+            animate={isInView ? {
+              opacity: 1,
+              scale: 1,
+              y: [0, -5, 0],
+            } : {}}
+            transition={{
+              opacity: { duration: 0.4 },
+              scale: { type: "spring" as const, stiffness: 200, damping: 15 },
+              y: { duration: 2, repeat: Infinity, ease: "easeInOut" as const },
+            }}
+          >
             FEATURED WORK
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6">
-            Recent Projects
-          </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          </motion.span>
+
+          {/* Title with reveal */}
+          <motion.h2
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <motion.span
+              className="inline-block"
+              initial={{ y: 60, opacity: 0 }}
+              animate={isInView ? { y: 0, opacity: 1 } : {}}
+              transition={{
+                type: "spring" as const,
+                stiffness: 100,
+                damping: 12,
+                delay: 0.3,
+              }}
+            >
+              Recent Projects
+            </motion.span>
+          </motion.h2>
+
+          <motion.p
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
             A selection of companies and projects I&apos;ve contributed to, showcasing
             diverse technical challenges and solutions.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Projects Grid */}
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div
+          ref={ref}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+        >
           {projects.map((project, index) => (
             <motion.div
               key={project.name}
-              variants={{
-                hidden: { opacity: 0, y: 50 },
-                visible: { opacity: 1, y: 0 },
-              }}
+              custom={index}
+              variants={cardVariants}
               initial="hidden"
-              animate={mainControls}
-              transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              animate={isInView ? "visible" : "hidden"}
               className="group h-full"
             >
               <a
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col h-full bg-gray-800/50 border border-gray-700 rounded-2xl overflow-hidden hover:border-violet-500 hover:bg-gray-800/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-violet-900/50 hover:scale-105"
+                className="flex flex-col h-full bg-gray-800/50 border border-gray-700 rounded-2xl overflow-hidden cursor-pointer hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300"
               >
                 {/* Image Container */}
                 <div className="relative h-64 bg-gray-700/30 flex items-center justify-center p-8">
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/80"></div>
+
+                  {/* Project logo */}
                   <div className="relative">
-                    <div className="absolute inset-0 bg-violet-600/20 rounded-full blur-xl group-hover:bg-violet-600/30 transition-all duration-300"></div>
+                    <div className="absolute inset-0 bg-violet-600/20 rounded-full blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
                     <Image
-                      className="relative z-10 object-contain w-40 h-40 rounded-full border-2 border-violet-500/50 shadow-lg shadow-violet-900/30 group-hover:scale-110 group-hover:border-violet-400 transition-all duration-300"
+                      className="relative z-10 object-contain w-40 h-40 rounded-full border-2 border-violet-500/50 shadow-lg shadow-violet-900/30 group-hover:scale-105 transition-transform duration-300"
                       width={160}
                       height={160}
                       src={project.icon}
                       alt={project.name}
                     />
                   </div>
-                  <div className="absolute top-4 right-4 z-20">
-                    <ArrowTopRightOnSquareIcon className="w-6 h-6 text-violet-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* External link icon */}
+                  <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <ArrowTopRightOnSquareIcon className="w-6 h-6 text-violet-400" />
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-violet-400 transition-colors">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-violet-400 transition-colors duration-300">
                     {project.name}
                   </h3>
                   <p className="text-gray-300 text-base leading-relaxed mb-4 flex-grow">

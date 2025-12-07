@@ -93,7 +93,7 @@ const experiencesData = [
 export default function Experience() {
   const Timeline = VerticalTimeline as any;
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const mainControls = useAnimation();
 
   useEffect(() => {
@@ -108,36 +108,91 @@ export default function Experience() {
       id="experience"
     >
       <div className="max-w-7xl w-full px-4">
-        {/* Header Section */}
+        {/* Header Section with enhanced animations */}
         <motion.div
           ref={ref}
           className="text-center mb-8 md:mb-16"
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
           initial="hidden"
           animate={mainControls}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <span className="px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
+          {/* Floating badge */}
+          <motion.span
+            className="inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
+            initial={{ opacity: 0, scale: 0.8, y: -20 }}
+            animate={isInView ? {
+              opacity: 1,
+              scale: 1,
+              y: [0, -5, 0],
+            } : {}}
+            transition={{
+              opacity: { duration: 0.4 },
+              scale: { type: "spring" as const, stiffness: 200, damping: 15 },
+              y: { duration: 2, repeat: Infinity, ease: "easeInOut" as const },
+            }}
+          >
             CAREER JOURNEY
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6">
-            Professional Experience
-          </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          </motion.span>
+
+          {/* Title with reveal animation */}
+          <motion.h2
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <motion.span
+              className="inline-block"
+              initial={{ y: 60, opacity: 0 }}
+              animate={isInView ? { y: 0, opacity: 1 } : {}}
+              transition={{
+                type: "spring" as const,
+                stiffness: 100,
+                damping: 12,
+                delay: 0.3,
+              }}
+            >
+              Professional Experience
+            </motion.span>
+          </motion.h2>
+
+          <motion.p
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
             A timeline of my professional growth, highlighting key roles and achievements
             in web development and software engineering.
-          </p>
+          </motion.p>
+
+          {/* Animated line decoration */}
+          <motion.div
+            className="flex justify-center mt-8"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+          >
+            <motion.div
+              className="h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full"
+              initial={{ width: 0 }}
+              animate={isInView ? { width: 200 } : {}}
+              transition={{ delay: 0.7, duration: 0.8, ease: "easeOut" }}
+            />
+          </motion.div>
         </motion.div>
 
-        {/* Timeline */}
-        <Timeline lineColor="#7C3AED">
-          {experiencesData.map((item, index) => {
-            return <TimelineElement key={index} item={item} />;
-          })}
-        </Timeline>
+        {/* Timeline with fade-in */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, duration: 0.6 }}
+        >
+          <Timeline lineColor="#7C3AED">
+            {experiencesData.map((item, index) => {
+              return <TimelineElement key={index} item={item} />;
+            })}
+          </Timeline>
+        </motion.div>
       </div>
     </section>
   );

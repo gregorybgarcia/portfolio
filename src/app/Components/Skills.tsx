@@ -38,7 +38,7 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500 hover:bg-gray-800/70 transition-all duration-300 cursor-pointer backdrop-blur-sm">
+      <div className="relative p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300 cursor-pointer backdrop-blur-sm">
         <div className="flex flex-col items-center">
           <div className={`relative mb-4 p-3 rounded-full ${skill.name === 'NextJS' ? 'bg-white' : ''}`}>
             <div className="absolute inset-0 bg-violet-600/20 rounded-full blur-xl group-hover:bg-violet-600/30 transition-all duration-300"></div>
