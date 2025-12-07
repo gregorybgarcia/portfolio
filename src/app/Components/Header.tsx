@@ -2,7 +2,7 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
@@ -81,10 +81,19 @@ const mobileItemVariants = {
 };
 
 export default function Header() {
-  const [headerOpen, setHeaderOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const closeMenuRef = useRef<(() => void) | null>(null);
+
+  const closeMobileMenu = useCallback(() => {
+    if (closeMenuRef.current) {
+      closeMenuRef.current();
+    }
+    setMobileMenuOpen(false);
+  }, []);
 
   useEffect(() => {
     // Trigger initial animation
@@ -94,6 +103,11 @@ export default function Header() {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+
+      // Close mobile menu on scroll
+      if (mobileMenuOpen) {
+        closeMobileMenu();
+      }
 
       // Track if page is scrolled for background styling
       setIsScrolled(currentScrollY > 50);
@@ -112,34 +126,53 @@ export default function Header() {
       lastScroll = currentScrollY;
     };
 
+    // Close mobile menu when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuOpen && headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        closeMobileMenu();
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [mobileMenuOpen, closeMobileMenu]);
 
 
   return (
     <motion.nav
+      ref={headerRef}
       initial={{ y: -100, opacity: 0 }}
       animate={{
         y: isVisible ? 0 : -100,
         opacity: isVisible ? 1 : 0,
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`w-full z-20 fixed transition-colors duration-300 ${isScrolled || headerOpen ? "bg-gray-900/95 backdrop-blur-md border-b border-gray-800/50 shadow-lg shadow-black/10" : "bg-transparent border-b border-transparent"}`}
+      className={`w-full z-20 fixed transition-colors duration-300 ${isScrolled || mobileMenuOpen ? "bg-gray-900/95 backdrop-blur-md border-b border-gray-800/50 shadow-lg shadow-black/10" : "bg-transparent border-b border-transparent"}`}
     >
       <Disclosure>
-        {({ open }) => (
+        {({ open, close }) => {
+          // Store the close function in ref so we can call it from outside
+          closeMenuRef.current = close;
+
+          // Sync the open state with our mobileMenuOpen state
+          if (open !== mobileMenuOpen) {
+            setTimeout(() => setMobileMenuOpen(open), 0);
+          }
+
+          return (
           <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 pb-2">
             <div className="relative flex items-center justify-between">
               <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="absolute -inset-0.5" onClick={() => setHeaderOpen(!open)}/>
+                  <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   <AnimatePresence mode="wait">
                     {open ? (
@@ -259,6 +292,7 @@ export default function Header() {
                         )}
                         aria-current={item.current ? "page" : undefined}
                         onClick={(e) => {
+                          close();
                           if (index + 1 !== navigation.length) {
                             e.preventDefault();
                             scrollTo(item.name.toLowerCase(), setIsVisible);
@@ -274,7 +308,8 @@ export default function Header() {
             )}
           </AnimatePresence>
           </>
-        )}
+        );
+        }}
       </Disclosure>
     </motion.nav>
   );
