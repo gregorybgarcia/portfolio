@@ -79,8 +79,8 @@ export default function CurrentWork() {
     },
     {
       icon: <ShieldCheckIcon className="w-8 h-8" />,
-      title: "Healthcare Compliance",
-      description: "Building HIPAA-compliant solutions for hospitals and clinics worldwide"
+      title: "Healthcare Solutions",
+      description: "Building secure healthcare solutions for hospitals and clinics worldwide"
     },
     {
       icon: <UserGroupIcon className="w-8 h-8" />,
