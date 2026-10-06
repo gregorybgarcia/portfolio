@@ -1,8 +1,17 @@
 "use client";
+import SectionLabel from "./SectionLabel";
 import { useAnimation, useInView, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { getTotalYearsOfExperience } from "../utils/dateUtils";
+import {
+  HeartIcon,
+  CreditCardIcon,
+  ChatBubbleLeftRightIcon,
+  CalculatorIcon,
+  ReceiptPercentIcon,
+  BanknotesIcon,
+} from "@heroicons/react/24/outline";
 
 // Staggered container for industry cards
 const containerVariants = {
@@ -60,11 +69,13 @@ export default function About() {
   const industries = [
     {
       title: "Healthcare",
+      icon: HeartIcon,
       description: "Patient management systems, medical scheduling platforms, and healthcare data visualization tools.",
       logos: [{ src: "/images/mypatientspace.png", alt: "myPatientSpace" }],
     },
     {
       title: "Payment Solutions",
+      icon: CreditCardIcon,
       description: "Secure payment gateways, transaction processing systems, and fintech applications with PCI compliance.",
       logos: [
         { src: "/images/dexian.png", alt: "Dexian" },
@@ -73,16 +84,19 @@ export default function About() {
     },
     {
       title: "Social Platforms",
+      icon: ChatBubbleLeftRightIcon,
       description: "Project collaboration platforms, social networking features, and community engagement tools.",
       logos: [{ src: "/images/incentiv.png", alt: "Incentiv" }],
     },
     {
       title: "Accounting",
+      icon: CalculatorIcon,
       description: "Financial management systems, bookkeeping applications, and automated accounting workflows.",
       logos: [{ src: "/images/qyon.jpg", alt: "QYON" }],
     },
     {
       title: "Tax Management",
+      icon: ReceiptPercentIcon,
       description: "Tax calculation engines, compliance reporting tools, and automated tax filing systems.",
       logos: [
         { src: "/images/essystem.jpg", alt: "ESSystem" },
@@ -91,6 +105,7 @@ export default function About() {
     },
     {
       title: "Payroll Systems",
+      icon: BanknotesIcon,
       description: "Employee payroll processing, time tracking integration, and benefits administration platforms.",
       logos: [{ src: "/images/qyon.jpg", alt: "QYON" }],
     },
@@ -101,6 +116,7 @@ export default function About() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-black/80 to-black/80 z-10"
       id="about"
     >
+      <SectionLabel label="About me" index={1} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div
@@ -116,7 +132,7 @@ export default function About() {
         >
           {/* Floating badge */}
           <motion.span
-            className="inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
+            className="min-[1360px]:hidden inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
             initial={{ opacity: 0, scale: 0.8, y: -20 }}
             animate={isInView ? {
               opacity: 1,
@@ -134,7 +150,7 @@ export default function About() {
 
           {/* Title with gradient reveal */}
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black mt-6 mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mt-6 mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{
@@ -144,9 +160,7 @@ export default function About() {
               delay: 0.1,
             }}
           >
-            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-              Hi, I&apos;m Greg. Nice to meet you.
-            </span>
+            Hi, I&apos;m Greg. Nice to meet you.
           </motion.h2>
 
           {/* Animated paragraphs */}
@@ -217,9 +231,7 @@ export default function About() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.24, duration: 0.5 }}
             >
-              <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-                Industry Experience
-              </span>
+              Industry Experience
             </motion.h3>
 
             <motion.p
@@ -239,49 +251,56 @@ export default function About() {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              {industries.map((industry, index) => (
-                <motion.div
-                  key={industry.title}
-                  variants={cardVariants}
-                  className="p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300 group backdrop-blur-sm cursor-default"
-                >
-                  <div className="flex flex-col items-center mb-4">
-                    <div className="h-16 flex items-center justify-center gap-3 mb-4">
-                      {industry.logos.map((logo, logoIndex) => (
-                        <motion.div
-                          key={logo.alt}
-                          className="relative w-16 h-16"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                          transition={{
-                            delay: 0.3 + index * 0.05 + logoIndex * 0.03,
-                            type: "spring" as const,
-                            stiffness: 200,
-                          }}
-                          whileHover={{ scale: 1.15, rotate: 5 }}
-                        >
-                          <Image
-                            src={logo.src}
-                            alt={logo.alt}
-                            fill
-                            className="object-contain p-2 rounded-full"
-                          />
-                        </motion.div>
-                      ))}
-                    </div>
-                    <motion.h4
-                      className="text-xl font-bold text-white group-hover:text-violet-400 transition-colors text-center"
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      {industry.title}
-                    </motion.h4>
-                  </div>
-                  <p className="text-gray-400 leading-relaxed text-center">
-                    {industry.description}
-                  </p>
+              {industries.map((industry, index) => {
+                const Icon = industry.icon;
+                return (
+                  <motion.div
+                    key={industry.title}
+                    variants={cardVariants}
+                    className="cyber-card group relative flex min-h-[12rem] cursor-default flex-col overflow-hidden p-6 text-left backdrop-blur-sm"
+                  >
+                    {/* Watermark icon, cropped by the card's bottom-right corner */}
+                    <Icon
+                      aria-hidden
+                      className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 -rotate-12 text-violet-500/15 transition-all duration-500 ease-in-out group-hover:-rotate-6 group-hover:scale-110 group-hover:text-violet-400/25"
+                    />
 
-                </motion.div>
-              ))}
+                    <div className="relative pr-10">
+                      <h4 className="text-xl font-bold text-white transition-colors group-hover:text-violet-300">
+                        {industry.title}
+                      </h4>
+                      <p className="mt-2 leading-relaxed text-gray-400">
+                        {industry.description}
+                      </p>
+                    </div>
+
+                    {/* Company logos */}
+                    <div className="relative mt-auto flex items-center pt-5">
+                      <div className="flex -space-x-2">
+                        {industry.logos.map((logo, logoIndex) => (
+                          <motion.div
+                            key={logo.alt}
+                            title={logo.alt}
+                            className="relative h-9 w-9 overflow-hidden rounded-full bg-white ring-2 ring-gray-900"
+                            initial={{ opacity: 0, scale: 0.6 }}
+                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                            transition={{
+                              delay: 0.3 + index * 0.05 + logoIndex * 0.05,
+                              duration: 0.4,
+                              ease: "easeInOut",
+                            }}
+                          >
+                            <Image src={logo.src} alt={logo.alt} fill sizes="36px" className="object-cover" />
+                          </motion.div>
+                        ))}
+                      </div>
+                      <span className="ml-3 truncate text-xs text-gray-500">
+                        {industry.logos.map((logo) => logo.alt).join(" · ")}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </motion.div>
         </motion.div>

@@ -1,70 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
+import { markPageLoaderDone } from "../utils/pageLoader";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-// Floating particle component
-const FloatingParticle = ({ delay, duration, size, x, y }: {
-  delay: number;
-  duration: number;
-  size: number;
-  x: number;
-  y: number;
-}) => (
-  <motion.div
-    className="absolute rounded-full bg-violet-500/30"
-    style={{ width: size, height: size }}
-    initial={{
-      x,
-      y,
-      scale: 0,
-      opacity: 0,
-    }}
-    animate={{
-      scale: [0, 1, 0],
-      opacity: [0, 0.8, 0],
-      y: [y, y - 100, y - 200],
-    }}
-    transition={{
-      duration,
-      repeat: Infinity,
-      delay,
-      ease: "easeOut",
-    }}
-  />
-);
-
-// Text shimmer animation
-const ShimmerText = ({ children }: { children: string }) => (
-  <motion.span
-    className="relative inline-block"
-    animate={{
-      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-    }}
-    transition={{ duration: 3, repeat: Infinity }}
-    style={{
-      backgroundImage: "linear-gradient(90deg, #c4b5fd, #a78bfa, #8b5cf6, #a78bfa, #c4b5fd)",
-      backgroundSize: "200% 100%",
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-    }}
-  >
-    {children}
-  </motion.span>
-);
+// Logo frame: same 45deg cut corners as the site's cards and buttons
+const FRAME = 112;
+const CUT = 16;
+const framePath = `M${CUT} 0.5 H${FRAME - 0.5} V${FRAME - CUT} L${FRAME - CUT} ${FRAME - 0.5} H0.5 V${CUT} Z`;
 
 export default function PageLoader() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    // Set dimensions after component mounts (client-side only)
-    setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-
     // Simulate loading progress with easing
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -84,6 +33,7 @@ export default function PageLoader() {
       setProgress(100);
       setTimeout(() => {
         setIsLoading(false);
+        markPageLoaderDone();
       }, 250);
     }, 700);
 
@@ -92,16 +42,6 @@ export default function PageLoader() {
       clearInterval(progressInterval);
     };
   }, []);
-
-  // Generate particles
-  const particles = dimensions.width > 0 ? [...Array(25)].map((_, i) => ({
-    id: i,
-    delay: Math.random() * 2,
-    duration: 2 + Math.random() * 2,
-    size: 2 + Math.random() * 4,
-    x: Math.random() * dimensions.width,
-    y: dimensions.height * 0.5 + Math.random() * dimensions.height * 0.5,
-  })) : [];
 
   return (
     <AnimatePresence>
@@ -116,226 +56,74 @@ export default function PageLoader() {
           transition={{ duration: 0.6, ease: "easeInOut" }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden"
         >
-          {/* Animated gradient background */}
-          <motion.div
-            className="absolute inset-0"
-            animate={{
-              background: [
-                "radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 30% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)",
-              ],
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          {/* Soft violet glow behind the logo */}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(139,92,246,0.12)_0%,transparent_45%)]"
           />
 
-          {/* Floating particles */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {particles.map((particle) => (
-              <FloatingParticle key={particle.id} {...particle} />
-            ))}
-          </div>
-
-          {/* Main content */}
-          <div className="text-center relative z-10">
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0, rotateY: -180 }}
-              animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-              transition={{
-                duration: 0.8,
-                type: "spring",
-                stiffness: 100,
-                damping: 15,
-              }}
-              className="relative mb-8 flex justify-center"
-            >
-              <div className="relative w-36 h-36">
-                {/* Outer rotating ring */}
-                <motion.div
-                  className="absolute inset-0 w-full h-full"
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  <svg className="w-full h-full" viewBox="0 0 100 100">
-                    <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0" />
-                        <stop offset="50%" stopColor="#8b5cf6" stopOpacity="1" />
-                        <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="url(#gradient)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeDasharray="70 200"
-                    />
-                  </svg>
-                </motion.div>
-
-                {/* Second rotating ring (opposite direction) */}
-                <motion.div
-                  className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)]"
-                  animate={{ rotate: -360 }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  <svg className="w-full h-full" viewBox="0 0 100 100">
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="rgba(139, 92, 246, 0.3)"
-                      strokeWidth="1"
-                      strokeDasharray="10 20"
-                    />
-                  </svg>
-                </motion.div>
-
-                {/* Pulsing glow */}
-                <motion.div
-                  className="absolute inset-0 rounded-full"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.6, 0.3],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <div className="w-full h-full rounded-full bg-gradient-to-r from-violet-600/20 to-purple-600/20 blur-xl" />
-                </motion.div>
-
-                {/* Logo with enhanced glow and pulse */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <motion.div
-                      className="absolute inset-0 bg-violet-600/40 rounded-xl blur-2xl"
-                      animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.4, 0.7, 0.4],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.05, 1],
-                        rotate: [0, 2, -2, 0],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="relative z-10"
-                    >
-                      <Image
-                        src="/images/logo.webp"
-                        alt="Gregory Garcia"
-                        width={80}
-                        height={80}
-                        className="w-20 h-20 object-contain rounded-lg shadow-lg shadow-violet-900/50"
-                        priority
-                      />
-                    </motion.div>
-                  </div>
-                </div>
+          <div className="relative z-10 flex flex-col items-center text-center">
+            {/* Logo in an angled frame whose outline traces in with the progress.
+                No entrance fade, so the server-rendered HTML shows the loader before JS runs. */}
+            <div className="relative mb-8" style={{ width: FRAME, height: FRAME }}>
+              <svg
+                aria-hidden
+                className="absolute inset-0 h-full w-full overflow-visible"
+                viewBox={`0 0 ${FRAME} ${FRAME}`}
+              >
+                <path d={framePath} fill="rgba(17, 24, 39, 0.75)" stroke="rgba(55, 65, 81, 1)" strokeWidth={1} />
+                <motion.path
+                  d={framePath}
+                  fill="none"
+                  stroke="#a78bfa"
+                  strokeWidth={1.5}
+                  pathLength={100}
+                  strokeDasharray="100 100"
+                  initial={{ strokeDashoffset: 100 }}
+                  animate={{ strokeDashoffset: 100 - Math.min(progress, 100) }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  style={{ filter: "drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))" }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Image
+                  src="/images/logo.webp"
+                  alt="Gregory Garcia"
+                  width={64}
+                  height={64}
+                  className="h-16 w-16 object-contain"
+                  priority
+                />
               </div>
-            </motion.div>
+            </div>
 
-            {/* Loading text with animations */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="space-y-4"
-            >
-              <p className="text-3xl font-bold" aria-hidden="true">
-                <ShimmerText>Gregory Garcia</ShimmerText>
+            <div className="flex flex-col items-center">
+              <p className="text-3xl font-bold tracking-tight text-white" aria-hidden="true">
+                Gregory Garcia
               </p>
 
-              {/* Animated loading dots */}
-              <motion.div className="flex items-center justify-center gap-1">
-                <span className="text-violet-400 text-sm font-medium tracking-wider">
-                  Loading Experience
-                </span>
-                {[0, 1, 2].map((i) => (
-                  <motion.span
-                    key={i}
-                    className="text-violet-400 text-sm"
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{
-                      duration: 1.2,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                    }}
-                  >
-                    .
-                  </motion.span>
-                ))}
-              </motion.div>
+              {/* Terminal-style status, same caret and cursor as the buttons */}
+              <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-gray-400" role="status">
+                <span aria-hidden className="text-violet-400">&gt;</span> Loading experience
+                <span aria-hidden className="animate-blink">_</span>
+              </p>
 
-              {/* Enhanced progress bar */}
-              <div className="w-72 mx-auto mt-6">
-                <div className="relative h-1.5 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
-                  {/* Glowing background */}
+              {/* Progress bar with cut corners */}
+              <div className="mt-6 w-72">
+                <div className="relative h-1.5 bg-gray-800 [clip-path:polygon(4px_0,100%_0,100%_calc(100%-4px),calc(100%-4px)_100%,0_100%,0_4px)]">
                   <motion.div
-                    className="absolute inset-0 bg-violet-500/20 blur-sm"
-                    animate={{ opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                  {/* Progress fill */}
-                  <motion.div
-                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-violet-600 via-purple-500 to-violet-600 rounded-full"
+                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-violet-600 to-violet-400"
                     initial={{ width: "0%" }}
                     animate={{ width: `${Math.min(progress, 100)}%` }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
                   />
-                  {/* Shimmer effect on progress */}
-                  <motion.div
-                    className="absolute inset-y-0 w-20 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                    animate={{ x: [-80, 320] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                  />
                 </div>
-
-                {/* Progress percentage with pulse */}
-                <motion.div
-                  className="flex justify-between items-center mt-3"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <span className="text-gray-500 text-xs">Preparing portfolio</span>
-                  <motion.span
-                    className="text-violet-400 text-sm font-semibold"
-                    animate={progress === 100 ? { scale: [1, 1.1, 1] } : {}}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {Math.round(Math.min(progress, 100))}%
-                  </motion.span>
-                </motion.div>
+                <div className="mt-3 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
+                  <span className="text-gray-500">Preparing portfolio</span>
+                  <span className="tabular-nums text-violet-300">{Math.round(Math.min(progress, 100))}%</span>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       )}

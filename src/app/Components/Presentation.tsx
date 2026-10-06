@@ -1,30 +1,38 @@
 "use client";
 import { ReactTyped } from "react-typed";
 import {
+  animate,
   motion,
+  MotionConfig,
+  useMotionTemplate,
   useMotionValue,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { ArrowDownIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import { ArrowDownIcon, ArrowsRightLeftIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { useRef, type PointerEvent } from "react";
+import CyberButton from "./CyberButton";
+import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { getTotalYearsOfExperience } from "../utils/dateUtils";
 import { trackContactClick, trackSocialClick } from "../utils/analytics";
+import { onPageLoaderDone } from "../utils/pageLoader";
 
-const EASE = [0.215, 0.61, 0.355, 1] as const;
+// Long, soft deceleration for entrances; symmetric curve for the curtain wipe
+const EASE_OUT = [0.22, 1, 0.36, 1] as const;
+const EASE_IN_OUT = [0.76, 0, 0.24, 1] as const;
 
-// Shared entrance; `custom` carries the stagger delay
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay, duration: 0.6, ease: EASE },
-  }),
+// Entrance timeline, in seconds after the page loader starts fading out
+const TIMELINE = {
+  lines: 0.05, // first text line; the rest follow every `lineStagger`
+  lineStagger: 0.08,
+  actions: 0.55,
+  portrait: 0.15,
+  spin: 1.9,
+  scrollCue: 1.3,
 };
 
 const socialLinks = [
@@ -40,13 +48,54 @@ const socialLinks = [
   },
 ];
 
+// Same 45deg cut corners as the cards and buttons, scaled up for the portrait
+const PORTRAIT_CUT = "[clip-path:polygon(28px_0,100%_0,100%_calc(100%-28px),calc(100%-28px)_100%,0_100%,0_28px)]";
+
+const portraitFaces = [
+  { src: "/images/profile.jpeg", alt: "Gregory Garcia", back: false },
+  { src: "/images/profile-cartoon.jpeg", alt: "Illustrated portrait of Gregory Garcia", back: true },
+];
+
 const scrollTo = (id: string) => {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 };
 
+interface RiseProps {
+  show: boolean;
+  /** Position in the text stagger (0 = first line) */
+  step: number;
+  className?: string;
+  children: ReactNode;
+}
+
+/** A line of text that rises into view from behind a mask. */
+function Rise({ show, step, className = "", children }: RiseProps) {
+  return (
+    // Extra bottom padding keeps descenders (g, y, p) from being clipped by the mask
+    <div className={`overflow-hidden pb-[0.15em] -mb-[0.15em] ${className}`}>
+      <motion.div
+        initial={{ y: "110%" }}
+        animate={show ? { y: "0%" } : { y: "110%" }}
+        transition={{
+          delay: TIMELINE.lines + step * TIMELINE.lineStagger,
+          duration: 0.9,
+          ease: EASE_OUT,
+        }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Presentation() {
   const sectionRef = useRef<HTMLElement>(null);
   const yearsOfExperience = getTotalYearsOfExperience();
+  const prefersReducedMotion = useReducedMotion();
+
+  // Becomes true when the page loader starts fading out; drives the whole entrance
+  const [ready, setReady] = useState(false);
+  useEffect(() => onPageLoaderDone(() => setReady(true)), []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -76,11 +125,57 @@ export default function Presentation() {
     pointerY.set(0);
   };
 
+  // Photo <-> illustration swap: the card flips around its vertical axis.
+  // Each click adds a half turn so it always spins the same direction.
+  // It starts on the photo and the intro flip turns it over to the illustration.
+  const [flips, setFlips] = useState(0);
+  const [introSpin, setIntroSpin] = useState(false);
+  const showCartoon = flips % 2 === 1;
+
+  // Portrait entrance: a curtain wipes open from the right edge while the photo
+  // settles from a slight zoom. `hidden` goes 100 -> 0 (% of the card still covered);
+  // the 64px bleed keeps the glow and offset outline visible once fully open.
+  const hidden = useMotionValue(100);
+  const bleed = useTransform(hidden, [100, 0], [0, 64]);
+  const curtain = useMotionTemplate`inset(-64px -64px -64px calc(${hidden}% - ${bleed}px))`;
+  const zoom = useMotionValue(1.18);
+  const [curtainOpen, setCurtainOpen] = useState(false);
+
+  useEffect(() => {
+    if (!ready) return;
+    if (prefersReducedMotion) {
+      hidden.set(0);
+      zoom.set(1);
+      setCurtainOpen(true);
+      setFlips((value) => (value === 0 ? 1 : value));
+      return;
+    }
+    const wipe = animate(hidden, 0, {
+      delay: TIMELINE.portrait,
+      duration: 1.1,
+      ease: EASE_IN_OUT,
+      onComplete: () => setCurtainOpen(true),
+    });
+    const settle = animate(zoom, 1, { delay: TIMELINE.portrait, duration: 1.8, ease: EASE_OUT });
+    // Once everything has landed, flip from the photo to the illustration
+    const spin = window.setTimeout(() => {
+      setIntroSpin(true);
+      setFlips((value) => (value === 0 ? 1 : value));
+    }, TIMELINE.spin * 1000);
+    return () => {
+      wipe.stop();
+      settle.stop();
+      window.clearTimeout(spin);
+    };
+  }, [ready, prefersReducedMotion, hidden, zoom]);
+
   return (
+    // "user": honours the OS reduced-motion setting (transforms snap, fades still run)
+    <MotionConfig reducedMotion="user">
     <section
       ref={sectionRef}
       id="home"
-      className="relative z-10 flex min-h-screen min-h-[100svh] w-full flex-col justify-center bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 px-6 pt-24 pb-16 lg:px-8 lg:pt-20 lg:pb-24"
+      className="relative z-10 flex min-h-screen min-h-[100svh] w-full flex-col justify-center overflow-x-clip bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 px-6 pt-24 pb-16 lg:px-8 lg:pt-20 lg:pb-24"
     >
       <motion.div
         style={{ opacity }}
@@ -91,134 +186,120 @@ export default function Presentation() {
           style={{ y: textY }}
           className="order-2 flex flex-col items-center text-center lg:order-1 lg:col-span-8 lg:items-start lg:text-left"
         >
-          <motion.p
-            custom={0.1}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400"
-          >
-            Hello, I&apos;m
-          </motion.p>
+          <Rise show={ready} step={0}>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400">
+              Hello, I&apos;m
+            </p>
+          </Rise>
 
-          <motion.h1
-            custom={0.2}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="mt-3 whitespace-nowrap text-[clamp(1.75rem,8.6vw,3.75rem)] font-bold leading-tight tracking-tight text-white lg:text-[clamp(3rem,5.5vw,4.5rem)]"
-          >
-            Gregory{" "}
-            <span className="bg-gradient-to-r from-violet-400 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent">
-              Barros Garcia
-            </span>
-          </motion.h1>
+          <Rise show={ready} step={1} className="mt-3">
+            <h1 className="whitespace-nowrap text-[clamp(1.75rem,8.6vw,3.75rem)] font-bold leading-tight tracking-tight text-white lg:text-[clamp(3rem,5.5vw,4.5rem)]">
+              Gregory{" "}
+              <span className="bg-gradient-to-r from-violet-400 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent">
+                Barros Garcia
+              </span>
+            </h1>
+          </Rise>
 
-          <motion.div
-            custom={0.3}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 lg:justify-start"
-          >
-            <h2 className="text-xl font-medium text-violet-300 sm:text-2xl">
-              Senior Full Stack Developer
-            </h2>
-            <span className="hidden h-5 w-px bg-gray-700 sm:block" aria-hidden />
-            <span className="flex items-center gap-1.5 text-sm text-gray-400">
-              <MapPinIcon className="h-4 w-4" aria-hidden />
-              Dublin, Ireland
-            </span>
-          </motion.div>
+          <Rise show={ready} step={2} className="mt-3">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 lg:justify-start">
+              <h2 className="text-xl font-medium text-violet-300 sm:text-2xl">
+                Senior Full Stack Developer
+              </h2>
+              <span className="hidden h-5 w-px bg-gray-700 sm:block" aria-hidden />
+              <span className="flex items-center gap-1.5 text-sm text-gray-400">
+                <MapPinIcon className="h-4 w-4" aria-hidden />
+                Dublin, Ireland
+              </span>
+            </div>
+          </Rise>
 
-          {/* Rotating focus line */}
-          <motion.p
-            custom={0.4}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            suppressHydrationWarning
-            className="mt-3 min-h-[1.75rem] text-base text-gray-300 sm:min-h-[2rem] sm:text-lg [@media(max-height:500px)]:hidden"
-          >
-            Crafting{" "}
-            <ReactTyped
-              className="text-white"
-              strings={[
-                "exceptional user experiences.",
-                "scalable Node.js APIs.",
-                "accessible, responsive interfaces.",
-                "modern web apps end to end.",
-              ]}
-              typeSpeed={55}
-              backSpeed={35}
-              backDelay={1800}
-              loop
-            />
-          </motion.p>
-
-          <motion.p
-            custom={0.5}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="mt-6 max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg"
-          >
-            {yearsOfExperience}+ years building web applications end to end
-            with Node.js, React, Next.js and TypeScript. Currently leading
-            front-end development at{" "}
-            <a
-              href="https://www.mypatientspace.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-200 underline decoration-gray-600 underline-offset-4 transition-colors hover:text-white hover:decoration-violet-400"
+          {/* Rotating focus line; typing starts once the line is in view */}
+          <Rise show={ready} step={3} className="mt-3 [@media(max-height:500px)]:hidden">
+            <p
+              suppressHydrationWarning
+              className="min-h-[1.75rem] text-base text-gray-300 sm:min-h-[2rem] sm:text-lg"
             >
-              myPatientSpace
-            </a>
-            .
-          </motion.p>
+              Crafting{" "}
+              {ready ? (
+                <ReactTyped
+                  className="text-white"
+                  strings={[
+                    "exceptional user experiences.",
+                    "scalable Node.js APIs.",
+                    "accessible, responsive interfaces.",
+                    "modern web apps end to end.",
+                  ]}
+                  startDelay={500}
+                  typeSpeed={55}
+                  backSpeed={35}
+                  backDelay={1800}
+                  loop
+                />
+              ) : (
+                <span aria-hidden>&nbsp;</span>
+              )}
+            </p>
+          </Rise>
 
+          <Rise show={ready} step={4} className="mt-6">
+            <p className="max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg">
+              {yearsOfExperience}+ years building web applications end to end
+              with Node.js, React, Next.js and TypeScript. Currently leading
+              front-end development at{" "}
+              <a
+                href="https://www.mypatientspace.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-200 underline decoration-gray-600 underline-offset-4 transition-colors hover:text-white hover:decoration-violet-400"
+              >
+                myPatientSpace
+              </a>
+              .
+            </p>
+          </Rise>
+
+          {/* Actions fade up instead of using a mask, so hover lifts and focus rings never get clipped */}
           <motion.div
-            custom={0.6}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0, y: 12 }}
+            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ delay: TIMELINE.actions, duration: 0.8, ease: EASE_OUT }}
             className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 lg:justify-start"
           >
-            <motion.button
+            <CyberButton
               onClick={() => scrollTo("about")}
-              whileHover={{ y: -1 }}
-              whileTap={{ scale: 0.98 }}
-              className="group inline-flex h-11 items-center gap-2 rounded-lg bg-violet-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-violet-600"
+              icon={ArrowDownIcon}
+              iconClassName="group-hover:translate-y-0.5"
             >
               About me
-              <ArrowDownIcon className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-            </motion.button>
+            </CyberButton>
 
-            <button
+            <CyberButton
+              variant="link"
               onClick={() => {
                 trackContactClick("cta", "hero");
                 scrollTo("contact");
               }}
-              className="inline-flex h-11 items-center text-sm font-semibold text-gray-300 underline-offset-4 transition-colors hover:text-white hover:underline"
             >
               Get in touch
-            </button>
+            </CyberButton>
 
             <span className="hidden h-5 w-px bg-gray-700 sm:block" aria-hidden />
 
             <span className="flex items-center gap-1">
               {socialLinks.map((link) => (
-                <a
+                <CyberButton
                   key={link.name}
                   href={link.href}
                   onClick={() => trackSocialClick(link.name, "hero")}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.name}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-gray-400 transition-colors hover:text-white"
+                  variant="link"
+                  size="icon"
                 >
                   <FontAwesomeIcon icon={link.icon} fontSize={20} />
-                </a>
+                </CyberButton>
               ))}
             </span>
           </motion.div>
@@ -230,9 +311,11 @@ export default function Presentation() {
           className="order-1 flex justify-center lg:order-2 lg:col-span-4 lg:justify-end"
         >
           <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
+            // Curtain wipe from the right edge, with a short drift in the same direction
+            style={{ clipPath: curtainOpen ? "none" : curtain }}
+            initial={{ x: 32 }}
+            animate={ready ? { x: 0 } : { x: 32 }}
+            transition={{ delay: TIMELINE.portrait, duration: 1.4, ease: EASE_OUT }}
             className="relative w-40 sm:w-48 lg:w-full lg:max-w-xs"
           >
             {/* Slow float */}
@@ -247,31 +330,82 @@ export default function Presentation() {
                 style={{ rotateX, rotateY, transformPerspective: 1000 }}
                 className="group relative"
               >
-                {/* Breathing glow */}
+                {/* Glow and offset outline fade in as the curtain finishes */}
                 <motion.div
                   aria-hidden
-                  className="absolute -inset-6 rounded-[2.5rem] bg-violet-600/25 blur-3xl"
-                  animate={{ opacity: [0.5, 0.9, 0.5] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                />
-
-                {/* Offset outline, drifts further on hover */}
-                <div
-                  aria-hidden
-                  className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border border-violet-500/40 transition-transform duration-500 ease-in-out group-hover:translate-x-4 group-hover:translate-y-4"
-                />
-
-                <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
-                  <Image
-                    src="/images/profile.jpeg"
-                    alt="Gregory Garcia"
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 320px, 192px"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={ready ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ delay: TIMELINE.portrait + 0.7, duration: 0.8, ease: "easeInOut" }}
+                >
+                  {/* Breathing glow */}
+                  <motion.div
+                    className="absolute -inset-6 rounded-[2.5rem] bg-violet-600/25 blur-3xl"
+                    animate={{ opacity: [0.5, 0.9, 0.5] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent" />
-                </div>
+                  {/* Offset outline, drifts further on hover */}
+                  <div className="cyber-frame [--cyber-cut:28px] [--cyber-edge:rgba(139,92,246,0.4)] [--cyber-accent:rgba(167,139,250,0.7)] translate-x-3 translate-y-3 transition-transform duration-500 ease-in-out group-hover:translate-x-4 group-hover:translate-y-4" />
+                </motion.div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIntroSpin(false);
+                    setFlips((value) => value + 1);
+                  }}
+                  aria-pressed={showCartoon}
+                  aria-label={showCartoon ? "Show photo of Gregory" : "Show illustrated portrait of Gregory"}
+                  title={showCartoon ? "Back to the photo" : "Click to see the illustrated me"}
+                  className="group/swap relative block aspect-[4/5] w-full cursor-pointer focus:outline-none focus-visible:drop-shadow-[0_0_14px_rgba(167,139,250,0.9)]"
+                >
+                  {/* Flipping card */}
+                  <motion.div
+                    className="absolute inset-0 [transform-style:preserve-3d]"
+                    initial={false}
+                    animate={{ rotateY: flips * 180 }}
+                    transition={{ duration: introSpin ? 1 : 0.8, ease: "easeInOut" }}
+                    style={{ transformPerspective: 1200 }}
+                  >
+                    {portraitFaces.map((face) => (
+                      <div
+                        key={face.src}
+                        aria-hidden={face.back !== showCartoon}
+                        className={`absolute inset-0 overflow-hidden ${PORTRAIT_CUT} [backface-visibility:hidden] [-webkit-backface-visibility:hidden] ${face.back ? "[transform:rotateY(180deg)]" : ""}`}
+                      >
+                        <motion.div className="absolute inset-0" style={{ scale: zoom }}>
+                          <Image
+                            src={face.src}
+                            alt={face.alt}
+                            fill
+                            priority
+                            sizes="(min-width: 1024px) 320px, 192px"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                        </motion.div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent" />
+                        {/* Angled 1px edge, same as the cards */}
+                        <span className="cyber-frame [--cyber-cut:28px] [--cyber-edge:rgba(255,255,255,0.12)]" />
+                      </div>
+                    ))}
+                  </motion.div>
+
+                  {/* Swap hint, bottom-left so the cut corner never clips it. Shown on hover or
+                      keyboard focus, and always on touch screens where there is no hover */}
+                  <span
+                    aria-hidden
+                    className="absolute bottom-3 left-3 flex h-8 w-8 items-center justify-center bg-black/40 text-white/80 opacity-0 backdrop-blur-sm transition-[color,opacity] duration-300 group-hover:opacity-100 group-focus-visible/swap:opacity-100 [@media(hover:none)]:opacity-100 [clip-path:polygon(8px_0,100%_0,100%_calc(100%-8px),calc(100%-8px)_100%,0_100%,0_8px)] [transform:translateZ(1px)] group-hover:text-white"
+                  >
+                    <span className="cyber-frame [--cyber-cut:8px] [--cyber-edge:rgba(255,255,255,0.15)] group-hover:[--cyber-edge:rgba(167,139,250,0.6)]" />
+                    <motion.span
+                      animate={{ rotate: flips * 180 }}
+                      transition={{ duration: introSpin ? 1 : 0.8, ease: "easeInOut" }}
+                      className="flex"
+                    >
+                      <ArrowsRightLeftIcon className="h-4 w-4" />
+                    </motion.span>
+                  </span>
+                </button>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -281,8 +415,8 @@ export default function Presentation() {
       {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
+        animate={ready ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ delay: TIMELINE.scrollCue, duration: 0.8, ease: "easeInOut" }}
         className="relative z-10 mt-12 flex justify-center lg:absolute lg:inset-x-0 lg:bottom-6 lg:mt-0 [@media(max-height:600px)]:hidden"
       >
         <button
@@ -301,5 +435,6 @@ export default function Presentation() {
         </button>
       </motion.div>
     </section>
+    </MotionConfig>
   );
 }

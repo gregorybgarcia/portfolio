@@ -2,9 +2,10 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { Fragment, useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { trackResumeClick } from "../utils/analytics";
+import CyberButton from "./CyberButton";
 
 const navigation = [
   { name: "About", href: "#about", current: false },
@@ -30,10 +31,6 @@ const scrollTo = (page: string, setVisible?: (value: boolean) => void) => {
     element?.scrollIntoView({ behavior: "smooth" });
   }, 100);
 };
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 // Animation variants
 const navItemVariants = {
@@ -169,37 +166,18 @@ export default function Header() {
           <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 pb-2">
             <div className="relative flex items-center justify-between">
-              <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
+              <div className="absolute inset-y-0 right-0 flex items-center lg:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="absolute -inset-0.5" />
-                  <span className="sr-only">Open main menu</span>
-                  <AnimatePresence mode="wait">
-                    {open ? (
-                      <motion.div
-                        key="close"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="open"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                <Disclosure.Button as={Fragment}>
+                  <CyberButton
+                    variant="ghost"
+                    size="icon"
+                    icon={open ? XMarkIcon : Bars3Icon}
+                    aria-label={open ? "Close main menu" : "Open main menu"}
+                  />
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center lg:items-stretch lg:justify-start">
                 <motion.button
                   onClick={() => scrollTo("home", setIsVisible)}
                   className="flex items-center gap-3 mr-auto hover:opacity-80 transition-opacity cursor-pointer"
@@ -217,50 +195,42 @@ export default function Header() {
                   </motion.div>
                   <span className="hidden md:block text-white font-bold text-lg">Gregory Garcia</span>
                 </motion.button>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-2">
-                    {navigation.map((item, index) => (
-                      <motion.a
+                <div className="hidden lg:ml-6 lg:block">
+                  <div className="flex items-center space-x-2">
+                    {navigation.map((item, index) => index + 1 === navigation.length ? (
+                      <CyberButton
                         key={item.name}
                         href={item.href}
-                        target={index + 1 === navigation.length ? "_blank" : undefined}
-                        rel={index + 1 === navigation.length ? "noopener noreferrer" : undefined}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         custom={index}
                         variants={navItemVariants}
                         initial="hidden"
                         animate={isLoaded ? "visible" : "hidden"}
-                        whileHover={{
-                          scale: 1.05,
-                          y: -2,
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        className={classNames(
-                          index + 1 === navigation.length
-                            ? "bg-violet-900 hover:bg-violet-700 text-white font-semibold py-2 px-4 border border-violet-700 hover:border-violet-500 rounded-lg transition-all duration-300 shadow-lg shadow-violet-900/50"
-                            : "text-gray-300 hover:text-violet-400 hover:bg-gray-800/50 transition-all duration-300",
-                          "rounded-lg px-3 py-2 text-sm font-medium relative overflow-hidden"
-                        )}
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => trackResumeClick("header")}
+                      >
+                        Resume
+                      </CyberButton>
+                    ) : (
+                      <CyberButton
+                        key={item.name}
+                        href={item.href}
+                        custom={index}
+                        variants={navItemVariants}
+                        initial="hidden"
+                        animate={isLoaded ? "visible" : "hidden"}
+                        variant="link"
+                        size="sm"
                         onClick={(e) => {
-                          if (index + 1 !== navigation.length) {
-                            e.preventDefault();
-                            scrollTo(item.name.toLowerCase(), setIsVisible);
-                          } else {
-                            trackResumeClick("header");
-                          }
+                          e.preventDefault();
+                          scrollTo(item.name.toLowerCase(), setIsVisible);
                         }}
                         aria-current={item.current ? "page" : undefined}
                       >
-                        {/* Hover underline effect for non-resume items */}
-                        {index + 1 !== navigation.length && (
-                          <motion.span
-                            className="absolute bottom-1 left-3 right-3 h-0.5 bg-violet-500 origin-left"
-                            initial={{ scaleX: 0 }}
-                            whileHover={{ scaleX: 1 }}
-                            transition={{ duration: 0.2 }}
-                          />
-                        )}
                         {item.name}
-                      </motion.a>
+                      </CyberButton>
                     ))}
                   </div>
                 </div>
@@ -275,7 +245,7 @@ export default function Header() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="sm:hidden overflow-hidden"
+                className="lg:hidden overflow-hidden"
               >
                 <div className="space-y-1 px-2 pb-3 pt-2">
                   {navigation.map((item, index) => (
@@ -283,17 +253,12 @@ export default function Header() {
                       key={item.name}
                       variants={mobileItemVariants}
                     >
-                      <Disclosure.Button
-                        as="a"
+                      <CyberButton
                         href={item.href}
                         target={index + 1 === navigation.length ? "_blank" : undefined}
                         rel={index + 1 === navigation.length ? "noopener noreferrer" : undefined}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "block rounded-md px-3 py-2 text-base font-medium"
-                        )}
+                        variant={index + 1 === navigation.length ? "ghost" : "link"}
+                        className="w-full"
                         aria-current={item.current ? "page" : undefined}
                         onClick={(e) => {
                           close();
@@ -305,8 +270,8 @@ export default function Header() {
                           }
                         }}
                       >
-                        {item.name}
-                      </Disclosure.Button>
+                        {index + 1 === navigation.length ? "Resume" : item.name}
+                      </CyberButton>
                     </motion.div>
                   ))}
                 </div>

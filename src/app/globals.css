@@ -19,3 +19,117 @@
 body {
   color: #F3F4F6;
 }
+
+/* Animatable colors for the cyber card edge (transitions between gradient stops) */
+@property --cyber-edge {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(55, 65, 81, 1);
+}
+@property --cyber-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(139, 92, 246, 0.6);
+}
+@property --cyber-glow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(139, 92, 246, 0.09);
+}
+
+@layer components {
+  /*
+   * Angular "HUD" card matching CyberButton: top-left and bottom-right corners
+   * cut at 45deg and a 1px edge that glows violet at the cut corners and
+   * lights up on hover.
+   * ::before draws the edge ring, ::after the fill; content sits above both.
+   */
+  .cyber-card,
+  .cyber-frame {
+    --cyber-cut: 16px;
+    --cyber-shape: polygon(
+      var(--cyber-cut) 0,
+      100% 0,
+      100% calc(100% - var(--cyber-cut)),
+      calc(100% - var(--cyber-cut)) 100%,
+      0 100%,
+      0 var(--cyber-cut)
+    );
+    transition: --cyber-edge 0.4s ease-in-out, --cyber-accent 0.4s ease-in-out, --cyber-glow 0.4s ease-in-out;
+  }
+
+  .cyber-card {
+    position: relative;
+    isolation: isolate;
+    clip-path: var(--cyber-shape);
+  }
+
+  .cyber-card::before,
+  .cyber-card::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    clip-path: var(--cyber-shape);
+    pointer-events: none;
+  }
+
+  /*
+   * Edge: a 1px ring only (evenodd hole), so its corner glow never bleeds through
+   * the translucent fill. .cyber-frame is the same ring as a standalone element,
+   * for framing images and outlines (place it absolutely over the content).
+   */
+  .cyber-frame {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .cyber-card::before,
+  .cyber-frame {
+    inset: 0;
+    --cyber-inner-cut: calc(var(--cyber-cut) + 0.414px);
+    clip-path: polygon(
+      evenodd,
+      var(--cyber-cut) 0,
+      100% 0,
+      100% calc(100% - var(--cyber-cut)),
+      calc(100% - var(--cyber-cut)) 100%,
+      0 100%,
+      0 var(--cyber-cut),
+      var(--cyber-cut) 0,
+      var(--cyber-inner-cut) 1px,
+      1px var(--cyber-inner-cut),
+      1px calc(100% - 1px),
+      calc(100% - var(--cyber-inner-cut)) calc(100% - 1px),
+      calc(100% - 1px) calc(100% - var(--cyber-inner-cut)),
+      calc(100% - 1px) 1px,
+      var(--cyber-inner-cut) 1px
+    );
+    background: linear-gradient(
+      135deg,
+      var(--cyber-accent),
+      var(--cyber-edge) 25%,
+      var(--cyber-edge) 75%,
+      var(--cyber-accent)
+    );
+  }
+
+  .cyber-card::after {
+    inset: 1px;
+    /* Faint violet wash from the two cut corners */
+    background:
+      linear-gradient(135deg, var(--cyber-glow), transparent 35%, transparent 65%, var(--cyber-glow)),
+      rgba(17, 24, 39, 0.75);
+  }
+
+  .cyber-card:hover,
+  .cyber-card:focus-within {
+    --cyber-edge: rgba(139, 92, 246, 0.45);
+    --cyber-accent: rgba(196, 181, 253, 1);
+    --cyber-glow: rgba(139, 92, 246, 0.14);
+  }
+
+  /* Smaller cut for compact chips */
+  .cyber-card-sm {
+    --cyber-cut: 10px;
+  }
+}

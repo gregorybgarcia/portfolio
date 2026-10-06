@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { ChevronUpIcon } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
+import CyberButton from "./CyberButton";
 
 export default function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,19 +33,22 @@ export default function BackToTop() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.2 }}
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-4 bg-violet-900 hover:bg-violet-700 text-white rounded-full shadow-lg shadow-violet-900/50 hover:shadow-violet-700/50 transition-all duration-300 group"
-          whileHover={{ scale: 1.1, y: -2 }}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Back to top"
+          className="fixed bottom-8 right-8 z-50"
         >
-          <ChevronUpIcon className="w-6 h-6 group-hover:-translate-y-0.5 transition-transform duration-300" />
-        </motion.button>
+          <CyberButton
+            onClick={scrollToTop}
+            variant="ghost"
+            size="icon"
+            icon={ChevronUpIcon}
+            iconClassName="group-hover:-translate-y-0.5"
+            aria-label="Back to top"
+          />
+        </motion.div>
       )}
     </AnimatePresence>
   );

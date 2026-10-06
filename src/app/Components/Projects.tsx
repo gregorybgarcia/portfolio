@@ -1,4 +1,5 @@
 "use client";
+import SectionLabel from "./SectionLabel";
 import { useAnimation, useInView, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
@@ -69,6 +70,7 @@ export default function Projects() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="projects"
     >
+      <SectionLabel label="Featured work" index={3} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div
@@ -78,7 +80,7 @@ export default function Projects() {
         >
           {/* Floating badge */}
           <motion.span
-            className="inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
+            className="min-[1360px]:hidden inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
             initial={{ opacity: 0, scale: 0.8, y: -20 }}
             animate={isInView ? {
               opacity: 1,
@@ -96,13 +98,13 @@ export default function Projects() {
 
           {/* Title with reveal */}
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden pb-2"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mt-6 mb-6 overflow-hidden pb-2"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.07 }}
           >
             <motion.span
-              className="inline-block"
+              className="inline-block text-white"
               initial={{ y: 60, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
               transition={{
@@ -130,7 +132,7 @@ export default function Projects() {
         {/* Projects Grid */}
         <div
           ref={ref}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"
         >
           {projects.map((project, index) => (
             <motion.div
@@ -145,49 +147,39 @@ export default function Projects() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col h-full bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden cursor-pointer hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300"
+                className="cyber-card flex h-full flex-col p-6 backdrop-blur-sm"
               >
-                {/* Image Container */}
-                <div className="relative h-64 flex items-center justify-center p-8">
-
-                  {/* Project logo */}
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-violet-600/20 rounded-full blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+                {/* Logo and external-link hint */}
+                <div className="mb-5 flex items-start justify-between">
+                  <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white ring-2 ring-gray-900">
                     <Image
-                      className="relative z-10 object-contain w-40 h-40 rounded-full border-2 border-violet-500/50 shadow-lg shadow-violet-900/30 group-hover:scale-105 transition-transform duration-300"
-                      width={160}
-                      height={160}
+                      className="object-cover"
+                      fill
+                      sizes="48px"
                       src={project.icon}
                       alt={project.name}
                     />
                   </div>
-
-                  {/* External link icon */}
-                  <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ArrowTopRightOnSquareIcon className="w-6 h-6 text-violet-400" />
-                  </div>
+                  <ArrowTopRightOnSquareIcon className="h-5 w-5 text-gray-500 transition-colors duration-300 group-hover:text-violet-300" />
                 </div>
 
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-violet-400 transition-colors duration-300">
-                    {project.name}
-                  </h3>
-                  <p className="text-gray-300 text-base leading-relaxed mb-4 flex-grow">
-                    {project.description}
-                  </p>
+                <h3 className="text-xl font-bold text-white transition-colors duration-300 group-hover:text-violet-300">
+                  {project.name}
+                </h3>
+                <p className="mt-2 mb-5 flex-grow leading-relaxed text-gray-400">
+                  {project.description}
+                </p>
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mt-auto">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-violet-900/30 border border-violet-700/50 rounded-full text-violet-300 text-xs font-semibold"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                {/* Tags */}
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-violet-700/50 bg-violet-900/30 px-3 py-1 text-xs font-semibold text-violet-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </a>
             </motion.div>

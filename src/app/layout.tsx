@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto } from "next/font/google";
+import { JetBrains_Mono, Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { getTotalYearsOfExperience } from "./utils/dateUtils";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700", "900"] });
+const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["500"], variable: "--font-mono" });
 
 const yearsOfExperience = getTotalYearsOfExperience();
 
@@ -93,7 +94,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={roboto.className} suppressHydrationWarning>
+      <body className={`${roboto.className} ${mono.variable}`} suppressHydrationWarning>
         {children}
         <Analytics />
       </body>

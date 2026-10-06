@@ -1,4 +1,5 @@
 "use client";
+import SectionLabel from "./SectionLabel";
 import { useAnimation, useInView, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -43,11 +44,10 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
         href={skill.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="block relative p-6 bg-gray-800/50 border border-gray-700 rounded-xl hover:border-violet-500/50 hover:bg-gray-800/70 transition-all duration-300 cursor-pointer backdrop-blur-sm"
+        className="cyber-card block relative p-6 cursor-pointer backdrop-blur-sm"
       >
         <div className="flex flex-col items-center">
           <div className={`relative mb-4 p-3 rounded-full ${skill.name === 'NextJS' ? 'bg-white' : ''}`}>
-            <div className="absolute inset-0 bg-violet-600/20 rounded-full blur-xl group-hover:bg-violet-600/30 transition-all duration-300"></div>
             <Image
               alt={skill.name}
               width={60}
@@ -57,7 +57,7 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
             />
           </div>
 
-          <h3 className="text-lg font-bold text-white mb-3 group-hover:text-violet-400 transition-colors">
+          <h3 className="text-lg font-bold text-white mb-1 group-hover:text-violet-300 transition-colors">
             {skill.name}
           </h3>
 
@@ -125,6 +125,7 @@ export default function Skills() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="skills"
     >
+      <SectionLabel label="Technical expertise" index={4} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div
@@ -138,13 +139,11 @@ export default function Skills() {
           animate={mainControls}
           transition={{ duration: 0.5, delay: 0.07 }}
         >
-          <span className="px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
+          <span className="min-[1360px]:hidden px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
             TECHNICAL EXPERTISE
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6">
-            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-              Skills & Proficiency
-            </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mt-6 mb-6">
+            Skills & Proficiency
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Comprehensive skill set built through years of hands-on experience

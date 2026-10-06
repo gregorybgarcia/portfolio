@@ -1,5 +1,6 @@
 "use client";
 
+import SectionLabel from "./SectionLabel";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import TimelineElement from "./TimelineElement";
 import Image from "next/image";
@@ -7,6 +8,8 @@ import React from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { trackResumeClick } from "../utils/analytics";
+import CyberButton from "./CyberButton";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 const experiencesData = [
   {
@@ -113,6 +116,7 @@ export default function Experience() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="experience"
     >
+      <SectionLabel label="Career journey" index={5} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section with enhanced animations */}
         <motion.div
@@ -123,7 +127,7 @@ export default function Experience() {
         >
           {/* Floating badge */}
           <motion.span
-            className="inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
+            className="min-[1360px]:hidden inline-block px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold"
             initial={{ opacity: 0, scale: 0.8, y: -20 }}
             animate={isInView ? {
               opacity: 1,
@@ -141,13 +145,13 @@ export default function Experience() {
 
           {/* Title with reveal animation */}
           <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mt-6 mb-6 overflow-hidden"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.07 }}
           >
             <motion.span
-              className="inline-block"
+              className="inline-block text-white"
               initial={{ y: 60, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
               transition={{
@@ -207,41 +211,16 @@ export default function Experience() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.42, duration: 0.5 }}
         >
-          <motion.a
+          <CyberButton
             href="https://docs.google.com/document/d/13rLcqKHyb-6Nfvwa9FEwfcQJxwiM6AUeV7qwM1mHv-s/edit"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackResumeClick("experience")}
-            className="relative inline-flex items-center gap-3 px-8 py-4 bg-violet-900 text-white font-semibold rounded-lg shadow-lg shadow-violet-900/50 overflow-hidden group"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 20px 40px rgba(139, 92, 246, 0.4)",
-            }}
-            whileTap={{ scale: 0.95 }}
+            icon={ArrowTopRightOnSquareIcon}
+            iconClassName="group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
           >
-            {/* Button shimmer */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "100%" }}
-              transition={{ duration: 0.6 }}
-            />
-            <span className="relative z-10">View Full Resume</span>
-            <svg
-              className="relative z-10 w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-              />
-            </svg>
-          </motion.a>
+            View full resume
+          </CyberButton>
         </motion.div>
       </div>
     </section>

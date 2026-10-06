@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import React, { ReactNode, useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
+import CyberButton from "./CyberButton";
 
 type Iitem = {
   item: {
@@ -28,16 +29,15 @@ export default function TimelineElement({ item }: Iitem) {
     <div ref={ref} className="vertical-timeline-element">
       <TimelineItem
         contentStyle={{
-          background: "linear-gradient(135deg, rgba(76, 29, 149, 0.9) 0%, rgba(109, 40, 217, 0.8) 100%)",
-          boxShadow: "0 10px 30px rgba(124, 58, 237, 0.3)",
-          border: "1px solid rgba(167, 139, 250, 0.3)",
-          borderRadius: "1rem",
+          // The card chrome lives on the inner .cyber-card
+          background: "transparent",
+          boxShadow: "none",
+          border: "none",
           textAlign: "left",
-          padding: "2rem 2.5rem",
-          backdropFilter: "blur(10px)",
+          padding: 0,
         }}
         contentArrowStyle={{
-          borderRight: "0.5rem solid rgba(124, 58, 237, 0.8)",
+          borderRight: "0.5rem solid rgba(139, 92, 246, 0.45)",
         }}
         date={item.date}
         dateClassName="!text-violet-300 !font-bold !text-lg"
@@ -57,60 +57,43 @@ export default function TimelineElement({ item }: Iitem) {
         }
         iconStyle={{
           background: "linear-gradient(135deg, #1F2937 0%, #111827 100%)",
-          boxShadow: "0 0 0 4px #7C3AED, 0 0 20px rgba(124, 58, 237, 0.4)",
+          // Thin violet ring around the company logo (replaces the library's default white ring)
+          boxShadow: "0 0 0 2px #7C3AED",
           fontSize: "1.5rem",
-          border: "2px solid #4C1D95",
+          border: "none",
           cursor: item.url ? "pointer" : "default",
         }}
         visible={inView}
       >
-        <h3 className="!font-black !text-xl md:!text-2xl !text-white !mb-2">{item.title}</h3>
-        <h4 className="!mt-0 !font-bold !text-base md:!text-lg !text-violet-200 !mb-4">{item.location}</h4>
-        <motion.div
-          initial={false}
-          animate={{
-            height: isExpanded ? "auto" : "3rem",
-          }}
-          transition={{
-            duration: 0.3,
-            ease: "easeInOut",
-          }}
-          className="overflow-hidden"
-        >
-          <p className="!mt-0 !font-normal !text-base !text-gray-100 !leading-relaxed">
-            {item.description}
-          </p>
-        </motion.div>
-        <motion.button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="mt-3 flex items-center gap-2 text-violet-300 hover:text-violet-200 font-semibold text-sm transition-colors duration-200"
-          whileHover={{ x: 3 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isExpanded ? (
-            <>
-              <span>See less</span>
-              <motion.div
-                initial={false}
-                animate={{ rotate: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <ChevronUpIcon className="w-4 h-4" />
-              </motion.div>
-            </>
-          ) : (
-            <>
-              <span>See more</span>
-              <motion.div
-                initial={false}
-                animate={{ rotate: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <ChevronDownIcon className="w-4 h-4" />
-              </motion.div>
-            </>
-          )}
-        </motion.button>
+        <div className="cyber-card px-7 py-6 backdrop-blur-sm">
+          <h3 className="!font-bold !text-xl !text-white !mb-1">{item.title}</h3>
+          <h4 className="!mt-0 !font-semibold !text-base !text-violet-300 !mb-4">{item.location}</h4>
+          <motion.div
+            initial={false}
+            animate={{
+              height: isExpanded ? "auto" : "3rem",
+            }}
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut",
+            }}
+            className="overflow-hidden"
+          >
+            <p className="!mt-0 !font-normal !text-base !text-gray-400 !leading-relaxed">
+              {item.description}
+            </p>
+          </motion.div>
+          <CyberButton
+            onClick={() => setIsExpanded(!isExpanded)}
+            aria-expanded={isExpanded}
+            variant="link"
+            size="sm"
+            icon={isExpanded ? ChevronUpIcon : ChevronDownIcon}
+            className="-ml-4 mt-3"
+          >
+            {isExpanded ? "See less" : "See more"}
+          </CyberButton>
+        </div>
       </TimelineItem>
     </div>
   );
