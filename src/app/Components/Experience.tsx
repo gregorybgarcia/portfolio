@@ -6,6 +6,7 @@ import Image from "next/image";
 import React from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useRef, useEffect } from "react";
+import { trackResumeClick } from "../utils/analytics";
 
 const experiencesData = [
   {
@@ -210,6 +211,7 @@ export default function Experience() {
             href="https://docs.google.com/document/d/13rLcqKHyb-6Nfvwa9FEwfcQJxwiM6AUeV7qwM1mHv-s/edit"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackResumeClick("experience")}
             className="relative inline-flex items-center gap-3 px-8 py-4 bg-violet-900 text-white font-semibold rounded-lg shadow-lg shadow-violet-900/50 overflow-hidden group"
             whileHover={{
               scale: 1.05,

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { getTotalYearsOfExperience } from "./utils/dateUtils";
 
@@ -94,6 +95,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={roboto.className} suppressHydrationWarning>
         {children}
+        <Analytics />
       </body>
     </html>
   );

@@ -13,6 +13,7 @@ import { ArrowDownIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRef, type PointerEvent } from "react";
 import { getTotalYearsOfExperience } from "../utils/dateUtils";
+import { trackContactClick, trackSocialClick } from "../utils/analytics";
 
 const EASE = [0.215, 0.61, 0.355, 1] as const;
 
@@ -194,7 +195,10 @@ export default function Presentation() {
             </motion.button>
 
             <button
-              onClick={() => scrollTo("contact")}
+              onClick={() => {
+                trackContactClick("cta", "hero");
+                scrollTo("contact");
+              }}
               className="inline-flex h-11 items-center text-sm font-semibold text-gray-300 underline-offset-4 transition-colors hover:text-white hover:underline"
             >
               Get in touch
@@ -207,6 +211,7 @@ export default function Presentation() {
                 <a
                   key={link.name}
                   href={link.href}
+                  onClick={() => trackSocialClick(link.name, "hero")}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.name}

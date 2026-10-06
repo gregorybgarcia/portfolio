@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAnimation, useInView, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { trackContactClick, trackSocialClick } from "../utils/analytics";
 import Footer from "./Footer";
 
 // Container variants for staggered animations
@@ -240,6 +241,7 @@ export default function Contact() {
               >
                 <a
                   href="tel:+353834329851"
+                  onClick={() => trackContactClick("phone", "contact")}
                   className="flex items-center gap-3 md:gap-4 flex-1 min-w-0"
                 >
                   <motion.div
@@ -289,6 +291,7 @@ export default function Contact() {
               >
                 <a
                   href="mailto:gregory.barros@hotmail.com"
+                  onClick={() => trackContactClick("email", "contact")}
                   className="flex items-center gap-3 md:gap-4 flex-1 min-w-0"
                 >
                   <motion.div
@@ -338,6 +341,7 @@ export default function Contact() {
               <motion.a
                 variants={socialVariants}
                 href="https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
+                onClick={() => trackSocialClick("linkedin", "contact")}
                 target="_blank"
                 rel="noopener noreferrer me"
                 aria-label="Gregory Garcia on LinkedIn"
@@ -366,6 +370,7 @@ export default function Contact() {
               <motion.a
                 variants={socialVariants}
                 href="https://github.com/gregorybgarcia"
+                onClick={() => trackSocialClick("github", "contact")}
                 target="_blank"
                 rel="noopener noreferrer me"
                 aria-label="Gregory Garcia on GitHub"
@@ -394,6 +399,7 @@ export default function Contact() {
               <motion.a
                 variants={socialVariants}
                 href="https://wa.me/353834329851"
+                onClick={() => trackContactClick("whatsapp", "contact")}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Message Gregory Garcia on WhatsApp"
@@ -435,6 +441,7 @@ export default function Contact() {
               >
                 <motion.a
                   href="mailto:gregory.barros@hotmail.com"
+                  onClick={() => trackContactClick("email", "contact")}
                   className="relative h-[52px] md:h-[60px] flex items-center gap-2 px-4 bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                   whileHover={{
                     scale: 1.1,

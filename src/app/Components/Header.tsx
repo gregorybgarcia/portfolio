@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackResumeClick } from "../utils/analytics";
 
 const navigation = [
   { name: "About", href: "#about", current: false },
@@ -243,6 +244,8 @@ export default function Header() {
                           if (index + 1 !== navigation.length) {
                             e.preventDefault();
                             scrollTo(item.name.toLowerCase(), setIsVisible);
+                          } else {
+                            trackResumeClick("header");
                           }
                         }}
                         aria-current={item.current ? "page" : undefined}
@@ -297,6 +300,8 @@ export default function Header() {
                           if (index + 1 !== navigation.length) {
                             e.preventDefault();
                             scrollTo(item.name.toLowerCase(), setIsVisible);
+                          } else {
+                            trackResumeClick("header");
                           }
                         }}
                       >
