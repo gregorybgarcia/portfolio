@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { motion } from "framer-motion";
 import particleConfig from "../particles-config";
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
@@ -30,7 +31,15 @@ const ParticlesBackground = () => {
   if (init) {
     return (
       <div className="fixed inset-0 pointer-events-none bg-black" style={{ zIndex: -1 }}>
-        <Particles id="tsparticles" options={options} />
+        {/* Particles fade in over the black backdrop instead of popping in */}
+        <motion.div
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        >
+          <Particles id="tsparticles" options={options} />
+        </motion.div>
       </div>
     );
   }

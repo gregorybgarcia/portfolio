@@ -18,58 +18,94 @@ import Image from "next/image";
 import CyberButton from "./CyberButton";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { getTotalYearsOfExperience } from "../utils/dateUtils";
+import { markHeroIntroDone } from "../utils/heroIntro";
 import { trackContactClick, trackSocialClick } from "../utils/analytics";
-import { onPageLoaderDone } from "../utils/pageLoader";
 
 // Long, soft deceleration for entrances; symmetric curve for the curtain wipe
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 const EASE_IN_OUT = [0.76, 0, 0.24, 1] as const;
 
-// Entrance timeline, in seconds after the page loader starts fading out.
-// Big and centered, one at a time: "Hello" (held a moment), ", I'm", the whole
-// name and the role. Then all three lines shrink into place together,
-// and everything else comes in.
+// The role is typed in the big intro after a fixed "Senior ": "Frontend", erased,
+// "Backend", erased, then "Full Stack Developer".
+const ROLE_PREFIX = "Senior ";
+const ROLE_WORDS = ["Frontend", "Backend", "Full Stack Developer"];
+// Seconds per char, the pause on each word, and the pause on "Full Stack Developer"
+// before the intro moves into place
+const ROLE_TYPING = { type: 0.06, erase: 0.035, hold: 0.4, final: 0.8 };
+const ROLE_TYPING_DURATION = ROLE_WORDS.reduce(
+  (total, word, i) =>
+    total + word.length * ROLE_TYPING.type + (i < ROLE_WORDS.length - 1 ? ROLE_TYPING.hold + word.length * ROLE_TYPING.erase : 0),
+  0
+);
+
+// Entrance timeline, in seconds after the page mounts.
+// Big and centered, one at a time: "Hello", ", I'm", the name, then
+// the role with its typed middle word. Then all three lines shrink into place
+// together, and everything else comes in.
+const ROLE_START = 1.5;
+const SETTLE = ROLE_START + 0.3 + ROLE_TYPING_DURATION + ROLE_TYPING.final; // fade-in, typing, then a beat on the role
+const SETTLE_DURATION = 0.8;
+const AFTER = SETTLE + SETTLE_DURATION + 0.1; // then the rest comes in
 const TIMELINE = {
   // When each intro piece rises in
   intro: {
-    hello: 0.5, // after the loader's 0.6s fade has mostly cleared
-    im: 1, // a short pause on "Hello" first
-    name: 1.4,
-    role: 1.8,
+    // "Hello" rises in with a CSS animation, so it plays from the first paint
+    // Each piece starts while the one before is still landing, so it reads as one motion
+    im: 0.35,
+    name: 0.65, // "Gregory" alone, centered
+    surname: 1.0, // "Barros Garcia" slides out from behind it
+    role: ROLE_START, // the cursor fades in, then the whole line types
   },
-  settle: 2.9, // greeting, name and role shrink and glide into their spots
-  settleDuration: 0.8,
-  rest: 3.5, // location, typed line and intro follow every `lineStagger` from here
+  settle: SETTLE, // greeting, name and role shrink and glide into their spots
+  settleDuration: SETTLE_DURATION,
+  rest: AFTER, // location, typed line and intro follow every `lineStagger` from here
   lineStagger: 0.08,
-  actions: 3.75,
-  portrait: 3.5,
-  spin: 5.2,
-  scrollCue: 4.4,
+  actions: AFTER + 0.25,
+  portrait: AFTER,
+  spin: AFTER + 1.7,
+  scrollCue: AFTER + 0.9,
 };
+
 const SURNAME_GRADIENT = "bg-gradient-to-r from-violet-400 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent";
 
-/** The role in the intro: wiped in left to right behind a glowing scan bar */
-function IntroScan({ delay, children }: { delay: number; children: ReactNode }) {
-  const transition = { delay, duration: 0.7, ease: EASE_IN_OUT };
+/**
+ * The role in the intro: ROLE_PREFIX shown from the start, then a blinking cursor types
+ * through ROLE_WORDS after it, ending on the last one.
+ * The final text is laid out invisibly underneath so the line keeps its final width.
+ */
+function IntroRoleTyper({ delay }: { delay: number }) {
+  // The cursor sits between `before` and `after`
+  const [{ before, after }, setText] = useState({ before: "", after: "" });
+
+  useEffect(() => {
+    const timers: number[] = [];
+    let t = (delay + 0.3) * 1000; // once the line is mostly risen in
+    const at = (ms: number, before: string, after = "") =>
+      timers.push(window.setTimeout(() => setText({ before, after }), ms));
+    ROLE_WORDS.forEach((target, i) => {
+      for (let n = 1; n <= target.length; n++) at((t += ROLE_TYPING.type * 1000), target.slice(0, n));
+      if (i === ROLE_WORDS.length - 1) return;
+      t += ROLE_TYPING.hold * 1000;
+      for (let n = target.length - 1; n >= 0; n--) at((t += ROLE_TYPING.erase * 1000), target.slice(0, n));
+    });
+    return () => timers.forEach(window.clearTimeout);
+  }, [delay]);
+
   return (
-    <span className="relative inline-block">
-      <motion.span
-        className="inline-block"
-        initial={{ clipPath: "inset(0 100% 0 0)" }}
-        animate={{ clipPath: "inset(0 0% 0 0)" }}
-        transition={transition}
-      >
-        {children}
-      </motion.span>
-      {/* Scan bar rides the reveal edge, then fades out */}
-      <motion.span
-        aria-hidden
-        className="absolute -inset-y-1 w-0.5 bg-violet-300 shadow-[0_0_12px_rgba(167,139,250,0.9)]"
-        initial={{ left: "0%", opacity: 0 }}
-        animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
-        transition={{ ...transition, opacity: { delay, duration: 0.9, times: [0, 0.1, 0.75, 1] } }}
-      />
-    </span>
+    <motion.span
+      className="relative inline-block whitespace-nowrap"
+      initial={{ opacity: 0, y: "0.4em", filter: "blur(8px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ delay, duration: 0.7, ease: EASE_OUT }}
+    >
+      <span className="invisible">{ROLE}</span>
+      <span className="absolute inset-0 whitespace-pre text-left">
+        {ROLE_PREFIX}
+        {before}
+        <span aria-hidden className="mx-px inline-block w-0.5 animate-blink bg-violet-300 align-[-0.1em] [height:1em]" />
+        {after}
+      </span>
+    </motion.span>
   );
 }
 
@@ -78,9 +114,9 @@ function IntroWord({ delay, className = "", children }: { delay: number; classNa
   return (
     <motion.span
       className={`inline-block ${className}`}
-      initial={{ opacity: 0, y: "0.4em" }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.6, ease: EASE_OUT }}
+      initial={{ opacity: 0, y: "0.4em", filter: "blur(8px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ delay, duration: 0.7, ease: EASE_OUT }}
     >
       {children}
     </motion.span>
@@ -94,7 +130,7 @@ const lineDelay = (step: number) => TIMELINE.rest + (step - 2) * TIMELINE.lineSt
 const GREETING_CLASS = "font-semibold uppercase tracking-[0.3em] text-violet-400";
 const NAME_CLASS = "whitespace-nowrap font-bold leading-tight tracking-tight text-white";
 const ROLE_CLASS = "font-medium text-violet-300";
-const ROLE = "Senior Full Stack Developer";
+const ROLE = ROLE_PREFIX + ROLE_WORDS[ROLE_WORDS.length - 1];
 const nameContent = (
   <>
     Gregory{" "}
@@ -114,6 +150,9 @@ const socialLinks = [
     href: "https://github.com/gregorybgarcia",
   },
 ];
+
+// Portrait flip durations (seconds): the automatic intro flip, and on click
+const FLIP = { intro: 0.5, click: 0.4 };
 
 // Same 45deg cut corners as the cards and buttons, scaled up for the portrait
 const PORTRAIT_CUT = "[clip-path:polygon(28px_0,100%_0,100%_calc(100%-28px),calc(100%-28px)_100%,0_100%,0_28px)]";
@@ -160,20 +199,28 @@ export default function Presentation() {
   const yearsOfExperience = getTotalYearsOfExperience();
   const prefersReducedMotion = useReducedMotion();
 
-  // Becomes true when the page loader starts fading out; drives the whole entrance
+  // Becomes true once mounted; drives the whole entrance (the intro doubles as the loading screen)
   const [ready, setReady] = useState(false);
-  useEffect(() => onPageLoaderDone(() => setReady(true)), []);
+  useEffect(() => setReady(true), []);
 
   // Intro: big centered words appear one by one, then both lines move into the copy column
   const [settled, setSettled] = useState(false);
   useEffect(() => {
     if (!ready) return;
-    if (prefersReducedMotion) {
+    // Skip the big intro for reduced motion, or when the page opens scrolled away from
+    // the hero (reload mid-page, #section link), so it never covers another section
+    if (prefersReducedMotion || window.scrollY > 50 || window.location.hash) {
       setSettled(true);
+      markHeroIntroDone();
       return;
     }
     const settle = window.setTimeout(() => setSettled(true), TIMELINE.settle * 1000);
-    return () => window.clearTimeout(settle);
+    // Tell the header once the greeting has landed in place
+    const done = window.setTimeout(markHeroIntroDone, (TIMELINE.settle + TIMELINE.settleDuration) * 1000);
+    return () => {
+      window.clearTimeout(settle);
+      window.clearTimeout(done);
+    };
   }, [ready, prefersReducedMotion]);
 
   // Both in-place copies animate from the big intro ones with the same move
@@ -262,25 +309,46 @@ export default function Presentation() {
     >
       {/* Intro, big and centered: "Hello", ", I'm", the name and the role, one at a time. Each line shares a layoutId with its
           in-place copy below, so Framer animates the shrink and move between them.
-          All words hold their space from the start, so nothing shifts as they appear. */}
-      {ready && !settled && (
+          All words hold their space from the start, so nothing shifts as they appear.
+          "Hello" animates in with CSS, so it plays before any JS loads
+          (hidden by CSS for reduced motion, where the intro is skipped). */}
+      {!settled && (
         <div
           aria-hidden
-          className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center gap-4 px-6 text-center"
+          className="pointer-events-none fixed inset-0 z-20 flex flex-col motion-reduce:hidden items-center justify-center gap-4 px-6 text-center"
         >
           <motion.p layoutId="hero-greeting" className={`text-3xl sm:text-5xl lg:text-6xl ${GREETING_CLASS}`}>
-            <IntroWord delay={TIMELINE.intro.hello}>Hello</IntroWord>
+            <span className="inline-block animate-hello-rise">Hello</span>
             <IntroWord delay={TIMELINE.intro.im}>, I&apos;m</IntroWord>
           </motion.p>
           {/* A <p>, not a second <h1>: the in-place name stays the page's only h1 */}
           <motion.p
             layoutId="hero-name"
-            className={`text-[clamp(1.75rem,8.6vw,3.75rem)] lg:text-[clamp(3rem,7.5vw,6.5rem)] ${NAME_CLASS}`}
+            className={`flex items-baseline justify-center text-[clamp(1.75rem,8.6vw,3.75rem)] lg:text-[clamp(3rem,7.5vw,6.5rem)] ${NAME_CLASS}`}
           >
-            <IntroWord delay={TIMELINE.intro.name}>{nameContent}</IntroWord>
+            <IntroWord delay={TIMELINE.intro.name} className="relative z-10">
+              Gregory
+            </IntroWord>
+            {/* The mask opens from zero width, so "Gregory" starts centered and eases left
+                while the surname slides out from behind it (the mask's left edge) */}
+            <motion.span
+              className="ml-[0.25em] overflow-hidden pb-[0.15em] -mb-[0.15em]"
+              initial={{ width: 0 }}
+              animate={{ width: "auto" }}
+              transition={{ delay: TIMELINE.intro.surname, duration: 0.9, ease: EASE_OUT }}
+            >
+              <motion.span
+                className="inline-block"
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                transition={{ delay: TIMELINE.intro.surname, duration: 0.9, ease: EASE_OUT }}
+              >
+                <span className={SURNAME_GRADIENT}>Barros Garcia</span>
+              </motion.span>
+            </motion.span>
           </motion.p>
           <motion.p layoutId="hero-role" className={`text-2xl sm:text-3xl lg:text-4xl ${ROLE_CLASS}`}>
-            <IntroScan delay={TIMELINE.intro.role}>{ROLE}</IntroScan>
+            <IntroRoleTyper delay={TIMELINE.intro.role} />
           </motion.p>
         </div>
       )}
@@ -361,7 +429,7 @@ export default function Presentation() {
                     "accessible, responsive interfaces.",
                     "modern web apps end to end.",
                   ]}
-                  startDelay={4000}
+                  startDelay={(TIMELINE.rest + 0.5) * 1000}
                   typeSpeed={55}
                   backSpeed={35}
                   backDelay={1800}
@@ -495,7 +563,7 @@ export default function Presentation() {
                     className="absolute inset-0 [transform-style:preserve-3d]"
                     initial={false}
                     animate={{ rotateY: flips * 180 }}
-                    transition={{ duration: introSpin ? 1 : 0.8, ease: "easeInOut" }}
+                    transition={{ duration: introSpin ? FLIP.intro : FLIP.click, ease: "easeInOut" }}
                     style={{ transformPerspective: 1200 }}
                   >
                     {portraitFaces.map((face) => (
@@ -530,7 +598,7 @@ export default function Presentation() {
                     <span className="cyber-frame [--cyber-cut:8px] [--cyber-edge:rgba(255,255,255,0.15)] group-hover:[--cyber-edge:rgba(167,139,250,0.6)]" />
                     <motion.span
                       animate={{ rotate: flips * 180 }}
-                      transition={{ duration: introSpin ? 1 : 0.8, ease: "easeInOut" }}
+                      transition={{ duration: introSpin ? FLIP.intro : FLIP.click, ease: "easeInOut" }}
                       className="flex"
                     >
                       <ArrowsRightLeftIcon className="h-4 w-4" />

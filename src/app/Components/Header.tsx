@@ -6,6 +6,7 @@ import { Fragment, useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { trackResumeClick } from "../utils/analytics";
 import CyberButton from "./CyberButton";
+import { onHeroIntroDone } from "../utils/heroIntro";
 
 const navigation = [
   { name: "About", href: "#about", current: false },
@@ -92,10 +93,10 @@ export default function Header() {
     setMobileMenuOpen(false);
   }, []);
 
-  useEffect(() => {
-    // Trigger initial animation
-    const timer = setTimeout(() => setIsLoaded(true), 100);
+  // Stay hidden until the hero's greeting animation has finished
+  useEffect(() => onHeroIntroDone(() => setIsLoaded(true)), []);
 
+  useEffect(() => {
     let lastScroll = 0;
 
     const handleScroll = () => {
@@ -134,7 +135,6 @@ export default function Header() {
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -146,8 +146,8 @@ export default function Header() {
       ref={headerRef}
       initial={{ y: -100, opacity: 0 }}
       animate={{
-        y: isVisible ? 0 : -100,
-        opacity: isVisible ? 1 : 0,
+        y: isVisible && isLoaded ? 0 : -100,
+        opacity: isVisible && isLoaded ? 1 : 0,
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="w-full z-20 fixed"

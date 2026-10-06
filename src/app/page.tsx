@@ -11,7 +11,6 @@ import Contact from "./Components/Contact";
 import BackToTop from "./Components/BackToTop";
 import ScrollProgress from "./Components/ScrollProgress";
 import ScrollFade from "./Components/ScrollFade";
-import PageLoader from "./Components/PageLoader";
 import { getTotalYearsOfExperience } from "./utils/dateUtils";
 
 export default function Home() {
@@ -174,7 +173,6 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <PageLoader />
       <ScrollProgress />
       <ScrollFade />
       <main className="flex min-h-screen flex-col items-center justify-between">
