@@ -12,7 +12,8 @@ export default function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-600 via-purple-500 to-pink-500 origin-left z-50"
+      // Wide screens show page progress in the vertical section labels instead
+      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-600 via-purple-500 to-pink-500 origin-left z-50 min-[1360px]:hidden"
       style={{ scaleX }}
     />
   );

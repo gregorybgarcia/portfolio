@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 interface SectionLabelProps {
   /** Section title, e.g. "About me" (rendered uppercase) */
@@ -9,11 +9,15 @@ interface SectionLabelProps {
 }
 
 /**
- * Vertical section title pinned to the left edge of a section on wide screens.
+ * Vertical section title pinned to the left edge of a section on wide screens,
+ * with a page scroll bar (it replaces the top progress bar at this breakpoint).
  * Place it as a direct child of a `relative` section. Below the breakpoint it
  * renders nothing, and the section's horizontal pill badge is shown instead.
  */
 export default function SectionLabel({ label, index }: SectionLabelProps) {
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
+
   return (
     <div
       aria-hidden
@@ -26,11 +30,19 @@ export default function SectionLabel({ label, index }: SectionLabelProps) {
         viewport={{ once: true, margin: "-80px 0px" }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <span className="text-xs font-semibold tabular-nums text-violet-400">
+        <span className="font-mono text-xs font-medium tabular-nums text-violet-400">
           {String(index).padStart(2, "0")}
         </span>
-        <span className="h-16 w-px bg-gradient-to-b from-violet-500/80 to-transparent" />
-        <span className="rotate-180 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.35em] text-gray-400 [writing-mode:vertical-rl]">
+
+        {/* Page scroll bar: thin track with a glowing violet fill */}
+        <span className="relative h-32 w-px bg-gray-700/70">
+          <motion.span
+            className="absolute inset-0 origin-top bg-gradient-to-b from-violet-500 to-violet-300 shadow-[0_0_8px_rgba(139,92,246,0.8)]"
+            style={{ scaleY: progress }}
+          />
+        </span>
+
+        <span className="rotate-180 whitespace-nowrap font-mono text-xs font-medium uppercase tracking-[0.35em] text-gray-400 [writing-mode:vertical-rl]">
           {label}
         </span>
       </motion.div>
