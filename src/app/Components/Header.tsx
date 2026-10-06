@@ -153,7 +153,7 @@ export default function Header() {
         opacity: isVisible ? 1 : 0,
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`w-full z-20 fixed transition-colors duration-300 ${isScrolled || mobileMenuOpen ? "bg-gray-900/95 backdrop-blur-md border-b border-gray-800/50 shadow-lg shadow-black/10" : "bg-transparent border-b border-transparent"}`}
+      className="w-full z-20 fixed"
     >
       <Disclosure>
         {({ open, close }) => {
@@ -317,6 +317,17 @@ export default function Header() {
         );
         }}
       </Disclosure>
+
+      {/* Background (10% transparent) */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 -z-10 bg-black/90 transition-opacity duration-300 ${isScrolled || mobileMenuOpen ? "opacity-100" : "opacity-0"}`}
+      />
+      {/* Bottom fade */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 top-full h-6 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${isScrolled || mobileMenuOpen ? "opacity-100" : "opacity-0"}`}
+      />
     </motion.nav>
   );
 }
