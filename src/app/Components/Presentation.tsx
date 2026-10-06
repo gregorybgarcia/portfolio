@@ -18,7 +18,7 @@ import Image from "next/image";
 import CyberButton from "./CyberButton";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { getTotalYearsOfExperience } from "../utils/dateUtils";
-import { markHeroIntroDone } from "../utils/heroIntro";
+import { hasSeenHeroIntro, markHeroIntroDone, markHeroIntroSeen } from "../utils/heroIntro";
 import { trackContactClick, trackSocialClick } from "../utils/analytics";
 
 // Long, soft deceleration for entrances; symmetric curve for the curtain wipe
@@ -124,7 +124,11 @@ function IntroWord({ delay, className = "", children }: { delay: number; classNa
 }
 
 /** Rise delay for the remaining text lines (step 2 = first line after the name) */
-const lineDelay = (step: number) => TIMELINE.rest + (step - 2) * TIMELINE.lineStagger;
+const lineDelay = (step: number, shift = 0) => TIMELINE.rest - shift + (step - 2) * TIMELINE.lineStagger;
+
+// When the intro is skipped, everything after it is pulled forward by this much, so
+// the hero comes in right away instead of waiting out the intro's timing
+const SKIP_SHIFT = AFTER - 0.3;
 
 // Shared by the big intro copies and the in-place ones, so the shrink is a uniform scale
 const GREETING_CLASS = "font-semibold uppercase tracking-[0.3em] text-violet-400";
@@ -168,6 +172,8 @@ const scrollTo = (id: string) => {
 
 interface RiseProps {
   show: boolean;
+  /** Seconds to pull the delay forward by (see SKIP_SHIFT) */
+  shift: number;
   /** Position in the text stagger (0 = first line) */
   step: number;
   className?: string;
@@ -175,7 +181,7 @@ interface RiseProps {
 }
 
 /** A line of text that rises into view from behind a mask. */
-function Rise({ show, step, className = "", children }: RiseProps) {
+function Rise({ show, shift, step, className = "", children }: RiseProps) {
   return (
     // Extra bottom padding keeps descenders (g, y, p) from being clipped by the mask
     <div className={`overflow-hidden pb-[0.15em] -mb-[0.15em] ${className}`}>
@@ -183,7 +189,7 @@ function Rise({ show, step, className = "", children }: RiseProps) {
         initial={{ y: "110%" }}
         animate={show ? { y: "0%" } : { y: "110%" }}
         transition={{
-          delay: lineDelay(step),
+          delay: lineDelay(step, shift),
           duration: 0.9,
           ease: EASE_OUT,
         }}
@@ -199,25 +205,39 @@ export default function Presentation() {
   const yearsOfExperience = getTotalYearsOfExperience();
   const prefersReducedMotion = useReducedMotion();
 
-  // Becomes true once mounted; drives the whole entrance (the intro doubles as the loading screen)
+  // Becomes true once mounted; drives the whole entrance (the intro doubles as the loading screen).
+  // The big intro plays only on the first visit; it's skipped on later loads and refreshes,
+  // for reduced motion, and when the page opens scrolled away from the hero (reload
+  // mid-page, #section link) so it never covers another section. Both are set together so
+  // every entrance delay is already right on the render that starts them.
   const [ready, setReady] = useState(false);
-  useEffect(() => setReady(true), []);
+  const [introSkipped, setIntroSkipped] = useState(false);
+  useEffect(() => {
+    const skip =
+      hasSeenHeroIntro() ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.scrollY > 50 ||
+      Boolean(window.location.hash);
+    markHeroIntroSeen();
+    setIntroSkipped(skip);
+    setReady(true);
+  }, []);
+  const shift = introSkipped ? SKIP_SHIFT : 0;
 
   // The focus line starts typing once the intro is through. A timer rather than typed.js'
   // startDelay, which it re-applies on every loop and would stall before the first phrase.
   const [typing, setTyping] = useState(false);
   useEffect(() => {
-    const start = window.setTimeout(() => setTyping(true), (TIMELINE.rest + 0.5) * 1000);
+    if (!ready) return;
+    const start = window.setTimeout(() => setTyping(true), (TIMELINE.rest - shift + 0.5) * 1000);
     return () => window.clearTimeout(start);
-  }, []);
+  }, [ready, shift]);
 
   // Intro: big centered words appear one by one, then both lines move into the copy column
   const [settled, setSettled] = useState(false);
   useEffect(() => {
     if (!ready) return;
-    // Skip the big intro for reduced motion, or when the page opens scrolled away from
-    // the hero (reload mid-page, #section link), so it never covers another section
-    if (prefersReducedMotion || window.scrollY > 50 || window.location.hash) {
+    if (introSkipped) {
       setSettled(true);
       markHeroIntroDone();
       return;
@@ -229,10 +249,19 @@ export default function Presentation() {
       window.clearTimeout(settle);
       window.clearTimeout(done);
     };
-  }, [ready, prefersReducedMotion]);
+  }, [ready, introSkipped]);
 
   // Both in-place copies animate from the big intro ones with the same move
   const settleTransition = { duration: TIMELINE.settleDuration, ease: EASE_IN_OUT };
+  // Without the intro the in-place lines have nothing to move in from, so they fade up instead
+  const inPlaceEntrance = (step: number) =>
+    introSkipped
+      ? {
+          initial: { opacity: 0, y: 12 },
+          animate: { opacity: 1, y: 0 },
+          transition: { delay: step * TIMELINE.lineStagger, duration: 0.8, ease: EASE_OUT },
+        }
+      : { transition: settleTransition };
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -289,23 +318,23 @@ export default function Presentation() {
       return;
     }
     const wipe = animate(hidden, 0, {
-      delay: TIMELINE.portrait,
+      delay: TIMELINE.portrait - shift,
       duration: 1.1,
       ease: EASE_IN_OUT,
       onComplete: () => setCurtainOpen(true),
     });
-    const settle = animate(zoom, 1, { delay: TIMELINE.portrait, duration: 1.8, ease: EASE_OUT });
+    const settle = animate(zoom, 1, { delay: TIMELINE.portrait - shift, duration: 1.8, ease: EASE_OUT });
     // Once everything has landed, flip from the photo to the illustration
     const spin = window.setTimeout(() => {
       setIntroSpin(true);
       setFlips((value) => (value === 0 ? 1 : value));
-    }, TIMELINE.spin * 1000);
+    }, (TIMELINE.spin - shift) * 1000);
     return () => {
       wipe.stop();
       settle.stop();
       window.clearTimeout(spin);
     };
-  }, [ready, prefersReducedMotion, hidden, zoom]);
+  }, [ready, prefersReducedMotion, shift, hidden, zoom]);
 
   return (
     // "user": honours the OS reduced-motion setting (transforms snap, fades still run)
@@ -318,12 +347,13 @@ export default function Presentation() {
       {/* Intro, big and centered: "Hello", ", I'm", the name and the role, one at a time. Each line shares a layoutId with its
           in-place copy below, so Framer animates the shrink and move between them.
           All words hold their space from the start, so nothing shifts as they appear.
-          "Hello" animates in with CSS, so it plays before any JS loads
-          (hidden by CSS for reduced motion, where the intro is skipped). */}
+          "Hello" animates in with CSS, so it plays before any JS loads. Hidden by CSS
+          where the intro is skipped: reduced motion, and repeat visits (`data-intro-seen`,
+          set on <html> by a script in the layout before first paint). */}
       {!settled && (
         <div
           aria-hidden
-          className="pointer-events-none fixed inset-0 z-20 flex flex-col motion-reduce:hidden items-center justify-center gap-4 px-6 text-center"
+          className="hero-intro pointer-events-none fixed inset-0 z-20 flex flex-col motion-reduce:hidden items-center justify-center gap-4 px-6 text-center"
         >
           <motion.p layoutId="hero-greeting" className={`text-3xl sm:text-5xl lg:text-6xl ${GREETING_CLASS}`}>
             <span className="inline-block animate-hello-rise">Hello</span>
@@ -373,7 +403,7 @@ export default function Presentation() {
           {/* In-place greeting and name; invisible copies hold their space until the
               big intro versions move in */}
           {settled ? (
-            <motion.p layoutId="hero-greeting" transition={settleTransition} className={`text-sm ${GREETING_CLASS}`}>
+            <motion.p layoutId="hero-greeting" {...inPlaceEntrance(0)} className={`text-sm ${GREETING_CLASS}`}>
               Hello, I&apos;m
             </motion.p>
           ) : (
@@ -386,7 +416,7 @@ export default function Presentation() {
             {settled ? (
               <motion.h1
                 layoutId="hero-name"
-                transition={settleTransition}
+                {...inPlaceEntrance(1)}
                 className={`text-[clamp(1.75rem,8.6vw,3.75rem)] lg:text-[clamp(3rem,5.5vw,4.5rem)] ${NAME_CLASS}`}
               >
                 {nameContent}
@@ -401,7 +431,7 @@ export default function Presentation() {
           {/* Role moves in from the big intro; the location fades in with the rest */}
           <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 lg:justify-start">
             {settled ? (
-              <motion.h2 layoutId="hero-role" transition={settleTransition} className={`text-[min(4.4vw,1.25rem)] sm:text-2xl ${ROLE_CLASS}`}>
+              <motion.h2 layoutId="hero-role" {...inPlaceEntrance(2)} className={`text-[min(4.4vw,1.25rem)] sm:text-2xl ${ROLE_CLASS}`}>
                 {ROLE}
               </motion.h2>
             ) : (
@@ -411,7 +441,7 @@ export default function Presentation() {
               className="flex items-center gap-4"
               initial={{ opacity: 0, y: 12 }}
               animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ delay: lineDelay(2), duration: 0.8, ease: EASE_OUT }}
+              transition={{ delay: lineDelay(2, shift), duration: 0.8, ease: EASE_OUT }}
             >
               <span className="hidden h-6 w-px bg-gray-700 sm:block" aria-hidden />
               <span className="flex items-center gap-2 text-xl font-medium text-gray-400 sm:text-2xl">
@@ -423,7 +453,7 @@ export default function Presentation() {
 
           {/* Rotating focus line; typing starts once the line is in view. Mono is wide, so on
               phones the longest phrase can wrap: room for two lines keeps the layout still */}
-          <Rise show={ready} step={3} className="mt-3 [@media(max-height:500px)]:hidden">
+          <Rise show={ready} shift={shift} step={3} className="mt-3 [@media(max-height:500px)]:hidden">
             <p
               suppressHydrationWarning
               className="min-h-[2.5rem] font-mono text-sm text-gray-300 sm:min-h-[1.75rem] sm:text-lg"
@@ -449,7 +479,7 @@ export default function Presentation() {
             </p>
           </Rise>
 
-          <Rise show={ready} step={4} className="mt-6">
+          <Rise show={ready} shift={shift} step={4} className="mt-6">
             <p className="max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg">
               {yearsOfExperience}+ years building web applications end to end
               with Node.js, React, Next.js and TypeScript. Currently leading
@@ -470,7 +500,7 @@ export default function Presentation() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={{ delay: TIMELINE.actions, duration: 0.8, ease: EASE_OUT }}
+            transition={{ delay: TIMELINE.actions - shift, duration: 0.8, ease: EASE_OUT }}
             className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 lg:justify-start"
           >
             <CyberButton
@@ -522,7 +552,7 @@ export default function Presentation() {
             style={{ clipPath: curtainOpen ? "none" : curtain }}
             initial={{ x: 32 }}
             animate={ready ? { x: 0 } : { x: 32 }}
-            transition={{ delay: TIMELINE.portrait, duration: 1.4, ease: EASE_OUT }}
+            transition={{ delay: TIMELINE.portrait - shift, duration: 1.4, ease: EASE_OUT }}
             className="relative w-40 sm:w-48 lg:w-full lg:max-w-xs"
           >
             {/* Slow float */}
@@ -543,7 +573,7 @@ export default function Presentation() {
                   className="absolute inset-0"
                   initial={{ opacity: 0 }}
                   animate={ready ? { opacity: 1 } : { opacity: 0 }}
-                  transition={{ delay: TIMELINE.portrait + 0.7, duration: 0.8, ease: "easeInOut" }}
+                  transition={{ delay: TIMELINE.portrait - shift + 0.7, duration: 0.8, ease: "easeInOut" }}
                 >
                   {/* Breathing glow */}
                   <motion.div
@@ -623,7 +653,7 @@ export default function Presentation() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={ready ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: TIMELINE.scrollCue, duration: 0.8, ease: "easeInOut" }}
+        transition={{ delay: TIMELINE.scrollCue - shift, duration: 0.8, ease: "easeInOut" }}
         className="relative z-10 mt-12 flex justify-center lg:absolute lg:inset-x-0 lg:bottom-6 lg:mt-0 [@media(max-height:600px)]:hidden"
       >
         <button

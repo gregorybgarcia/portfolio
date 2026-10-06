@@ -133,3 +133,8 @@ body {
     --cyber-cut: 10px;
   }
 }
+
+/* Repeat visits skip the hero intro; the attribute is set before first paint (layout.tsx) */
+html[data-intro-seen] .hero-intro {
+  display: none;
+}

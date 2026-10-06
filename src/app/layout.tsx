@@ -3,6 +3,7 @@ import { JetBrains_Mono, Roboto } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { getTotalYearsOfExperience } from "./utils/dateUtils";
+import { INTRO_SEEN_KEY } from "./utils/heroIntro";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700", "900"] });
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["500"], variable: "--font-mono" });
@@ -94,6 +95,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Before first paint: on repeat visits, hide the hero intro so it doesn't flash before hydration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem("${INTRO_SEEN_KEY}")==="1")document.documentElement.setAttribute("data-intro-seen","")}catch(e){}`,
+          }}
+        />
+      </head>
       <body className={`${roboto.className} ${mono.variable}`} suppressHydrationWarning>
         {children}
         <Analytics />

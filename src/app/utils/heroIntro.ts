@@ -1,6 +1,25 @@
-// Lets the header wait for the hero's greeting animation to finish before showing.
+// Lets the header wait for the hero's greeting animation to finish before showing,
+// and remembers that the intro was seen so it only plays on the first visit.
 
 const DONE_EVENT = "herointro:done";
+
+/** localStorage key; also read by the inline script in layout.tsx before first paint */
+export const INTRO_SEEN_KEY = "heroIntroSeen";
+
+// Storage can throw (private mode, blocked site data); then the intro just plays again
+export const hasSeenHeroIntro = () => {
+  try {
+    return localStorage.getItem(INTRO_SEEN_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+
+export const markHeroIntroSeen = () => {
+  try {
+    localStorage.setItem(INTRO_SEEN_KEY, "1");
+  } catch {}
+};
 
 declare global {
   interface Window {
