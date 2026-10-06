@@ -129,7 +129,7 @@ const lineDelay = (step: number) => TIMELINE.rest + (step - 2) * TIMELINE.lineSt
 // Shared by the big intro copies and the in-place ones, so the shrink is a uniform scale
 const GREETING_CLASS = "font-semibold uppercase tracking-[0.3em] text-violet-400";
 const NAME_CLASS = "whitespace-nowrap font-bold leading-tight tracking-tight text-white";
-const ROLE_CLASS = "font-medium text-violet-300";
+const ROLE_CLASS = "font-mono font-medium text-violet-300";
 const ROLE = ROLE_PREFIX + ROLE_WORDS[ROLE_WORDS.length - 1];
 const nameContent = (
   <>
@@ -202,6 +202,14 @@ export default function Presentation() {
   // Becomes true once mounted; drives the whole entrance (the intro doubles as the loading screen)
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
+
+  // The focus line starts typing once the intro is through. A timer rather than typed.js'
+  // startDelay, which it re-applies on every loop and would stall before the first phrase.
+  const [typing, setTyping] = useState(false);
+  useEffect(() => {
+    const start = window.setTimeout(() => setTyping(true), (TIMELINE.rest + 0.5) * 1000);
+    return () => window.clearTimeout(start);
+  }, []);
 
   // Intro: big centered words appear one by one, then both lines move into the copy column
   const [settled, setSettled] = useState(false);
@@ -347,7 +355,7 @@ export default function Presentation() {
               </motion.span>
             </motion.span>
           </motion.p>
-          <motion.p layoutId="hero-role" className={`text-2xl sm:text-3xl lg:text-4xl ${ROLE_CLASS}`}>
+          <motion.p layoutId="hero-role" className={`text-[min(5vw,1.5rem)] sm:text-3xl lg:text-4xl ${ROLE_CLASS}`}>
             <IntroRoleTyper delay={TIMELINE.intro.role} />
           </motion.p>
         </div>
@@ -393,11 +401,11 @@ export default function Presentation() {
           {/* Role moves in from the big intro; the location fades in with the rest */}
           <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 lg:justify-start">
             {settled ? (
-              <motion.h2 layoutId="hero-role" transition={settleTransition} className={`text-xl sm:text-2xl ${ROLE_CLASS}`}>
+              <motion.h2 layoutId="hero-role" transition={settleTransition} className={`text-[min(4.4vw,1.25rem)] sm:text-2xl ${ROLE_CLASS}`}>
                 {ROLE}
               </motion.h2>
             ) : (
-              <h2 className={`invisible text-xl sm:text-2xl ${ROLE_CLASS}`}>{ROLE}</h2>
+              <h2 className={`invisible text-[min(4.4vw,1.25rem)] sm:text-2xl ${ROLE_CLASS}`}>{ROLE}</h2>
             )}
             <motion.span
               className="flex items-center gap-4"
@@ -413,14 +421,15 @@ export default function Presentation() {
             </motion.span>
           </div>
 
-          {/* Rotating focus line; typing starts once the line is in view */}
+          {/* Rotating focus line; typing starts once the line is in view. Mono is wide, so on
+              phones the longest phrase can wrap: room for two lines keeps the layout still */}
           <Rise show={ready} step={3} className="mt-3 [@media(max-height:500px)]:hidden">
             <p
               suppressHydrationWarning
-              className="min-h-[1.75rem] text-base text-gray-300 sm:min-h-[2rem] sm:text-lg"
+              className="min-h-[2.5rem] font-mono text-sm text-gray-300 sm:min-h-[1.75rem] sm:text-lg"
             >
               Crafting{" "}
-              {ready ? (
+              {typing ? (
                 <ReactTyped
                   className="text-white"
                   strings={[
@@ -429,7 +438,6 @@ export default function Presentation() {
                     "accessible, responsive interfaces.",
                     "modern web apps end to end.",
                   ]}
-                  startDelay={(TIMELINE.rest + 0.5) * 1000}
                   typeSpeed={55}
                   backSpeed={35}
                   backDelay={1800}
