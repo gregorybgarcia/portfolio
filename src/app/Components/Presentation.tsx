@@ -206,9 +206,9 @@ export default function Presentation() {
               <h2 className="text-xl font-medium text-violet-300 sm:text-2xl">
                 Senior Full Stack Developer
               </h2>
-              <span className="hidden h-5 w-px bg-gray-700 sm:block" aria-hidden />
-              <span className="flex items-center gap-1.5 text-sm text-gray-400">
-                <MapPinIcon className="h-4 w-4" aria-hidden />
+              <span className="hidden h-6 w-px bg-gray-700 sm:block" aria-hidden />
+              <span className="flex items-center gap-2 text-xl font-medium text-gray-400 sm:text-2xl">
+                <MapPinIcon className="h-5 w-5 flex-shrink-0 sm:h-6 sm:w-6" aria-hidden />
                 Dublin, Ireland
               </span>
             </div>
