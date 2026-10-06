@@ -26,33 +26,61 @@ const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 const EASE_IN_OUT = [0.76, 0, 0.24, 1] as const;
 
 // Entrance timeline, in seconds after the page loader starts fading out.
-// Big and centered, one at a time: "Hello," "I'm" "Gregory" "Barros Garcia" and the
-// role. Then all three lines shrink into place together, and everything else comes in.
+// Big and centered, one at a time: "Hello" (held a moment), ", I'm", the whole
+// name and the role. Then all three lines shrink into place together,
+// and everything else comes in.
 const TIMELINE = {
-  firstWord: 0.5, // after the loader's 0.6s fade has mostly cleared
-  wordStagger: 0.3, // each piece 0.3s after the previous one
-  settle: 2.6, // greeting, name and role shrink and glide into their spots
+  // When each intro piece rises in
+  intro: {
+    hello: 0.5, // after the loader's 0.6s fade has mostly cleared
+    im: 1, // a short pause on "Hello" first
+    name: 1.4,
+    role: 1.8,
+  },
+  settle: 2.9, // greeting, name and role shrink and glide into their spots
   settleDuration: 0.8,
-  rest: 3.2, // location, typed line and intro follow every `lineStagger` from here
+  rest: 3.5, // location, typed line and intro follow every `lineStagger` from here
   lineStagger: 0.08,
-  actions: 3.45,
-  portrait: 3.2,
-  spin: 4.9,
-  scrollCue: 4.1,
+  actions: 3.75,
+  portrait: 3.5,
+  spin: 5.2,
+  scrollCue: 4.4,
 };
-
-// Intro greeting words, big and centered; then the first name, then "Barros Garcia"
-const INTRO_GREETING = ["Hello,", "I'm"];
 const SURNAME_GRADIENT = "bg-gradient-to-r from-violet-400 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent";
 
-/** One intro piece rising in at its turn in the sequence */
-function IntroWord({ index, className = "", children }: { index: number; className?: string; children: ReactNode }) {
+/** The role in the intro: wiped in left to right behind a glowing scan bar */
+function IntroScan({ delay, children }: { delay: number; children: ReactNode }) {
+  const transition = { delay, duration: 0.7, ease: EASE_IN_OUT };
+  return (
+    <span className="relative inline-block">
+      <motion.span
+        className="inline-block"
+        initial={{ clipPath: "inset(0 100% 0 0)" }}
+        animate={{ clipPath: "inset(0 0% 0 0)" }}
+        transition={transition}
+      >
+        {children}
+      </motion.span>
+      {/* Scan bar rides the reveal edge, then fades out */}
+      <motion.span
+        aria-hidden
+        className="absolute -inset-y-1 w-0.5 bg-violet-300 shadow-[0_0_12px_rgba(167,139,250,0.9)]"
+        initial={{ left: "0%", opacity: 0 }}
+        animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
+        transition={{ ...transition, opacity: { delay, duration: 0.9, times: [0, 0.1, 0.75, 1] } }}
+      />
+    </span>
+  );
+}
+
+/** One intro piece rising in at its moment in the sequence */
+function IntroWord({ delay, className = "", children }: { delay: number; className?: string; children: ReactNode }) {
   return (
     <motion.span
       className={`inline-block ${className}`}
       initial={{ opacity: 0, y: "0.4em" }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: TIMELINE.firstWord + index * TIMELINE.wordStagger, duration: 0.6, ease: EASE_OUT }}
+      transition={{ delay, duration: 0.6, ease: EASE_OUT }}
     >
       {children}
     </motion.span>
@@ -232,7 +260,7 @@ export default function Presentation() {
       id="home"
       className="relative z-10 flex min-h-screen min-h-[100svh] w-full flex-col justify-center overflow-x-clip bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 px-6 pt-24 pb-16 lg:px-8 lg:pt-20 lg:pb-24"
     >
-      {/* Intro, big and centered: "Hello," "I'm" "Gregory" "Barros Garcia" and the role, one at a time. Each line shares a layoutId with its
+      {/* Intro, big and centered: "Hello", ", I'm", the name and the role, one at a time. Each line shares a layoutId with its
           in-place copy below, so Framer animates the shrink and move between them.
           All words hold their space from the start, so nothing shifts as they appear. */}
       {ready && !settled && (
@@ -241,25 +269,18 @@ export default function Presentation() {
           className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center gap-4 px-6 text-center"
         >
           <motion.p layoutId="hero-greeting" className={`text-3xl sm:text-5xl lg:text-6xl ${GREETING_CLASS}`}>
-            {INTRO_GREETING.map((word, i) => (
-              <span key={word}>
-                {i > 0 && " "}
-                <IntroWord index={i}>{word}</IntroWord>
-              </span>
-            ))}
+            <IntroWord delay={TIMELINE.intro.hello}>Hello</IntroWord>
+            <IntroWord delay={TIMELINE.intro.im}>, I&apos;m</IntroWord>
           </motion.p>
           {/* A <p>, not a second <h1>: the in-place name stays the page's only h1 */}
           <motion.p
             layoutId="hero-name"
             className={`text-[clamp(1.75rem,8.6vw,3.75rem)] lg:text-[clamp(3rem,7.5vw,6.5rem)] ${NAME_CLASS}`}
           >
-            <IntroWord index={INTRO_GREETING.length}>Gregory</IntroWord>{" "}
-            <IntroWord index={INTRO_GREETING.length + 1} className={SURNAME_GRADIENT}>
-              Barros Garcia
-            </IntroWord>
+            <IntroWord delay={TIMELINE.intro.name}>{nameContent}</IntroWord>
           </motion.p>
           <motion.p layoutId="hero-role" className={`text-2xl sm:text-3xl lg:text-4xl ${ROLE_CLASS}`}>
-            <IntroWord index={INTRO_GREETING.length + 2}>{ROLE}</IntroWord>
+            <IntroScan delay={TIMELINE.intro.role}>{ROLE}</IntroScan>
           </motion.p>
         </div>
       )}
@@ -340,7 +361,7 @@ export default function Presentation() {
                     "accessible, responsive interfaces.",
                     "modern web apps end to end.",
                   ]}
-                  startDelay={3700}
+                  startDelay={4000}
                   typeSpeed={55}
                   backSpeed={35}
                   backDelay={1800}
