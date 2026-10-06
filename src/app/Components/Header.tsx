@@ -193,7 +193,6 @@ export default function Header() {
                   >
                     <Image src="/images/logo.webp" alt="Gregory Garcia" height={40} width={40} className="rounded-lg"/>
                   </motion.div>
-                  <span className="hidden md:block text-white font-bold text-lg">Gregory Garcia</span>
                 </motion.button>
                 <div className="hidden lg:ml-6 lg:block">
                   <div className="flex items-center space-x-2">
