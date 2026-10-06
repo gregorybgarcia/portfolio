@@ -1,341 +1,299 @@
 "use client";
 import { ReactTyped } from "react-typed";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLinkedin, faSquareGithub } from "@fortawesome/free-brands-svg-icons";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { ArrowDownIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, type PointerEvent } from "react";
+import { getTotalYearsOfExperience } from "../utils/dateUtils";
 
-// Text reveal animation for title
-const letterVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
+const EASE = [0.215, 0.61, 0.355, 1] as const;
+
+// Shared entrance; `custom` carries the stagger delay
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.03,
-      duration: 0.5,
-      ease: [0.215, 0.61, 0.355, 1] as const,
-    },
+    transition: { delay, duration: 0.6, ease: EASE },
   }),
 };
 
-// Stagger container for social buttons
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.6,
-    },
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    icon: faLinkedin,
+    href: "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157",
   },
-};
+  {
+    name: "GitHub",
+    icon: faGithub,
+    href: "https://github.com/gregorybgarcia",
+  },
+];
 
-const socialButtonVariants = {
-  hidden: { opacity: 0, scale: 0, rotate: -180 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    rotate: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 200,
-      damping: 15,
-    },
-  },
+const scrollTo = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 };
 
 export default function Presentation() {
   const sectionRef = useRef<HTMLElement>(null);
+  const yearsOfExperience = getTotalYearsOfExperience();
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  // Parallax effects
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  // Gentle parallax and fade as the hero scrolls away
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  const scrollTo = (page: string) => {
-    const element = document.getElementById(page);
-    element?.scrollIntoView({ behavior: "smooth" });
+  // Portrait tilt that follows the pointer (-0.5..0.5 across the card)
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const spring = { stiffness: 150, damping: 20 };
+  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [6, -6]), spring);
+  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-6, 6]), spring);
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointerX.set((event.clientX - rect.left) / rect.width - 0.5);
+    pointerY.set((event.clientY - rect.top) / rect.height - 0.5);
   };
 
-  const name = "Gregory Garcia";
+  const resetTilt = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 py-12 md:py-20 pt-20 md:pt-24 z-10"
       id="home"
+      className="relative z-10 flex min-h-screen min-h-[100svh] w-full flex-col justify-center bg-gradient-to-b from-black/80 via-gray-900/80 to-black/80 px-6 pt-24 pb-16 lg:px-8 lg:pt-20 lg:pb-24"
     >
       <motion.div
         style={{ opacity }}
-        className="max-w-7xl w-full px-4 z-10"
+        className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16"
       >
-        <div className="flex flex-col items-center text-center">
-          {/* Profile Image with Enhanced Effects */}
-          <motion.div
-            style={{ y: imageY }}
-            className="relative mb-8"
-          >
-            {/* Animated rings around profile */}
-            <motion.div
-              className="absolute -inset-4 rounded-full border-2 border-violet-500/30"
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="absolute -inset-8 rounded-full border border-violet-500/20"
-              animate={{
-                scale: [1, 1.15, 1],
-                opacity: [0.2, 0.4, 0.2],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-            />
-
-            {/* Glow effect */}
-            <motion.div
-              className="absolute inset-0 bg-violet-600/30 rounded-full blur-3xl"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-
-            {/* Profile image with entrance and hover zoom animation */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 0.8,
-                type: "spring",
-                stiffness: 100,
-                damping: 15,
-              }}
-              whileHover={{ scale: 1.08 }}
-            >
-              <Image
-                className="relative rounded-full border-4 border-violet-500 shadow-2xl shadow-violet-900/50"
-                src="/images/profile.jpeg"
-                alt="Gregory Garcia"
-                height={240}
-                width={240}
-                priority
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* Name and Title with Parallax */}
-          <motion.div
-            style={{ y: textY }}
-            className="mb-8"
-          >
-            {/* Animated name with letter-by-letter reveal */}
-            <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 tracking-tight"
-              suppressHydrationWarning
-              initial="hidden"
-              animate="visible"
-            >
-              {name.split("").map((letter, i) => (
-                <motion.span
-                  key={i}
-                  custom={i}
-                  variants={letterVariants}
-                  className="inline-block"
-                  style={{ display: letter === " " ? "inline" : "inline-block" }}
-                >
-                  {letter === " " ? "\u00A0" : letter}
-                </motion.span>
-              ))}
-            </motion.h1>
-
-            {/* Badge with bounce entrance */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{
-                delay: 0.5,
-                type: "spring",
-                stiffness: 200,
-                damping: 15,
-              }}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 30px rgba(139, 92, 246, 0.4)",
-              }}
-              className="inline-block px-6 py-3 bg-violet-900/50 border border-violet-700 rounded-full mb-6 cursor-default"
-            >
-              <motion.span
-                className="text-violet-300 text-lg md:text-xl font-semibold"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{ duration: 5, repeat: Infinity }}
-                style={{
-                  backgroundImage: "linear-gradient(90deg, #c4b5fd, #a78bfa, #8b5cf6, #a78bfa, #c4b5fd)",
-                  backgroundSize: "200% 100%",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                Senior Front-End Developer (Lead)
-              </motion.span>
-            </motion.div>
-
-            {/* Typing text with fade-in container */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-xl md:text-2xl lg:text-3xl font-medium text-gray-300 min-h-[5rem] md:min-h-[6rem] flex items-center justify-center"
-              suppressHydrationWarning
-            >
-              <ReactTyped
-                strings={[
-                  "I enjoy building and designing for the web.",
-                  "Front-End Specialist.",
-                  "Creating exceptional user experiences.",
-                  "Passionate about modern web technologies.",
-                ]}
-                typeSpeed={60}
-                backSpeed={40}
-                loop
-              />
-            </motion.h2>
-          </motion.div>
-
-          {/* Social Links with Stagger Animation */}
-          <motion.div
-            variants={containerVariants}
+        {/* Copy */}
+        <motion.div
+          style={{ y: textY }}
+          className="order-2 flex flex-col items-center text-center lg:order-1 lg:col-span-8 lg:items-start lg:text-left"
+        >
+          <motion.p
+            custom={0.1}
+            variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="mb-10 flex justify-center gap-4"
+            className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400"
           >
-            <motion.button
-              variants={socialButtonVariants}
-              onClick={() =>
-                window.open(
-                  "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
-                )
-              }
-              className="relative p-4 bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden group"
-              whileHover={{
-                scale: 1.1,
-                y: -5,
-                boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Shimmer effect on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-              <FontAwesomeIcon
-                icon={faLinkedin}
-                className="relative z-10 text-white transition-colors"
-                fontSize={40}
-              />
-            </motion.button>
+            Hello, I&apos;m
+          </motion.p>
 
-            <motion.button
-              variants={socialButtonVariants}
-              onClick={() => window.open("https://github.com/gregorybgarcia")}
-              className="relative p-4 bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden group"
-              whileHover={{
-                scale: 1.1,
-                y: -5,
-                boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Shimmer effect on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-              <FontAwesomeIcon
-                icon={faSquareGithub}
-                className="relative z-10 text-white group-hover:text-gray-300 transition-colors"
-                fontSize={40}
-              />
-            </motion.button>
+          <motion.h1
+            custom={0.2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-3 whitespace-nowrap text-[clamp(1.75rem,8.6vw,3.75rem)] font-bold leading-tight tracking-tight text-white lg:text-[clamp(3rem,5.5vw,4.5rem)]"
+          >
+            Gregory{" "}
+            <span className="bg-gradient-to-r from-violet-400 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent">
+              Barros Garcia
+            </span>
+          </motion.h1>
+
+          <motion.div
+            custom={0.3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 lg:justify-start"
+          >
+            <h2 className="text-xl font-medium text-violet-300 sm:text-2xl">
+              Senior Full Stack Developer
+            </h2>
+            <span className="hidden h-5 w-px bg-gray-700 sm:block" aria-hidden />
+            <span className="flex items-center gap-1.5 text-sm text-gray-400">
+              <MapPinIcon className="h-4 w-4" aria-hidden />
+              Dublin, Ireland
+            </span>
           </motion.div>
 
-        </div>
-      </motion.div>
+          {/* Rotating focus line */}
+          <motion.p
+            custom={0.4}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            suppressHydrationWarning
+            className="mt-3 min-h-[1.75rem] text-base text-gray-300 sm:min-h-[2rem] sm:text-lg [@media(max-height:500px)]:hidden"
+          >
+            Crafting{" "}
+            <ReactTyped
+              className="text-white"
+              strings={[
+                "exceptional user experiences.",
+                "scalable Node.js APIs.",
+                "accessible, responsive interfaces.",
+                "modern web apps end to end.",
+              ]}
+              typeSpeed={55}
+              backSpeed={35}
+              backDelay={1800}
+              loop
+            />
+          </motion.p>
 
-      {/* Scroll Indicator with Enhanced Animation - Positioned outside content container for proper centering */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1 }}
-        className="w-full flex justify-center mt-10 md:mt-0 md:absolute md:bottom-8 md:inset-x-0 z-10"
-      >
-        <motion.button
-          onClick={() => scrollTo("about")}
-          className="flex flex-col items-center gap-3 cursor-pointer group"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <motion.span
-            className="text-gray-300 text-base font-semibold group-hover:text-violet-400 transition-colors"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
+          <motion.p
+            custom={0.5}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-6 max-w-xl text-base leading-relaxed text-gray-400 sm:text-lg"
           >
-            Explore My Work
-          </motion.span>
-          <motion.div
-            animate={{
-              y: [0, 8, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.7, 1, 0.7],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+            {yearsOfExperience}+ years building web applications end to end
+            with Node.js, React, Next.js and TypeScript. Currently leading
+            front-end development at{" "}
+            <a
+              href="https://www.mypatientspace.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-200 underline decoration-gray-600 underline-offset-4 transition-colors hover:text-white hover:decoration-violet-400"
             >
-              <ChevronDownIcon className="w-7 h-7 text-violet-400 group-hover:text-violet-300 transition-colors" />
+              myPatientSpace
+            </a>
+            .
+          </motion.p>
+
+          <motion.div
+            custom={0.6}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 lg:justify-start"
+          >
+            <motion.button
+              onClick={() => scrollTo("about")}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex h-11 items-center gap-2 rounded-lg bg-violet-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-violet-600"
+            >
+              About me
+              <ArrowDownIcon className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+            </motion.button>
+
+            <button
+              onClick={() => scrollTo("contact")}
+              className="inline-flex h-11 items-center text-sm font-semibold text-gray-300 underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              Get in touch
+            </button>
+
+            <span className="hidden h-5 w-px bg-gray-700 sm:block" aria-hidden />
+
+            <span className="flex items-center gap-1">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.name}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-gray-400 transition-colors hover:text-white"
+                >
+                  <FontAwesomeIcon icon={link.icon} fontSize={20} />
+                </a>
+              ))}
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* Portrait */}
+        <motion.div
+          style={{ y: imageY }}
+          className="order-1 flex justify-center lg:order-2 lg:col-span-4 lg:justify-end"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
+            className="relative w-40 sm:w-48 lg:w-full lg:max-w-xs"
+          >
+            {/* Slow float */}
+            <motion.div
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            >
+              {/* Pointer tilt */}
+              <motion.div
+                onPointerMove={handlePointerMove}
+                onPointerLeave={resetTilt}
+                style={{ rotateX, rotateY, transformPerspective: 1000 }}
+                className="group relative"
+              >
+                {/* Breathing glow */}
+                <motion.div
+                  aria-hidden
+                  className="absolute -inset-6 rounded-[2.5rem] bg-violet-600/25 blur-3xl"
+                  animate={{ opacity: [0.5, 0.9, 0.5] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                />
+
+                {/* Offset outline, drifts further on hover */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border border-violet-500/40 transition-transform duration-500 ease-in-out group-hover:translate-x-4 group-hover:translate-y-4"
+                />
+
+                <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
+                  <Image
+                    src="/images/profile.jpeg"
+                    alt="Gregory Garcia"
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 320px, 192px"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent" />
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
-        </motion.button>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+        className="relative z-10 mt-12 flex justify-center lg:absolute lg:inset-x-0 lg:bottom-6 lg:mt-0 [@media(max-height:600px)]:hidden"
+      >
+        <button
+          onClick={() => scrollTo("about")}
+          aria-label="Scroll to the About section"
+          className="group flex flex-col items-center gap-2 p-2 text-xs font-semibold uppercase tracking-[0.25em] text-gray-500 transition-colors hover:text-violet-300"
+        >
+          <span>Scroll</span>
+          <span className="flex h-9 w-5 items-start justify-center rounded-full border border-gray-600 p-1 transition-colors group-hover:border-violet-400">
+            <motion.span
+              className="h-1.5 w-1.5 rounded-full bg-violet-400"
+              animate={{ y: [0, 14, 0], opacity: [1, 0.3, 1] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </span>
+        </button>
       </motion.div>
     </section>
   );

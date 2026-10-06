@@ -19,7 +19,7 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.3,
+      delayChildren: 0.1,
     },
   },
 };
@@ -55,7 +55,7 @@ const socialVariants = {
 
 export default function Contact() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const mainControls = useAnimation();
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -116,7 +116,7 @@ export default function Contact() {
               type: "spring" as const,
               stiffness: 200,
               damping: 15,
-              delay: 0.2,
+              delay: 0.07,
             }}
           >
             <motion.div
@@ -144,7 +144,7 @@ export default function Contact() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden pb-2"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.07 }}
           >
             <motion.span
               className="inline-block"
@@ -154,7 +154,7 @@ export default function Contact() {
                 type: "spring" as const,
                 stiffness: 100,
                 damping: 12,
-                delay: 0.3,
+                delay: 0.1,
               }}
             >
               Let&apos;s Work Together!
@@ -165,7 +165,7 @@ export default function Contact() {
             className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            transition={{ delay: 0.17, duration: 0.6 }}
           >
             My inbox is always open. Whether you have a question, opportunity, or just want to say hi,
             I&apos;ll do my best to get back to you promptly!
@@ -181,7 +181,7 @@ export default function Contact() {
             type: "spring" as const,
             stiffness: 100,
             damping: 15,
-            delay: 0.3,
+            delay: 0.1,
           }}
           className="max-w-4xl mx-auto"
         >
@@ -206,7 +206,7 @@ export default function Contact() {
               className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center mb-6 md:mb-8 px-2"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.5, duration: 0.5 }}
+              transition={{ delay: 0.17, duration: 0.5 }}
             >
               <motion.span
                 animate={{
@@ -335,13 +335,12 @@ export default function Contact() {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              <motion.button
+              <motion.a
                 variants={socialVariants}
-                onClick={() =>
-                  window.open(
-                    "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
-                  )
-                }
+                href="https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
+                target="_blank"
+                rel="noopener noreferrer me"
+                aria-label="Gregory Garcia on LinkedIn"
                 className="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] flex items-center justify-center bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 whileHover={{
                   scale: 1.1,
@@ -362,11 +361,14 @@ export default function Contact() {
                   className="relative z-10 text-white transition-colors"
                   fontSize={28}
                 />
-              </motion.button>
+              </motion.a>
 
-              <motion.button
+              <motion.a
                 variants={socialVariants}
-                onClick={() => window.open("https://github.com/gregorybgarcia")}
+                href="https://github.com/gregorybgarcia"
+                target="_blank"
+                rel="noopener noreferrer me"
+                aria-label="Gregory Garcia on GitHub"
                 className="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] flex items-center justify-center bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 whileHover={{
                   scale: 1.1,
@@ -387,11 +389,14 @@ export default function Contact() {
                   className="relative z-10 text-white group-hover:text-gray-300 transition-colors"
                   fontSize={28}
                 />
-              </motion.button>
+              </motion.a>
 
-              <motion.button
+              <motion.a
                 variants={socialVariants}
-                onClick={() => window.open("https://wa.me/353834329851")}
+                href="https://wa.me/353834329851"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Message Gregory Garcia on WhatsApp"
                 className="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] flex items-center justify-center bg-gray-700/30 rounded-xl border border-gray-600 overflow-hidden group"
                 whileHover={{
                   scale: 1.1,
@@ -412,7 +417,7 @@ export default function Contact() {
                   className="relative z-10 text-green-500 group-hover:text-green-400 transition-colors"
                   fontSize={28}
                 />
-              </motion.button>
+              </motion.a>
 
               <motion.div
                 variants={socialVariants}

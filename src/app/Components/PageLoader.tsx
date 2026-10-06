@@ -77,15 +77,15 @@ export default function PageLoader() {
         const increment = Math.max(remaining * 0.1, 1);
         return Math.min(prev + increment, 100);
       });
-    }, 100);
+    }, 50);
 
     // Complete loading
     const timer = setTimeout(() => {
       setProgress(100);
       setTimeout(() => {
         setIsLoading(false);
-      }, 400);
-    }, 1800);
+      }, 250);
+    }, 700);
 
     return () => {
       clearTimeout(timer);
@@ -269,9 +269,9 @@ export default function PageLoader() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="space-y-4"
             >
-              <h2 className="text-3xl font-bold">
+              <p className="text-3xl font-bold" aria-hidden="true">
                 <ShimmerText>Gregory Garcia</ShimmerText>
-              </h2>
+              </p>
 
               {/* Animated loading dots */}
               <motion.div className="flex items-center justify-center gap-1">

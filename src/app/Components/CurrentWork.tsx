@@ -3,6 +3,7 @@
 import { motion, useInView, useAnimation } from "framer-motion";
 import { useRef, useEffect } from "react";
 import Image from "next/image";
+import { formatDurationSince } from "../utils/dateUtils";
 import {
   CodeBracketIcon,
   SparklesIcon,
@@ -19,7 +20,7 @@ const cardContainerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.5,
+      delayChildren: 0.17,
     },
   },
 };
@@ -53,12 +54,12 @@ const iconContainerVariants = {
 
 export default function CurrentWork() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const mainControls = useAnimation();
 
   // Format current date range (April 2024 - Present)
   const startDate = "April 2024";
-  const currentDateRange = `${startDate} - Present`;
+  const currentDateRange = `${startDate} - Present (${formatDurationSince("2024-04-01")})`;
 
   useEffect(() => {
     if (isInView) {
@@ -75,7 +76,7 @@ export default function CurrentWork() {
     {
       icon: <SparklesIcon className="w-8 h-8" />,
       title: "AI-Powered Development",
-      description: "Leveraging cutting-edge AI tools including Claude, ChatGPT, Copilot, and more to accelerate development workflows"
+      description: "Leveraging cutting-edge AI tools including Claude, ChatGPT, Gemini, and more to accelerate development workflows"
     },
     {
       icon: <ShieldCheckIcon className="w-8 h-8" />,
@@ -144,7 +145,7 @@ export default function CurrentWork() {
               type: "spring" as const,
               stiffness: 100,
               damping: 15,
-              delay: 0.2,
+              delay: 0.07,
             }}
           >
             <motion.div
@@ -196,7 +197,7 @@ export default function CurrentWork() {
               type: "spring" as const,
               stiffness: 100,
               damping: 15,
-              delay: 0.3,
+              delay: 0.1,
             }}
           >
             <motion.span
@@ -219,7 +220,7 @@ export default function CurrentWork() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: 0.4, type: "spring" as const, stiffness: 200 }}
+            transition={{ delay: 0.14, type: "spring" as const, stiffness: 200 }}
           >
             <motion.p
               className="text-xl md:text-2xl text-violet-400 font-semibold mb-2"
@@ -234,7 +235,8 @@ export default function CurrentWork() {
             className="text-gray-400 text-lg mb-6 md:mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ delay: 0.17, duration: 0.5 }}
+            suppressHydrationWarning
           >
             Dublin, Ireland • {currentDateRange} • Hybrid
           </motion.p>
@@ -244,7 +246,7 @@ export default function CurrentWork() {
             className="text-gray-300 text-lg max-w-4xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.6, duration: 0.6 }}
+            transition={{ delay: 0.21, duration: 0.6 }}
           >
             Leading front-end development for a cutting-edge multilanguage healthcare platform that empowers
             hospitals and clinics worldwide to deliver exceptional patient care. Architecting
@@ -304,7 +306,7 @@ export default function CurrentWork() {
           className="text-center mt-8 md:mt-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 1.2, duration: 0.5 }}
+          transition={{ delay: 0.42, duration: 0.5 }}
         >
           <motion.a
             href="https://mypatientspace.com/"

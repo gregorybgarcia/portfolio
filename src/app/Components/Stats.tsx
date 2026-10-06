@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import { CodeBracketIcon, BriefcaseIcon, RocketLaunchIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLinkedin, faSquareGithub } from "@fortawesome/free-brands-svg-icons";
 import { getTotalYearsOfExperience } from "../utils/dateUtils";
 
 interface StatItemProps {
@@ -56,7 +54,7 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      delay: index * 0.12,
+      delay: index * 0.06,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
   }),
@@ -87,7 +85,7 @@ function StatItem({ icon, value, label, suffix = "", prefix = "", index }: StatI
         className="text-lg md:text-xl text-gray-300 mt-3 font-medium"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
-        transition={{ delay: index * 0.12 + 0.4, duration: 0.5 }}
+        transition={{ delay: index * 0.06 + 0.15, duration: 0.5 }}
       >
         {label}
       </motion.p>
@@ -97,7 +95,7 @@ function StatItem({ icon, value, label, suffix = "", prefix = "", index }: StatI
 
 export default function Stats() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const mainControls = useAnimation();
 
   useEffect(() => {
@@ -169,7 +167,7 @@ export default function Stats() {
               visible: {
                 opacity: 1,
                 y: 0,
-                transition: { duration: 0.6, delay: 0.1, ease: "easeOut" },
+                transition: { duration: 0.6, delay: 0.03, ease: "easeOut" },
               },
             }}
           >
@@ -186,7 +184,7 @@ export default function Stats() {
               visible: {
                 opacity: 1,
                 y: 0,
-                transition: { duration: 0.5, delay: 0.2, ease: "easeOut" },
+                transition: { duration: 0.5, delay: 0.07, ease: "easeOut" },
               },
             }}
           >
@@ -201,69 +199,6 @@ export default function Stats() {
             <StatItem key={index} {...stat} index={index} />
           ))}
         </div>
-
-        {/* Social Media Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.8, ease: "easeOut" }}
-          className="mt-10 md:mt-16 text-center"
-        >
-          <p className="text-lg text-gray-300 mb-6">
-            Let&apos;s connect and collaborate!
-          </p>
-          <div className="flex justify-center gap-4">
-            <motion.button
-              onClick={() =>
-                window.open(
-                  "https://www.linkedin.com/in/gregory-barros-garcia-4160b2157"
-                )
-              }
-              className="relative p-4 bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden group"
-              whileHover={{
-                scale: 1.1,
-                y: -5,
-                boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-              <FontAwesomeIcon
-                icon={faLinkedin}
-                className="relative z-10 text-white transition-colors"
-                fontSize={40}
-              />
-            </motion.button>
-
-            <motion.button
-              onClick={() => window.open("https://github.com/gregorybgarcia")}
-              className="relative p-4 bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden group"
-              whileHover={{
-                scale: 1.1,
-                y: -5,
-                boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-500/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-              <FontAwesomeIcon
-                icon={faSquareGithub}
-                className="relative z-10 text-white group-hover:text-gray-300 transition-colors"
-                fontSize={40}
-              />
-            </motion.button>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

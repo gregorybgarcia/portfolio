@@ -28,3 +28,23 @@ export const getYearsFromStartYear = (startYear: number): number => {
   const currentYear = new Date().getFullYear();
   return currentYear - startYear;
 };
+
+/**
+ * Format the time elapsed since a start date, LinkedIn style (e.g. "2 yrs 6 mos")
+ * @param startDate - The start date in YYYY-MM-DD format
+ * @returns Human-readable duration
+ */
+export const formatDurationSince = (startDate: string): string => {
+  const start = new Date(startDate);
+  const now = new Date();
+  const totalMonths = Math.max(
+    0,
+    (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth())
+  );
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  const parts = [];
+  if (years > 0) parts.push(`${years} ${years === 1 ? "yr" : "yrs"}`);
+  if (months > 0 || years === 0) parts.push(`${months} ${months === 1 ? "mo" : "mos"}`);
+  return parts.join(" ");
+};

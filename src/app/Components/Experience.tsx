@@ -98,7 +98,7 @@ const experiencesData = [
 export default function Experience() {
   const Timeline = VerticalTimeline as any;
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const mainControls = useAnimation();
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export default function Experience() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.07 }}
           >
             <motion.span
               className="inline-block"
@@ -153,7 +153,7 @@ export default function Experience() {
                 type: "spring" as const,
                 stiffness: 100,
                 damping: 12,
-                delay: 0.3,
+                delay: 0.1,
               }}
             >
               Professional Experience
@@ -164,7 +164,7 @@ export default function Experience() {
             className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            transition={{ delay: 0.17, duration: 0.6 }}
           >
             A timeline of my professional growth, highlighting key roles and achievements
             in web development and software engineering.
@@ -175,13 +175,13 @@ export default function Experience() {
             className="flex justify-center mt-8"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.21 }}
           >
             <motion.div
               className="h-1 bg-gradient-to-r from-transparent via-violet-500 to-transparent rounded-full"
               initial={{ width: 0 }}
               animate={isInView ? { width: 200 } : {}}
-              transition={{ delay: 0.7, duration: 0.8, ease: "easeOut" }}
+              transition={{ delay: 0.24, duration: 0.8, ease: "easeOut" }}
             />
           </motion.div>
         </motion.div>
@@ -190,7 +190,7 @@ export default function Experience() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
+          transition={{ delay: 0.28, duration: 0.6 }}
         >
           <Timeline lineColor="#7C3AED">
             {experiencesData.map((item, index) => {
@@ -204,7 +204,7 @@ export default function Experience() {
           className="text-center mt-12"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 1.2, duration: 0.5 }}
+          transition={{ delay: 0.42, duration: 0.5 }}
         >
           <motion.a
             href="https://docs.google.com/document/d/13rLcqKHyb-6Nfvwa9FEwfcQJxwiM6AUeV7qwM1mHv-s/edit"

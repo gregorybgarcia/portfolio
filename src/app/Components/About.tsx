@@ -11,7 +11,7 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.3,
+      delayChildren: 0.1,
     },
   },
 };
@@ -38,7 +38,7 @@ const paragraphVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.4 + i * 0.15,
+      delay: 0.14 + i * 0.08,
       duration: 0.6,
       ease: "easeOut" as const,
     },
@@ -47,7 +47,7 @@ const paragraphVariants = {
 
 export default function About() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const mainControls = useAnimation();
   const yearsOfExperience = getTotalYearsOfExperience();
 
@@ -112,7 +112,7 @@ export default function About() {
           }}
           initial="hidden"
           animate={mainControls}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.07 }}
         >
           {/* Floating badge */}
           <motion.span
@@ -141,7 +141,7 @@ export default function About() {
               type: "spring" as const,
               stiffness: 100,
               damping: 12,
-              delay: 0.3,
+              delay: 0.1,
             }}
           >
             <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
@@ -161,7 +161,7 @@ export default function About() {
               I&apos;m a passionate <motion.span
                 className="text-violet-400 font-semibold"
                 whileHover={{ scale: 1.05 }}
-              >Senior Front-End Developer</motion.span> with over {yearsOfExperience} years of experience
+              >Senior Full Stack Developer</motion.span> with over {yearsOfExperience} years of experience
               turning complex problems into elegant, user-friendly solutions. Currently leading front-end development
               at <motion.span
                 className="text-violet-400 font-semibold"
@@ -209,13 +209,13 @@ export default function About() {
             className="max-w-6xl mx-auto mt-16"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.21 }}
           >
             <motion.h3
               className="text-2xl md:text-3xl font-bold text-white mb-8 text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.7, duration: 0.5 }}
+              transition={{ delay: 0.24, duration: 0.5 }}
             >
               <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
                 Industry Experience
@@ -226,7 +226,7 @@ export default function About() {
               className="text-lg text-gray-300 text-center mb-10 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.8, duration: 0.5 }}
+              transition={{ delay: 0.28, duration: 0.5 }}
             >
               Throughout my career, I&apos;ve had the privilege of building applications across diverse industries,
               each presenting unique challenges and opportunities for innovation.
@@ -254,7 +254,7 @@ export default function About() {
                           initial={{ opacity: 0, scale: 0 }}
                           animate={isInView ? { opacity: 1, scale: 1 } : {}}
                           transition={{
-                            delay: 0.9 + index * 0.1 + logoIndex * 0.05,
+                            delay: 0.3 + index * 0.05 + logoIndex * 0.03,
                             type: "spring" as const,
                             stiffness: 200,
                           }}

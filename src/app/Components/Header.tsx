@@ -6,18 +6,17 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navigation = [
-  { name: "About", href: "#", current: false },
-  { name: "Current Work", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Skills", href: "#", current: false },
-  { name: "Experience", href: "#", current: false },
-  { name: "Contact", href: "#", current: false },
+  { name: "About", href: "#about", current: false },
+  { name: "Current Work", href: "#current-work", current: false },
+  { name: "Projects", href: "#projects", current: false },
+  { name: "Skills", href: "#skills", current: false },
+  { name: "Experience", href: "#experience", current: false },
+  { name: "Contact", href: "#contact", current: false },
   { name: "My resume", href: "https://docs.google.com/document/d/13rLcqKHyb-6Nfvwa9FEwfcQJxwiM6AUeV7qwM1mHv-s/edit", current: false },
 ];
 
 const scrollTo = (page: string, setVisible?: (value: boolean) => void) => {
   const elementId = page.toLowerCase().replace(/\s+/g, '-');
-  console.log(elementId)
   const element = document.getElementById(elementId);
 
   // Show header first if it's hidden
@@ -223,7 +222,8 @@ export default function Header() {
                       <motion.a
                         key={item.name}
                         href={item.href}
-                        target={index + 1 === navigation.length ? "_blank" : ""}
+                        target={index + 1 === navigation.length ? "_blank" : undefined}
+                        rel={index + 1 === navigation.length ? "noopener noreferrer" : undefined}
                         custom={index}
                         variants={navItemVariants}
                         initial="hidden"
@@ -283,7 +283,8 @@ export default function Header() {
                       <Disclosure.Button
                         as="a"
                         href={item.href}
-                        target={index + 1 === navigation.length ? "_blank" : ""}
+                        target={index + 1 === navigation.length ? "_blank" : undefined}
+                        rel={index + 1 === navigation.length ? "noopener noreferrer" : undefined}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"

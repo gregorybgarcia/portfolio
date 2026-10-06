@@ -1,20 +1,34 @@
 {
-  "name": "Gregory Garcia - Senior Front-End Developer",
+  "name": "Gregory Garcia - Senior Full Stack Developer",
   "short_name": "Gregory Garcia",
-  "description": "Professional portfolio of Gregory Garcia, a Senior Front-End Developer in Dublin, Ireland specializing in React, Next.js, and TypeScript",
+  "description": "Portfolio of Gregory Garcia, Senior Full Stack Developer in Dublin, Ireland: Node.js, React, Next.js, TypeScript, MongoDB and PostgreSQL.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#7C3AED",
-  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/favicon.ico",
       "sizes": "any",
       "type": "image/x-icon"
+    },
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "categories": ["portfolio", "developer", "technology"],
+  "categories": [
+    "portfolio",
+    "developer",
+    "technology"
+  ],
   "lang": "en",
   "dir": "ltr"
 }

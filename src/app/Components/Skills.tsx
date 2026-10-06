@@ -34,7 +34,7 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
       }}
       initial="hidden"
       animate={mainControls}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
+      transition={{ duration: 0.4, delay: (index % 4) * 0.05 }}
       className="relative group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -98,7 +98,12 @@ export default function Skills() {
     { name: "TypeScript", src: "/images/typescript.svg", proficiency: 90, years: calculateYearsOfExperience('2020-01-01'), category: "Programming Language", url: "https://www.typescriptlang.org/" },
     { name: "JavaScript", src: "/images/javascript.svg", proficiency: 95, years: calculateYearsOfExperience('2018-01-01'), category: "Programming Language", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
     { name: "NextJS", src: "/images/nextjs.svg", proficiency: 90, years: calculateYearsOfExperience('2021-01-01'), category: "Frontend Framework", url: "https://nextjs.org/" },
-    { name: "NodeJS", src: "/images/nodejs.svg", proficiency: 85, years: calculateYearsOfExperience('2018-01-01'), category: "Backend Runtime", url: "https://nodejs.org/" },
+    { name: "NodeJS", src: "/images/nodejs.svg", proficiency: 90, years: calculateYearsOfExperience('2018-01-01'), category: "Backend Runtime", url: "https://nodejs.org/" },
+    { name: "MongoDB", src: "/images/mongodb.svg", proficiency: 85, years: 1, category: "Database", url: "https://www.mongodb.com/" },
+    { name: "PostgreSQL", src: "/images/postgresql.svg", proficiency: 80, years: 2, category: "Database", url: "https://www.postgresql.org/" },
+    { name: "Ruby on Rails", src: "/images/rails.svg", proficiency: 60, years: 1, category: "Backend Framework", url: "https://rubyonrails.org/" },
+    { name: "Laravel", src: "/images/laravel.svg", proficiency: 55, years: 1, category: "Backend Framework", url: "https://laravel.com/" },
+    { name: "C#", src: "/images/csharp.svg", proficiency: 50, years: 1, category: "Programming Language", url: "https://learn.microsoft.com/en-us/dotnet/csharp/" },
     { name: "TailwindCSS", src: "/images/tailwind.svg", proficiency: 95, years: calculateYearsOfExperience('2022-01-01'), category: "CSS Framework", url: "https://tailwindcss.com/" },
     { name: "HTML", src: "/images/html5.svg", proficiency: 100, years: calculateYearsOfExperience('2018-01-01'), category: "Markup Language", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
     { name: "CSS", src: "/images/css3.svg", proficiency: 95, years: calculateYearsOfExperience('2018-01-01'), category: "Styling", url: "https://developer.mozilla.org/en-US/docs/Web/CSS" },
@@ -113,7 +118,6 @@ export default function Skills() {
     { name: "ChatGPT", src: "/images/chatgpt.svg", proficiency: 90, years: calculateYearsOfExperience('2023-01-01'), category: "AI Tool", url: "https://chat.openai.com/" },
     { name: "Claude Code", src: "/images/claude.svg", proficiency: 85, years: calculateYearsOfExperience('2024-01-01'), category: "AI Tool", url: "https://claude.ai/" },
     { name: "Gemini", src: "/images/gemini.svg", proficiency: 80, years: calculateYearsOfExperience('2024-01-01'), category: "AI Tool", url: "https://gemini.google.com/" },
-    { name: "GitHub Copilot", src: "/images/copilot.svg", proficiency: 85, years: calculateYearsOfExperience('2023-06-01'), category: "AI Tool", url: "https://github.com/features/copilot" },
   ];
 
   return (
@@ -132,7 +136,7 @@ export default function Skills() {
           }}
           initial="hidden"
           animate={mainControls}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.07 }}
         >
           <span className="px-4 py-2 bg-violet-900/50 border border-violet-700 rounded-full text-violet-300 text-sm font-semibold">
             TECHNICAL EXPERTISE

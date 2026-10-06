@@ -12,7 +12,7 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      delay: index * 0.1,
+      delay: (index % 3) * 0.06,
       ease: "easeOut" as const,
     },
   }),
@@ -20,7 +20,7 @@ const cardVariants = {
 
 export default function Projects() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const mainControls = useAnimation();
 
   const projects = [
@@ -99,7 +99,7 @@ export default function Projects() {
             className="text-4xl md:text-5xl lg:text-6xl font-black text-white mt-6 mb-6 overflow-hidden pb-2"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.07 }}
           >
             <motion.span
               className="inline-block"
@@ -109,7 +109,7 @@ export default function Projects() {
                 type: "spring" as const,
                 stiffness: 100,
                 damping: 12,
-                delay: 0.3,
+                delay: 0.1,
               }}
             >
               Recent Projects
@@ -120,7 +120,7 @@ export default function Projects() {
             className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.6 }}
+            transition={{ delay: 0.17, duration: 0.6 }}
           >
             A selection of companies and projects I&apos;ve contributed to, showcasing
             diverse technical challenges and solutions.
