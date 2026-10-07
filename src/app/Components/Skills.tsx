@@ -125,7 +125,7 @@ export default function Skills() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="skills"
     >
-      <SectionLabel label="Technical expertise" index={4} />
+      <SectionLabel label="Technical expertise" index={3} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div

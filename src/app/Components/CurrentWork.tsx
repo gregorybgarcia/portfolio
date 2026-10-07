@@ -95,7 +95,7 @@ export default function CurrentWork() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center px-4 py-12 md:py-20 bg-gradient-to-b from-black/80 via-black/80 to-black/80 z-10"
       id="current-work"
     >
-      <SectionLabel label="Currently working at" index={2} />
+      <SectionLabel label="Currently working at" index={5} />
       <motion.div
         className="max-w-6xl w-full"
         variants={{

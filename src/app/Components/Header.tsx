@@ -10,10 +10,10 @@ import { onHeroIntroDone } from "../utils/heroIntro";
 
 const navigation = [
   { name: "About", href: "#about", current: false },
-  { name: "Current Work", href: "#current-work", current: false },
   { name: "Projects", href: "#projects", current: false },
   { name: "Skills", href: "#skills", current: false },
   { name: "Experience", href: "#experience", current: false },
+  { name: "Current Work", href: "#current-work", current: false },
   { name: "Contact", href: "#contact", current: false },
   { name: "My resume", href: "https://docs.google.com/document/d/13rLcqKHyb-6Nfvwa9FEwfcQJxwiM6AUeV7qwM1mHv-s/edit", current: false },
 ];

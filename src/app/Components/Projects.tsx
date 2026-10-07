@@ -70,7 +70,7 @@ export default function Projects() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="projects"
     >
-      <SectionLabel label="Featured work" index={3} />
+      <SectionLabel label="Featured work" index={2} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section */}
         <motion.div

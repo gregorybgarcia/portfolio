@@ -13,55 +13,21 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 const experiencesData = [
   {
-    date: "Apr 2024 - Present",
+    date: "Apr 2019 - May 2020",
     icon: (
       <Image
         className="rounded-full"
-        src="/images/mypatientspace.png"
+        src="/images/essystem.jpg"
         width={100}
         height={100}
-        alt="myPatientSpace"
+        alt="Essystem"
       />
     ),
-    title: "Senior Front-End Developer (Lead)",
-    location: "myPatientSpace - Dublin, Ireland",
+    title: "Javascript Developer JR / Infrastructure Technician",
+    location: "Essystem Comercial Automation - Americana/SP, Brazil",
     description:
-      "Working as a lead Front-end specialist with the React stack, developing new features, implementing improvements, and solving bugs for a healthcare platform used by hospitals and clinics. Proficient with AI tools such as Claude code assistant, and similar technologies. My routine includes attending meetings, understanding the customer requirements, and collaborating with the team to find the best approach for each situation.",
-    url: "https://www.mypatientspace.com/",
-  },
-  {
-    date: "Jan 2022 - Dec 2023",
-    icon: (
-      <Image
-        className="rounded-full"
-        src="/images/dexian.png"
-        width={100}
-        height={100}
-        alt="Dexian"
-      />
-    ),
-    title: "Senior Front-End Developer",
-    location: "DISYS - Americana/SP, Brazil",
-    description:
-      "Working at the external client Pagonxt (a global startup of Getnet) as a dedicated front-end developer specialized in React. I have been part of a squad focused on products for Mexico, where my routine involved bug resolution, development of new functionalities, attending meetings in Spanish with the Mexican client, coordinating and engaging in peer programming with junior and mid-level developers. This experience also provided me with a close understanding of the daily operations within a financial institution and allowed me to enhance my perception of security, project structure, and squads.",
-    url: "https://dexian.com/",
-  },
-  {
-    date: "Mar 2021 - Dec 2022",
-    icon: (
-      <Image
-        className="rounded-full"
-        src="/images/qyon.jpg"
-        width={100}
-        height={100}
-        alt="QYON"
-      />
-    ),
-    title: "Front-End Developer",
-    location: "QYON Sistemas Inteligentes - Americana/SP, Brazil",
-    description:
-      "Planning and production of new company applications with a focus on accounting software, where I led the squad. Collaborated with the team, primarily using React with Redux, ContextAPI, Web Socket, PDF generation, chat functionality, internationalization, responsive layout design, and integration with external services, among others...",
-    url: "https://www.qyon.com/",
+      "Infrastructure Leader and JS Developer. Provided in-person assistance and technical support for the system, as well as participated in application development.",
+    url: "https://essystem.com.br/",
   },
   {
     date: "May 2020 - Mar 2021",
@@ -81,21 +47,55 @@ const experiencesData = [
     url: "https://incentiv.me/",
   },
   {
-    date: "Apr 2019 - May 2020",
+    date: "Mar 2021 - Dec 2022",
     icon: (
       <Image
         className="rounded-full"
-        src="/images/essystem.jpg"
+        src="/images/qyon.jpg"
         width={100}
         height={100}
-        alt="Essystem"
+        alt="QYON"
       />
     ),
-    title: "Javascript Developer JR / Infrastructure Technician",
-    location: "Essystem Comercial Automation - Americana/SP, Brazil",
+    title: "Front-End Developer",
+    location: "QYON Sistemas Inteligentes - Americana/SP, Brazil",
     description:
-      "Infrastructure Leader and JS Developer. Provided in-person assistance and technical support for the system, as well as participated in application development.",
-    url: "https://essystem.com.br/",
+      "Planning and production of new company applications with a focus on accounting software, where I led the squad. Collaborated with the team, primarily using React with Redux, ContextAPI, Web Socket, PDF generation, chat functionality, internationalization, responsive layout design, and integration with external services, among others...",
+    url: "https://www.qyon.com/",
+  },
+  {
+    date: "Jan 2022 - Dec 2023",
+    icon: (
+      <Image
+        className="rounded-full"
+        src="/images/dexian.png"
+        width={100}
+        height={100}
+        alt="Dexian"
+      />
+    ),
+    title: "Senior Front-End Developer",
+    location: "DISYS - Americana/SP, Brazil",
+    description:
+      "Working at the external client Pagonxt (a global startup of Getnet) as a dedicated front-end developer specialized in React. I have been part of a squad focused on products for Mexico, where my routine involved bug resolution, development of new functionalities, attending meetings in Spanish with the Mexican client, coordinating and engaging in peer programming with junior and mid-level developers. This experience also provided me with a close understanding of the daily operations within a financial institution and allowed me to enhance my perception of security, project structure, and squads.",
+    url: "https://dexian.com/",
+  },
+  {
+    date: "Apr 2024 - Present",
+    icon: (
+      <Image
+        className="rounded-full"
+        src="/images/mypatientspace.png"
+        width={100}
+        height={100}
+        alt="myPatientSpace"
+      />
+    ),
+    title: "Senior Front-End Developer (Lead)",
+    location: "myPatientSpace - Dublin, Ireland",
+    description:
+      "Working as a lead Front-end specialist with the React stack, developing new features, implementing improvements, and solving bugs for a healthcare platform used by hospitals and clinics. Proficient with AI tools such as Claude code assistant, and similar technologies. My routine includes attending meetings, understanding the customer requirements, and collaborating with the team to find the best approach for each situation.",
+    url: "https://www.mypatientspace.com/",
   },
 ];
 
@@ -116,7 +116,7 @@ export default function Experience() {
       className="relative w-full md:min-h-screen flex flex-col items-center justify-center py-12 md:py-20 bg-gradient-to-b from-black/80 via-violet-900/10 to-black/80 z-10"
       id="experience"
     >
-      <SectionLabel label="Career journey" index={5} />
+      <SectionLabel label="Career journey" index={4} />
       <div className="max-w-7xl w-full px-4">
         {/* Header Section with enhanced animations */}
         <motion.div

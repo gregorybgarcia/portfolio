@@ -180,10 +180,10 @@ export default function Home() {
         <Presentation />
         <ParticlesBackground />
         <About />
-        <CurrentWork />
         <Projects />
         <Skills />
         <Experience />
+        <CurrentWork />
         <Stats />
         <Contact />
         <BackToTop />
